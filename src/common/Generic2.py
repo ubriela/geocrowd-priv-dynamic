@@ -3,15 +3,14 @@ from collections import deque
 
 import numpy as np
 
-from Node import Node
+from Node2 import Node2
 from Params import Params
 from Differential import Differential
-from Utils import is_rect_cover
 
 
-class Generic(object):
+class Generic2(object):
     """
-    Generic data structure, used for both htree and grid
+    Generic data structure, used for grid
     """
 
     def __init__(self, data, param):
@@ -19,7 +18,7 @@ class Generic(object):
         self.differ = Differential(self.param.Seed)
 
         # initialize the root
-        self.root = Node()
+        self.root = Node2()
         # self.children = [] # all level 2 grids
         self.root.n_data = data
         self.root.n_box = np.array([param.LOW, param.HIGH])
@@ -42,22 +41,19 @@ class Generic(object):
 
     def getCount(self, curr, epsilon):
         """
-	return true count or noisy count of a node, depending on epsilon.
-	Note that the noisy count can be negative
-	"""
+        return true count or noisy count of a node, depending on epsilon.
+        Note that the noisy count can be negative
+        """
         if curr.n_data is None:
             count = 0
         else:
             count = curr.n_data.shape[1]
 
-        if epsilon < 10 ** (-6):
+        if epsilon < 10 ** (-8):
             return count
         else:
             return count + self.differ.getNoise(1, epsilon)
 
-    def testLeaf(self, curr):
-        """test whether a node is a leaf node"""
-        raise NotImplementedError
 
     def intersect(self, hrect, query):
         """
@@ -72,72 +68,70 @@ class Generic(object):
         else:
             return True
 
+    def testLeaf(self, curr):
+        """ test whether a node should be a leaf node """
+        if (curr.n_depth == Params.maxHeightAdaptiveGrid) or \
+                (curr.n_data is None or curr.n_data.shape[1] == 0) or \
+                (curr.n_count <= self.param.minPartSize):
+            return True
+        return False
+
     def buildIndex(self):
-        """build the htree & grid structure. htree is a high fanout and low level tree"""
+        """build the grid structure."""
         budget_c = self.getCountBudget()  # an array with two elements
         self.root.n_count = self.getCount(self.root, 0)  # add noisy count to the root
         queue = deque()
         queue.append(self.root)
-        nleaf = 0  # number of leaf node, for debug only
         # ## main loop
         while len(queue) > 0:
             curr = queue.popleft()
 
             if self.testLeaf(curr) is True:  # if curr is a leaf node
-                if curr.n_depth < self.param.maxHeightHTree:
+                remainingEps = sum(budget_c[curr.n_depth:])
+                curr.n_count, curr.eps, curr.n_isLeaf = self.getCount(curr, remainingEps), remainingEps, True
+
+            else:  # curr needs to split --> find splitting granularity
+                gran, split_arr_x, split_arr_y, n_data_matrix = self.getCoordinates(curr)
+                if gran == 1:
                     remainingEps = sum(budget_c[curr.n_depth:])
-                    curr.n_count = self.getCount(curr, remainingEps)
-                    curr.eps = remainingEps
-                nleaf += 1
-                curr.n_isLeaf = True
-
-            else:  # curr needs to split
-                split_arr, n_data_arr = self.getCoordinates(curr)
-                if split_arr is None:
-                    if curr.n_depth < self.param.maxHeightHTree:
-                        remainingEps = sum(budget_c[curr.n_depth:])
-                        curr.n_count = self.getCount(curr, remainingEps)
-                        curr.eps = remainingEps
-                    nleaf += 1
-                    curr.n_isLeaf = True
-                    curr.children = []
+                    curr.n_count, curr.eps, curr.n_isLeaf = self.getCount(curr, remainingEps), remainingEps, True
+                    curr.children = None
                     continue  # if the first level cell is leaf node
-                for i in range(len(n_data_arr)):
-                    node = Node()
-                    if curr.n_depth % Params.NDIM == 0:  # split by x coord
-                        node.n_box = np.array([[split_arr[i], curr.n_box[0, 1]], [split_arr[i + 1], curr.n_box[1, 1]]])
-                    else:  # split by y coord
-                        node.n_box = np.array([[curr.n_box[0, 0], split_arr[i]], [curr.n_box[1, 0], split_arr[i + 1]]])
 
-                    node.index = i
-                    node.parent = curr
-                    node.n_depth = curr.n_depth + 1
-                    node.n_data = n_data_arr[i]
-                    node.n_count = self.getCount(node, budget_c[node.n_depth])
-                    if n_data_arr[i] is None:
-                        node.a_count = 0
-                    else:
-                        node.a_count = n_data_arr[i].shape[1]
-                    node.eps = budget_c[node.n_depth]
-                    if curr.n_depth == 2:
-                        node.secondLevelPartitions = curr.secondLevelPartitions
-                    curr.children.append(node)
-                    queue.append(node)
-
-                # if curr.n_depth == 2:
-                # self.children.append(curr)
+                # add all nodes to queue
+                for x in range(gran):
+                    for y in range(gran):
+                        node = Node2()
+                        # x, y = i / gran, i % gran
+                        node.n_box = np.array(
+                            [[split_arr_x[x], split_arr_y[y]], [split_arr_x[x + 1], split_arr_y[y + 1]]])
+                        node.index, node.parent, node.n_depth = x * gran + y, curr, curr.n_depth + 1
+                        if n_data_matrix[x][y] is None:
+                            node.n_data = None
+                        else:
+                            node.n_data = np.transpose(n_data_matrix[x][y])
+                        node.n_count = self.getCount(node, budget_c[node.n_depth])
+                        if node.n_data is None:
+                            node.a_count = 0
+                        else:
+                            node.a_count = node.n_data.shape[1]
+                        node.eps = budget_c[node.n_depth]
+                        if node.n_depth == 2:
+                            node.n_isLeaf = True
+                        if curr.children is None:
+                            curr.children = np.ndarray(shape=(gran, gran), dtype=Node2)
+                        curr.children[x][y] = node
+                        queue.append(node)
 
                 curr.n_data = None  # ## do not need the data points coordinates now
-        # end of while
-        logging.debug("Generic: number of leaves: %d" % nleaf)
+                # end of while
 
 
-        # canonical range query does apply
-
+    # canonical range query does apply
     def rangeCount(self, query):
         """
         Query answering function. Find the number of data points within a query rectangle.
-        This function assume that the tree is contructed with noisy count for every node
+        This function assume that the tree is constructed with noisy count for every node
         """
         queue = deque()
         queue.append(self.root)
@@ -156,7 +150,8 @@ class Generic(object):
                                 _box[1, i] - _box[0, i])
                     count += curr.n_count * frac
             else:  # if not leaf
-                for node in curr.children:
+
+                for (_, _), node in np.ndenumerate(curr.children):
                     bool_matrix = np.zeros((2, query.shape[1]))
                     bool_matrix[0, :] = query[0, :] <= _box[0, :]
                     bool_matrix[1, :] = query[1, :] >= _box[1, :]
@@ -172,16 +167,22 @@ class Generic(object):
         """
         find a leaf node that cover the location
         """
-        queue = deque()
-        queue.append(self.root)
-        while len(queue) > 0:
-            curr = queue.popleft()
-            _box = curr.n_box
-            if curr.n_isLeaf is True:
-                if is_rect_cover(_box, loc):
-                    return curr
-            else:  # if not leaf
-                queue.extend(curr.children)
+        gran_1st = len(self.root.children)
+        x1 = min(gran_1st - 1,
+                 (loc[0] - self.root.n_box[0, 0]) * gran_1st / (self.root.n_box[1, 0] - self.root.n_box[0, 0]))
+        y1 = min(gran_1st - 1,
+                 (loc[1] - self.root.n_box[0, 1]) * gran_1st / (self.root.n_box[1, 1] - self.root.n_box[0, 1]))
+
+        node_1st = self.root.children[x1][y1]
+        if node_1st.n_isLeaf:
+            return node_1st
+        else:
+            gran_2st = len(node_1st.children)
+            x2 = min(gran_2st - 1,
+                     (loc[0] - node_1st.n_box[0, 0]) * gran_2st / (node_1st.n_box[1, 0] - node_1st.n_box[0, 0]))
+            y2 = min(gran_2st - 1,
+                     (loc[1] - node_1st.n_box[0, 1]) * gran_2st / (node_1st.n_box[1, 1] - node_1st.n_box[0, 1]))
+            return node_1st.children[x2][y2]
 
 
     def checkCorrectness(self, node, nodePoints=None):
@@ -191,9 +192,10 @@ class Generic(object):
         totalPoints = 0
         if node is None:
             return 0
-        if node.n_isLeaf and node.n_data is not None:
-            return node.n_data.shape[1]
-        for child in node.children:
+        if (node.n_isLeaf and node.n_data is not None) or node.children is None:
+            return node.a_count
+
+        for (_, _), child in np.ndenumerate(node.children):
             totalPoints += self.checkCorrectness(child)
 
         if nodePoints is None:

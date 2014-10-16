@@ -38,9 +38,12 @@ class Grid_adaptive(Grid_pure):
         return False
 
     def getCountBudget(self):
-        count_eps_1 = self.param.Eps * Params.PercentGrid
-        count_eps_2 = self.param.Eps * (1 - Params.PercentGrid)
-        return [0, 0, count_eps_1, 0, count_eps_2]
+        if Params.DOMAIN_KNOWLEDGE is False:
+            count_eps_1 = self.param.Eps * Params.PercentGrid
+            count_eps_2 = self.param.Eps * (1 - Params.PercentGrid)
+            return [0, 0, count_eps_1, 0, count_eps_2]
+        else:
+            return [0, 0, 0, 0, self.param.Eps]
 
     def getCoordinates(self, curr):
         """
@@ -55,16 +58,29 @@ class Grid_adaptive(Grid_pure):
             _partitions = self.m
         elif curr_depth == 2:
             # compute the best grid size at level 2
-            N_prime = max(0, curr.n_count)
-            if Params.FIX_GRANULARITY:
-                self.m2 = Params.PARTITION_AG[1]
+            if Params.DOMAIN_KNOWLEDGE is False:
+                N_p = max(0, curr.n_count)  # N_prime
+                if Params.FIX_GRANULARITY:
+                    self.m2 = Params.PARTITION_AG[1]
+                else:
+                    self.m2 = int(math.sqrt(N_p * self.param.Eps * (1 - Params.PercentGrid) / self.param.c2) + 0.5)
+                    if Params.CUSTOMIZED_GRANULARITY:
+                        self.m2 = int(math.sqrt(N_p * self.param.Eps * (1 - Params.PercentGrid) / Params.c2_c) + 0.5)
+                _partitions = curr.secondLevelPartitions = self.m2
+                if _partitions <= 1:
+                    return None, None  # leaf node
             else:
-                self.m2 = int(math.sqrt(N_prime * self.param.Eps * (1 - Params.PercentGrid) / self.param.c2) + 0.5)
-                if Params.CUSTOMIZED_GRANULARITY:
-                    self.m2 = int(math.sqrt(N_prime * self.param.Eps * (1 - Params.PercentGrid) / Params.c2_c) + 0.5)
-            _partitions = curr.secondLevelPartitions = self.m2
-            if _partitions <= 1:
-                return None, None  # leaf node
+                N_p = curr.a_count  # actual count
+                if Params.FIX_GRANULARITY:
+                    self.m2 = Params.PARTITION_AG[1]
+                else:
+                    self.m2 = int(math.sqrt(N_p * self.param.Eps / self.param.c2) + 0.5)
+                    if Params.CUSTOMIZED_GRANULARITY:
+                        self.m2 = int(math.sqrt(N_p * self.param.Eps / Params.c2_c) + 0.5)
+                        print N_p, self.m2
+                _partitions = curr.secondLevelPartitions = self.m2
+                if _partitions <= 1:
+                    return None, None  # leaf node
         else:  # get grid size stored in parent nodes
             _partitions = curr.secondLevelPartitions
 
@@ -125,7 +141,7 @@ class Grid_adaptive(Grid_pure):
                             child2.n_count += (child1.n_count - child2s_sum)
 
     def getCoordinates2(self, curr):
-        """ 
+        """
         get corrdinates of the point which defines the subnodes
         """
         _box = curr.n_box

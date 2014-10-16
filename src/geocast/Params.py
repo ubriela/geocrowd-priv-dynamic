@@ -42,29 +42,30 @@ class Params(object):
 
     CUSTOMIZED_GRANULARITY = True  # apply for adaptive grid
     PARTIAL_CELL_SELECTION = True  # allow select a sub-region of a cell
+    CONSTRAINT_INFERENCE = True
 
+    maxHeightAdaptiveGrid = 2
     NEGATIVE_CELL = False  # couting cells with negative count into geocast query
     ZIPF_STEPS = 5
     s = 1  # the value of the exponent characterizing the zipf distribution
     GAMMA = 0.9  # level expansion parameter
     LEVEL_EXPANSION = False
     GEOCAST_LOG = False
-    LOGGING_STEPS = 1000
+    LOGGING_STEPS = 20
     FIX_GRANULARITY = False  # apply for first level of adaptive grid
     PARTITION_AG = [9, 9]
     ALPHA = 0.3  # the larger alpha the more important compactness
     ALGO = "greedy"
-    CONSTRAINT_INFERENCE = True
 
     # ## Geocast algorithm
     # Variables
     COST_FUNCTION = "distance"  # "utility", "hybrid", "compactness", "distance"
     MAR, TASKPATH = 0.1, ""
     U = 0.9  # Utility
-    TASK_NO = 10  # tasks per instance
+    TASK_NO = 50  # tasks per instance
     NETWORK_DIAMETER = 0.1  # km
     MTD = 0  # kms, mtd depends on dataset
-    DATASET, AR_FUNCTION = "yelp", "linear"
+    DATASET, AR_FUNCTION = "yelp", "zipf"
 
     def select_dataset(self):
         if Params.DATASET == "gowallasf":
@@ -224,7 +225,7 @@ class Params(object):
     def __init__(self, seed):
         self.Eps = Params.Eps  # epsilon
         self.Seed = seed  # used in generating noisy counts
-        self.minPartSize = 2 ** 5  # maximum number of data points in a leaf node
+        self.minPartSize = 2 ** 4  # maximum number of data points in a leaf node
         self.Percent = 0.3  # budget allocated for split
         self.switchLevel = 3  # switch level for hybrid tree
         self.Res = 18  # Hilbert-R tree resolution
@@ -239,4 +240,4 @@ class Params(object):
 
         self.splitScheme = 'expo'  # exponential mechanism
 
-# self.splitScheme = 'noisyMean' # noisy mean approximation
+        # self.splitScheme = 'noisyMean' # noisy mean approximation

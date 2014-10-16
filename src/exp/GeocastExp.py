@@ -10,19 +10,20 @@ from datetime import datetime
 import numpy as np
 
 
+
+
 # sys.path.append('.')
 sys.path.append('../minball')
 sys.path.append('../geocast')
-sys.path.append('../icde12')
-sys.path.append('../localness')
 sys.path.append('../htree')
 
 from Params import Params
 from PSDExp import data_readin
 
-from Grid_adaptive import Grid_adaptive
+# from Grid_adaptive import Grid_adaptive
+from Grid_adaptive2 import Grid_adaptive2
 
-from Geocast import geocast, post_geocast
+from Geocast2 import geocast, post_geocast
 from GeocastLog import geocast_log
 from GeocastInfo import GeocastInfo
 
@@ -33,7 +34,9 @@ import os.path
 eps_list = [.1, .4, .7, 1.0]
 # eps_list = [0.1]
 
-seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
+seed_list = [9110, 4064]
+
+# seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
 
 
 def tasks_gen(data, taskNo, x1=-124.8193, y1=31.3322, x2=-103.0020, y2=49.0025):
@@ -112,7 +115,7 @@ def evalGeocast_Utility(data, all_tasks):
             Params.PARTIAL_CELL_SELECTION = True
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree = Grid_adaptive(data, p)
+            tree = Grid_adaptive2(data, p.Eps, p)
             tree.buildIndex()
 
             for k in range(len(U_list)):
@@ -226,7 +229,7 @@ def evalGeocast_MAR(data, all_tasks):
             Params.PARTIAL_CELL_SELECTION = True
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree = Grid_adaptive(data, p)
+            tree = Grid_adaptive2(data, p.Eps, p)
             tree.buildIndex()
             for k in range(len(MAR_list)):
                 Params.MAR = MAR_list[k]
@@ -335,14 +338,14 @@ def evalGeocast_GRA_PAR(data, all_tasks):
             Params.CUSTOMIZED_GRANULARITY = False
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree_GDY = Grid_adaptive(data, p)
+            tree_GDY = Grid_adaptive2(data, p.Eps, p)
             tree_GDY.buildIndex()
 
             # GRA tree
             Params.CUSTOMIZED_GRANULARITY = True
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree_GRA = Grid_adaptive(data, p)
+            tree_GRA = Grid_adaptive2(data, p.Eps, p)
             tree_GRA.buildIndex()
 
             totalANW_GDY, totalANW_GRA, totalANW_PAR, totalANW_GRA_PAR = 0, 0, 0, 0
@@ -434,7 +437,7 @@ def evalGeocast_GRA_PAR(data, all_tasks):
                 if performed:
                     totalATD_FCFS_GRA_PAR += dist
 
-            # GDY 
+            # GDY
             ANW_GDY = (totalANW_GDY + 0.0) / totalPerformedTasks_GDY
             ATD_GDY = totalATD_GDY / totalPerformedTasks_GDY
             ATD_FCFS_GDY = totalATD_FCFS_GDY / totalPerformedTasks_GDY
@@ -564,8 +567,10 @@ def evalGeocast_Baseline(data, all_tasks):
             Params.COST_FUNCTION = "hybrid"
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree = Grid_adaptive(data, p)
+            tree = Grid_adaptive2(data, p.Eps, p)
             tree.buildIndex()
+            if Params.CONSTRAINT_INFERENCE:
+                tree.adjustConsistency()
 
             totalANW_Naive, totalANW_Geocast, totalANW_Knn = 0, 0, 0
             totalATD_Naive, totalATD_Naive_FCFS, totalATD_Geocast, totalATD_FCFS_Geocast, totalATD_Knn, totalATD_Knn_FCFS = 0, 0, 0, 0, 0, 0
@@ -696,7 +701,7 @@ def evalGeocast_Baseline(data, all_tasks):
 
 def evalGeocast_Compactness(data, all_tasks):
     """
-    Evaluate the geocast algorith under different cost functions, 
+    Evaluate the geocast algorith under different cost functions,
     utility-based heuristic, compactness-based heuristic and hybrid heuristic
     """
     logging.info("evalGeocast_Compactness")
@@ -720,7 +725,7 @@ def evalGeocast_Compactness(data, all_tasks):
         for i in range(len(eps_list)):
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree = Grid_adaptive(data, p)
+            tree = Grid_adaptive2(data, p.Eps, p)
             tree.buildIndex()
 
             totalANW_Utility, totalANW_Hybrid, totalANW_Compactness = 0, 0, 0
@@ -888,7 +893,7 @@ def _evalGeocast_Parameter_Fitting(data, all_tasks):
         Params.PARTIAL_CELL_SELECTION = True
         p = Params(seed_list[j])
         p.Eps = eps_list[j]
-        tree = Grid_adaptive(data, p)
+        tree = Grid_adaptive2(data, p.Eps, p)
         tree.buildIndex()
 
         for i in range(len(alphaList)):
@@ -898,10 +903,10 @@ def _evalGeocast_Parameter_Fitting(data, all_tasks):
             totalPerformedTasks_Utility, totalPerformedTasks_Hybrid, totalPerformedTasks_Compactness = 0, 0, 0
 
             # tasks = tasks_gen(data, Params.TASK_NO, random.randint(0,1000),Params.x_min,Params.y_min,Params.x_max,Params.y_max)
-            for l in range(len(tasks)):
+            for l in range(len(all_tasks)):
                 if (l + 1) % Params.LOGGING_STEPS == 0:
                     print ">> " + str(l + 1) + " tasks completed"
-                t = tasks[l]
+                t = all_tasks[l]
 
                 # Utility
                 Params.COST_FUNCTION = "utility"
@@ -955,25 +960,35 @@ def _evalGeocast_Parameter_Fitting(data, all_tasks):
     np.savetxt(Params.resdir + exp_name + `Params.TASK_NO`, res_summary, fmt='%.4f\t')
 
 
-def _evalGeocast_Test(data, all_tasks):
+def evalGeocast_Test(data, all_tasks):
     Params.CUSTOMIZED_GRANULARITY = True
     Params.PARTIAL_CELL_SELECTION = True
-    Params.CONSTRAINT_INFERENCE = False
     p = Params(1000)
     p.Eps = 1
 
     prev_time = datetime.now()
-    tree = Grid_adaptive(data, p)
+    tree = Grid_adaptive2(data, p.Eps, p)
     tree.buildIndex()
+    tree.adjustConsistency()
     curr_time = datetime.now()
     print curr_time - prev_time
 
-    Params.CONSTRAINT_INFERENCE = True
-    prev_time = datetime.now()
-    tree = Grid_adaptive(data, p)
-    tree.buildIndex()
-    curr_time = datetime.now()
-    print curr_time - prev_time
+    tasks = all_tasks[0]
+    for l in range(len(tasks)):
+        print ">> " + str(l + 1) + " tasks completed"
+        t = tasks[l]
+
+        q, q_log = geocast(tree, t, p.Eps)
+        no_workers, workers, Cells, no_hops, coverage, no_hops2 = post_geocast(t, q, q_log)
+        performed, worker, dist = performed_tasks(workers, Params.MTD, t, False)
+        print performed, worker, dist
+
+        # Params.CONSTRAINT_INFERENCE = True
+        # prev_time = datetime.now()
+        # tree = Grid_adaptive2(data, p.Eps, p)
+        # tree.buildIndex()
+        # curr_time = datetime.now()
+        # print curr_time - prev_time
 
 
 def evalGeocast_Granularity_Check(data, all_tasks):
@@ -995,7 +1010,7 @@ def evalGeocast_Granularity_Check(data, all_tasks):
                 p = Params(seed_list[j])
                 p.Eps = eps_list[i]
                 Params.c2_c = c2List[k]
-                tree = Grid_adaptive(data, p)
+                tree = Grid_adaptive2(data, p.Eps, p)
                 tree.buildIndex()
 
                 totalPerformedTasks_Hybrid = 0
@@ -1012,7 +1027,7 @@ def evalGeocast_Granularity_Check(data, all_tasks):
                     if performed:
                         totalPerformedTasks_Hybrid += 1
 
-                # Hybrid 
+                # Hybrid
                 APPT_Hybrid = 100 * float(totalPerformedTasks_Hybrid) / Params.TASK_NO
                 res_cube[i, j, k] = APPT_Hybrid
 
@@ -1036,11 +1051,11 @@ if __name__ == '__main__':
     all_tasks = tasks_gen(task_data, Params.TASK_NO, Params.x_min, Params.y_min, Params.x_max, Params.y_max)
 
     # Experiment: geocast query
-    # evalGeocast_Test(data, all_tasks)
+    evalGeocast_Test(worker_data, all_tasks)
 
     # evalGeocast_GRA_PAR(worker_data, all_tasks)
     # evalGeocast_Compactness(worker_data, all_tasks)
-    evalGeocast_Baseline(worker_data, all_tasks)
+    # evalGeocast_Baseline(worker_data, all_tasks)
     # evalGeocast_MAR(worker_data, all_tasks)
     # evalGeocast_Utility(worker_data, all_tasks)
     # evalGeocast_Granularity_Check(worker_data, all_tasks)

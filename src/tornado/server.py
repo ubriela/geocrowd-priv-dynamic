@@ -12,21 +12,20 @@ from tornado_cors import CorsMixin
 
 sys.path.append('.')
 
-sys.path.append('../icde12')
 sys.path.append('../minball')
-sys.path.append('../htree')
 sys.path.append('../grid')
 sys.path.append('../common')
 sys.path.append('../exp')
 sys.path.append('../geocast')
 sys.path.append('../geocrowd')
+sys.path.append('../icde12')
 
 import numpy as np
 from Params import Params
 from PSDExp import data_readin
 
-from Grid_adaptive import Grid_adaptive
-from Geocast import geocast, post_geocast
+from Grid_adaptive2 import Grid_adaptive2
+from Geocast2 import geocast, post_geocast
 from GeocastLog import geocast_log
 from GeocastInfo import GeocastInfo
 from Utils import performed_tasks, is_rect_cover, distance_to_rect, rect_area, rect_vertex_set
@@ -99,7 +98,7 @@ class ResetHandler(CorsMixin, tornado.web.RequestHandler):
             data = data_readin()
             p = Params(1000)
             eps = p.Eps
-            tree = Grid_adaptive(data, p)
+            tree = Grid_adaptive2(data, p)
             tree.buildIndex()
             bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
             all_data[dataset] = (tree, bounds, p.NDATA)
@@ -211,7 +210,7 @@ class GeocastHandler(CorsMixin, tornado.web.RequestHandler):
                 data = data_readin()
                 p = Params(1000)
                 eps = p.Eps
-                tree = Grid_adaptive(data, p)
+                tree = Grid_adaptive2(data, p)
                 tree.buildIndex()
                 bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
                 all_data[dataset] = (tree, bounds, p.NDATA)
@@ -408,7 +407,7 @@ class ParamHandler(CorsMixin, tornado.web.RequestHandler):
             data = data_readin()
             p = Params(1000)
             print "Creating WorkerPSD..."
-            tree = Grid_adaptive(data, p)
+            tree = Grid_adaptive2(data, p)
             tree.buildIndex()
             bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
             all_data[dataset] = (tree, bounds, p.NDATA)
@@ -493,7 +492,7 @@ class UpdateHandler(CorsMixin, tornado.web.RequestHandler):
         Params.DATASET = dataset
         p.select_dataset()
         print dataset
-        tree = Grid_adaptive(data, p)
+        tree = Grid_adaptive2(data, p)
         tree.buildIndex()
         bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
         print bounds
@@ -570,7 +569,7 @@ class Upload(CorsMixin, tornado.web.RequestHandler):
         data = data_readin()
         p = Params(1000)
         eps = p.Eps
-        tree = Grid_adaptive(data, p)
+        tree = Grid_adaptive2(data, p)
         tree.buildIndex()
         bounds = np.array([[Params.LOW[0], Params.LOW[1]], [Params.HIGH[0], Params.HIGH[1]]])
 
@@ -601,5 +600,5 @@ application = tornado.web.Application([
 if __name__ == "__main__":
     # An I/O event loop for non-blocking sockets.
     print "PSD Server started"
-    application.listen(80)
+    application.listen(8081)
     tornado.ioloop.IOLoop.instance().start()
