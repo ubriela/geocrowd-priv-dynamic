@@ -21,10 +21,10 @@ class HT_standard(HT_true):
             return [0, 0, count_eps]
         if self.param.geoBudget == 'optimal':
             # n1 = 2**self.maxSplit[0]
-            #            n2 = n1*2**self.maxSplit[1]
-            #            unit = count_eps / (n1**(1.0/3) + n2**(1.0/3))
-            #            eps1 = unit*n1**(1.0/3)
-            #            eps2 = unit*n2**(1.0/3)
+            # n2 = n1*2**self.maxSplit[1]
+            # unit = count_eps / (n1**(1.0/3) + n2**(1.0/3))
+            # eps1 = unit*n1**(1.0/3)
+            # eps2 = unit*n2**(1.0/3)
             #            return [0, eps1, eps2]
             return [0, count_eps / 2, count_eps / 2]
         else:

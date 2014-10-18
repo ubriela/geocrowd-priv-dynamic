@@ -147,10 +147,10 @@ class HT_pure(HTree):
         # self.differ = Differential(1412)
         # return None
         #
-        #    def getNoisyMedian(self, array, left, right, epsilon):
-        #        med = self.differ.getSplit_exp(array, left, right, epsilon)
-        #        pos = np.searchsorted(array, med)
-        #        return pos, med
+        # def getNoisyMedian(self, array, left, right, epsilon):
+        # med = self.differ.getSplit_exp(array, left, right, epsilon)
+        # pos = np.searchsorted(array, med)
+        # return pos, med
         #
         #    def getNoisySlice(self,array,left,right,epsilon,partitions,slice):
         #        med = self.differ.getSplit_slice(array, left, right, epsilon, partitions, slice)
@@ -186,12 +186,12 @@ if __name__ == '__main__':
     # height = 2
     # array = range(1000)
     # budget_s = [.1 for _ in range(3)]
-    #    x = ht_pure.recursiveMedians(height,array,budget_s)
-    #    print x
-    #    print len(x)
+    # x = ht_pure.recursiveMedians(height,array,budget_s)
+    # print x
+    # print len(x)
 
     # test recursiveSlices
-    #    height = 2
+    # height = 2
     #    array = range(1001)
     #    budget_s = [0 for _ in range(3)]
     #    x = ht_pure.recursiveSlices(height,8,array,budget_s)

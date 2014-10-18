@@ -184,10 +184,10 @@ def is_level_expansion(parent, childrens):
 # id_ymax_1st = int(math.ceil((cell[1][1] - Params.LOW[1])/y_width_1st))
 # if id_xmax_1st - id_xmin_1st == 1 and id_ymax_1st - id_ymin_1st == 1:   # contain one 2nd grid only
 # # one grid
-#        # compute 2nd granurality
-#        granularity_2nd = tree.getLeafGranularity(cell)
-#        if granularity_2nd >= 2:
-#            x_width_2nd = x_width_1st/granularity_2nd
+# # compute 2nd granurality
+# granularity_2nd = tree.getLeafGranularity(cell)
+# if granularity_2nd >= 2:
+# x_width_2nd = x_width_1st/granularity_2nd
 #            y_width_2nd = y_width_1st/granularity_2nd
 #            x_min = id_xmin_1st*x_width_1st + Params.LOW[0]
 #            y_min = id_ymin_1st*y_width_1st + Params.LOW[1]

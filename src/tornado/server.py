@@ -98,7 +98,7 @@ class ResetHandler(CorsMixin, tornado.web.RequestHandler):
             data = data_readin()
             p = Params(1000)
             eps = p.Eps
-            tree = Grid_adaptive2(data, p)
+            tree = Grid_adaptive2(data, 1, p)
             tree.buildIndex()
             bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
             all_data[dataset] = (tree, bounds, p.NDATA)
@@ -210,7 +210,7 @@ class GeocastHandler(CorsMixin, tornado.web.RequestHandler):
                 data = data_readin()
                 p = Params(1000)
                 eps = p.Eps
-                tree = Grid_adaptive2(data, p)
+                tree = Grid_adaptive2(data, 1, p)
                 tree.buildIndex()
                 bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
                 all_data[dataset] = (tree, bounds, p.NDATA)
@@ -407,7 +407,7 @@ class ParamHandler(CorsMixin, tornado.web.RequestHandler):
             data = data_readin()
             p = Params(1000)
             print "Creating WorkerPSD..."
-            tree = Grid_adaptive2(data, p)
+            tree = Grid_adaptive2(data, 1, p)
             tree.buildIndex()
             bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
             all_data[dataset] = (tree, bounds, p.NDATA)
@@ -492,7 +492,7 @@ class UpdateHandler(CorsMixin, tornado.web.RequestHandler):
         Params.DATASET = dataset
         p.select_dataset()
         print dataset
-        tree = Grid_adaptive2(data, p)
+        tree = Grid_adaptive2(data, 1, p)
         tree.buildIndex()
         bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
         print bounds
@@ -569,7 +569,7 @@ class Upload(CorsMixin, tornado.web.RequestHandler):
         data = data_readin()
         p = Params(1000)
         eps = p.Eps
-        tree = Grid_adaptive2(data, p)
+        tree = Grid_adaptive2(data, 1, p)
         tree.buildIndex()
         bounds = np.array([[Params.LOW[0], Params.LOW[1]], [Params.HIGH[0], Params.HIGH[1]]])
 
@@ -600,5 +600,5 @@ application = tornado.web.Application([
 if __name__ == "__main__":
     # An I/O event loop for non-blocking sockets.
     print "PSD Server started"
-    application.listen(8081)
+    application.listen(80)
     tornado.ioloop.IOLoop.instance().start()

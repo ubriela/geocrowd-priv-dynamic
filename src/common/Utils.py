@@ -1,7 +1,13 @@
 import math
-import random
 import bisect
 import itertools as it
+
+import random
+
+
+
+
+
 # noinspection PyDeprecation
 from sets import Set
 
@@ -86,10 +92,11 @@ def acc_rate(max_distance, dist):
 
 _acc_rate = acc_rate
 
-
 """
 acceptance rate
 """
+
+
 def is_performed(ar):
     """
     Simulate whether a task is performed or not 0<=acc_rate<=1
@@ -330,10 +337,10 @@ if __name__ == "__main__":
     weights = [.19, .01, .8]
     print list(it.islice(_wrg(weights), 1))
 
-#print is_rect_intersect_segment([1,2],[3,1],[1,0],[2,2])
-#rec = np.array([[2,2],[5,5]])
-#query = np.array([[0,0],[3,10]])
-#print isIntersect(rec, query)
+# print is_rect_intersect_segment([1,2],[3,1],[1,0],[2,2])
+# rec = np.array([[2,2],[5,5]])
+# query = np.array([[0,0],[3,10]])
+# print isIntersect(rec, query)
 
 
 #lat1, lon1, lat2, lon2 = 39.436140 - Params.ONE_KM, -77.094491 - Params.ONE_KM, 39.436140 + Params.ONE_KM, -77.094491 + Params.ONE_KM

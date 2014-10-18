@@ -8,12 +8,12 @@ from geocrowd.HT_pure import HT_pure
 
 class HTree_TestCase(unittest.TestCase):
     # def setUp(self):
-    #    self.foo = HTree_()
+    # self.foo = HTree_()
     #
 
-    #def tearDown(self):
-    #    self.foo.dispose()
-    #    self.foo = None
+    # def tearDown(self):
+    # self.foo.dispose()
+    # self.foo = None
 
     def test_hTree_(self):
         #assert x != y;

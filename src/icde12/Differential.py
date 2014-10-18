@@ -42,10 +42,10 @@ class Differential(object):
                 idx_small = m - k - 1
                 small = left if idx_small < 0 else data[idx_small]
                 in_max = big - small
-                #        else: # use quadratic search
-                #            for t in range(k+2):
-                #                in_list[t] = eval(m+t)-eval(m+t-k-1)
-                #            in_max = max(in_list)
+                # else: # use quadratic search
+                # for t in range(k+2):
+                # in_list[t] = eval(m+t)-eval(m+t-k-1)
+                # in_max = max(in_list)
             out_list[k] = damp * in_max
 
         sen = max(out_list)
@@ -135,7 +135,7 @@ class Differential(object):
         number of cells, controlling the granularity"""
         n = len(data_raw)
         # left = np.floor(left)
-        #right = np.ceil(right)
+        # right = np.ceil(right)
         no_cell = int(np.ceil((right - left) / unit))
         li = np.zeros(no_cell, dtype='float32')
         for i in range(n):

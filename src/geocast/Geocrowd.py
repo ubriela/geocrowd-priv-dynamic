@@ -171,7 +171,7 @@ def compute_error(Res, trueRes):
 # x_min = sys.float_info.max
 # y_min = sys.float_info.max
 # x_max = -sys.float_info.max
-#y_max = -sys.float_info.max
+# y_max = -sys.float_info.max
 
 def generate_workers(seed, time_instance):
     """ Generate a set of workers per time instance"""
@@ -267,7 +267,7 @@ def hops_expansion(task, workers, network_diameter):
         traversed = traversed | candidates
         remained = remained - traversed
 
-    #    print hops_count, (len(traversed)+0.0)/len(workers), hops_count2
+    # print hops_count, (len(traversed)+0.0)/len(workers), hops_count2
     return hops_count, math.ceil((len(traversed) + 0.0) / len(workers)), hops_count2
 
 
@@ -290,9 +290,9 @@ def simple_hop_count(mbr):
 
 
 if __name__ == '__main__':
-    #    generate_worker_task()
-    #    print task_locs_gen(5,2,0,0,10,10)
-    #    query = [[0,0],[1,1]]
+    # generate_worker_task()
+    # print task_locs_gen(5,2,0,0,10,10)
+    # query = [[0,0],[1,1]]
     #    print resize(np.array(query), 2, Params.x_min,Params.y_min,Params.x_max,Params.y_max)
 
     workers = np.array(

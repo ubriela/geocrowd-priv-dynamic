@@ -1,5 +1,7 @@
-import random
 import timeit
+
+import random
+
 
 list = []
 for i in range(4):

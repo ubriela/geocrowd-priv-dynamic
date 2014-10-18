@@ -4,8 +4,8 @@ Geocast with scaling algorithm (scale the size of the geocast query by a factor)
 
 import sys
 import math
-import random
 
+import random
 import numpy as np
 
 from Params import Params

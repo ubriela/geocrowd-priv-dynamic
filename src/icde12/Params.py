@@ -15,12 +15,12 @@ class Params(object):
     # x_min=-124.8193; y_min=31.3322; x_max=-103.0020; y_max=49.0025 # tiger
 
     # dataset = '../../dataset/landmark.dat'; resdir = '../../output/landmark/'
-    #    x_min=-124.4384; y_min=24.5526; x_max=-67.0255; y_max=49.0016 # landmark
+    # x_min=-124.4384; y_min=24.5526; x_max=-67.0255; y_max=49.0016 # landmark
 
-    #    dataset = '../../dataset/restrnts.dat'; resdir = '../../output/restrnts/'
-    #    x_min=-124.4972; y_min=24.5473; x_max=-66.9844; y_max=48.9999 # restrnts
+    # dataset = '../../dataset/restrnts.dat'; resdir = '../../output/restrnts/'
+    # x_min=-124.4972; y_min=24.5473; x_max=-66.9844; y_max=48.9999 # restrnts
 
-    #    dataset = '../../dataset/shopping.dat'; resdir = '../../output/shopping/'
+    # dataset = '../../dataset/shopping.dat'; resdir = '../../output/shopping/'
     #    x_min=-124.2640; y_min=24.5515; x_max=-68.2106; y_max=48.9939 # shopping
 
     #    dataset = '../../dataset/parkrec.dat'; resdir = '../../output/parkrec/'

@@ -3,6 +3,11 @@ import os
 
 import numpy as np
 
+
+
+
+
+
 # import multiprocessing as mult
 import sys
 import logging
@@ -10,7 +15,7 @@ from KExp import KExp
 from Params import Params
 
 seedList = [2172, 7818, 1254]
-#q_list = [(1.0,1.0),(5.0,5.0),(10.0,10.0),(15.0,0.2)]
+# q_list = [(1.0,1.0),(5.0,5.0),(10.0,10.0),(15.0,0.2)]
 q_list = [(.2, .2)]
 methodList = None
 exp_name = None
@@ -27,7 +32,7 @@ def data_readin():
     return data
 
 
-#x1=-116.915680, y1=37.000293, x2=-109.050173, y2=45.543541
+# x1=-116.915680, y1=37.000293, x2=-109.050173, y2=45.543541
 def queryGen(queryShape, seed, random=False, x1=-106.69617, y1=34.869024, x2=-106.149577, y2=35.019524):
     """Query generation. Each of which has at least one corner point in data populated areas.
     Due to the distribution of the spatial data set, we do not want to generate many queries in 
@@ -70,7 +75,7 @@ def test_quadtreeOpt(queryShape):
     exp_name = 'quadtreeOpt'
     methodList = ['Quad-baseline', 'Quad-geo', 'Quad-post', 'Quad-opt']
 
-    #    Params.maxHeight = 10
+    # Params.maxHeight = 10
     epsList = [0.1, 0.5, 1.0]
     data = data_readin()
     res_cube_abs = np.zeros((len(epsList), len(seedList), len(methodList)))
@@ -107,7 +112,7 @@ def test_kdTrees(queryShape):
     global methodList, exp_name
     exp_name = 'kdTrees'
     methodList = ['pure', 'true', 'standard', 'hybrid', 'cell', 'noisymean']
-    #    Params.maxHeight = 8
+    # Params.maxHeight = 8
     epsList = [0.1, 0.5, 1.0]
     data = data_readin()
     res_cube_abs = np.zeros((len(epsList), len(seedList), len(methodList)))
@@ -221,11 +226,11 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, filename='debug.log')
     logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
 
-    ### Experiment 1: test quadtree optimizations ###
+    # ## Experiment 1: test quadtree optimizations ###
     for q_shape in q_list:
         test_quadtreeOpt(q_shape)
     createGnuData()
-    ### Experiment 2: test various kd-trees ###
+    # ## Experiment 2: test various kd-trees ###
     #    for q_shape in q_list:
     #        test_kdTrees(q_shape)
     #    createGnuData()
