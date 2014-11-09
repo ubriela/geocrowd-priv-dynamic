@@ -31,21 +31,20 @@ method_list = None
 exp_name = None
 
 
-def data_readin():
+def data_readin(p):
     """Read in spatial data and initialize global variables."""
-    p = Params(0)
     p.select_dataset()
     data = np.genfromtxt(Params.dataset, unpack=True)
-    Params.NDIM, Params.NDATA = data.shape[0], data.shape[1]
-    Params.LOW, Params.HIGH = np.amin(data, axis=1), np.amax(data, axis=1)
+    p.NDIM, p.NDATA = data.shape[0], data.shape[1]
+    p.LOW, p.HIGH = np.amin(data, axis=1), np.amax(data, axis=1)
     logging.debug(data.shape)
-    logging.debug(Params.LOW)
-    logging.debug(Params.HIGH)
+    logging.debug(p.LOW)
+    logging.debug(p.HIGH)
     return data
 
     all_points = []
-    if os.path.isfile(Params.TASKPATH):
-        with open(Params.TASKPATH) as f:
+    if os.path.isfile(p.TASKPATH):
+        with open(p.TASKPATH) as f:
             content = f.readlines()
         for i in range(len(seed_list)):
             ran_points = []
@@ -70,7 +69,7 @@ def data_readin():
             all_points.append(ran_points)
             for item in ran_points:
                 tasks += "%s\n" % " ".join(map(str, item))
-        outfile = open(Params.TASKPATH, "w")
+        outfile = open(p.TASKPATH, "w")
         outfile.write(tasks)
         outfile.close()
     return all_points
@@ -146,7 +145,7 @@ def query_gen_mtd(queryShape, seed, x1=-124.8193, y1=31.3322, x2=-103.0020, y2=4
 # x_low = point_x
 # x_high = point_x + x_range
 # y_low = point_y - y_range
-#    y_high = point_y 
+# y_high = point_y
 #    for i in range(int(Params.nQuery/2)):
 #        querylist.append(np.array([[x_low[i],y_low[i]],[x_high[i],y_high[i]]]))
 #

@@ -9,7 +9,7 @@ from sets import Set
 import numpy as np
 
 from Params import Params
-from Geocrowd import rect_query_points, hops_expansion
+from Geocrowd import rect_query_points, hops_expansion, simple_hops_expansion
 from Utils import *
 from smallestenclosingcircle import *
 
@@ -192,7 +192,7 @@ def is_level_expansion(parent, childrens):
 # x_width_2nd = x_width_1st/granularity_2nd
 # y_width_2nd = y_width_1st/granularity_2nd
 # x_min = id_xmin_1st*x_width_1st + Params.LOW[0]
-#            y_min = id_ymin_1st*y_width_1st + Params.LOW[1]
+# y_min = id_ymin_1st*y_width_1st + Params.LOW[1]
 #            x_max = id_xmax_1st*x_width_1st + Params.LOW[0]
 #            y_max = id_ymax_1st*y_width_1st + Params.LOW[1]
 #            id_xmin_2nd = int(math.floor((cell[0][0] - x_min)/x_width_2nd))
@@ -503,6 +503,30 @@ def post_geocast(t, q, q_log):
         hops_count, coverage, hops_count2 = hops_expansion(t, workers.transpose(), Params.NETWORK_DIAMETER)
 
     return no_workers, workers, cells, hops_count, coverage, hops_count2
+
+
+def simple_post_geocast(t, q, q_log):
+    """
+    Compute actual utility & average travel cost in simulation
+    """
+    if q is None:
+        return [None for _ in range(6)]
+    no_workers = 0
+    workers = np.zeros(shape=(2, 0))  # worker locations
+    for i in range(len(q)):
+        if q[i].n_data is not None:
+            if Params.PARTIAL_CELL_SELECTION and i == len(q) - 1:
+                _workers = rect_query_points(q[i].n_data, q[i].n_box)
+            else:
+                _workers = q[i].n_data
+            no_workers += _workers.shape[1]
+            workers = np.concatenate([workers, _workers], axis=1)
+
+    hops_count = 0
+    if workers.shape[1] > 0:
+        hops_count = simple_hops_expansion(workers.transpose(), Params.NETWORK_DIAMETER)
+
+    return no_workers, workers, len(q), hops_count
 
 
 def simulation_geocast(t, q, FCFS):

@@ -24,7 +24,7 @@ class Grid_adaptive(Grid_pure):
             # print self.param.NDATA
             # print self.param.Eps
             # print Params.c
-            self.m = int(max(10, int(0.25 * math.ceil((self.param.NDATA * self.param.Eps / param.c) ** (1.0 / 2)))))
+            self.m = int(max(10, int(0.25 * math.ceil((Params.NDATA * self.param.Eps / param.c) ** (1.0 / 2)))))
         logging.debug("Grid_adaptive: Level 1 size: %d" % self.m)
 
     def testLeaf(self, curr):

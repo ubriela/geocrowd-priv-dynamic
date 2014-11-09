@@ -21,7 +21,7 @@ from HT_standard import HT_standard
 from Grid_pure import Grid_pure
 from Grid_uniform import Grid_uniform
 from Grid_adaptive import Grid_adaptive
-from Grid_adaptive2 import Grid_adaptive2
+from Grid_adaptiveM import Grid_adaptiveM
 from Grid_adaptive_localness import Grid_adaptive_localness
 from HT_hybrid import HT_hybrid
 from HT_composite import HT_composite
@@ -188,16 +188,16 @@ class GKExp(object):
         logging.info('[T] Grid_adaptive building time: %.2d ' % (end - start))
         return self.query(tree, "Grid_adaptive")
 
-    def run_Grid_adaptive2(self, param):
-        logging.debug('building Grid_adaptive2...')
-        tree = Grid_adaptive2(self.data, param)
+    def run_Grid_adaptiveM(self, param):
+        logging.debug('building Grid_adaptiveM...')
+        tree = Grid_adaptiveM(self.data, param)
         start = time.clock()
         tree.buildIndex()
         if Params.CONSTRAINT_INFERENCE:
             tree.adjustConsistency()
         end = time.clock()
-        logging.info('[T] Grid_adaptive2 building time: %.2d ' % (end - start))
-        return self.query(tree, "Grid_adaptive2")
+        logging.info('[T] Grid_adaptiveM building time: %.2d ' % (end - start))
+        return self.query(tree, "Grid_adaptiveM")
 
     def run_Grid_adaptive_localness(self, param):
         logging.debug('building Grid_adaptive_localness...')

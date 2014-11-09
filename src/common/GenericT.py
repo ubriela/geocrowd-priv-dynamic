@@ -3,12 +3,12 @@ from collections import deque
 
 import numpy as np
 
-from Node2 import Node2
+from NodeT import NodeT
 from Params import Params
 from Differential import Differential
 
 
-class Generic2(object):
+class GenericT(object):
     """
     Generic data structure, used for grid
     """
@@ -18,7 +18,7 @@ class Generic2(object):
         self.differ = Differential(self.param.Seed)
 
         # initialize the root
-        self.root = Node2()
+        self.root = NodeT()
         # self.children = [] # all level 2 grids
         self.root.n_data = data
         self.root.n_box = np.array([param.LOW, param.HIGH])
@@ -79,30 +79,35 @@ class Generic2(object):
     def buildIndex(self):
         """build the grid structure."""
         budget_c = self.getCountBudget()  # an array with two elements
+        # print budget_c
         self.root.n_count = self.getCount(self.root, 0)  # add noisy count to the root
         queue = deque()
         queue.append(self.root)
         # ## main loop
         while len(queue) > 0:
             curr = queue.popleft()
+            if curr.n_data is None:
+                curr.a_count.append(0)
+            else:
+                curr.a_count.append(curr.n_data.shape[1])
 
             if self.testLeaf(curr) is True:  # if curr is a leaf node
                 remainingEps = sum(budget_c[curr.n_depth:])
                 curr.n_count, curr.eps, curr.n_isLeaf = self.getCount(curr, remainingEps), remainingEps, True
-
+                curr.l_count.append(curr.n_count)
             else:  # curr needs to split --> find splitting granularity
                 gran, split_arr_x, split_arr_y, n_data_matrix = self.getCoordinates(curr)
                 if gran == 1:
                     remainingEps = sum(budget_c[curr.n_depth:])
                     curr.n_count, curr.eps, curr.n_isLeaf = self.getCount(curr, remainingEps), remainingEps, True
                     curr.children = None
+                    curr.l_count.append(curr.n_count)
                     continue  # if the first level cell is leaf node
 
                 # add all nodes to queue
                 for x in range(gran):
                     for y in range(gran):
-                        node = Node2()
-                        # x, y = i / gran, i % gran
+                        node = NodeT()
                         node.n_box = np.array(
                             [[split_arr_x[x], split_arr_y[y]], [split_arr_x[x + 1], split_arr_y[y + 1]]])
                         node.index, node.parent, node.n_depth = x * gran + y, curr, curr.n_depth + 1
@@ -111,15 +116,11 @@ class Generic2(object):
                         else:
                             node.n_data = np.transpose(n_data_matrix[x][y])
                         node.n_count = self.getCount(node, budget_c[node.n_depth])
-                        if node.n_data is None:
-                            node.a_count = 0
-                        else:
-                            node.a_count = node.n_data.shape[1]
                         node.eps = budget_c[node.n_depth]
                         if node.n_depth == 2:
                             node.n_isLeaf = True
                         if curr.children is None:
-                            curr.children = np.ndarray(shape=(gran, gran), dtype=Node2)
+                            curr.children = np.ndarray(shape=(gran, gran), dtype=NodeT)
                         curr.children[x][y] = node
                         queue.append(node)
 
@@ -174,7 +175,11 @@ class Generic2(object):
                  (loc[1] - self.root.n_box[0, 1]) * gran_1st / (self.root.n_box[1, 1] - self.root.n_box[0, 1]))
 
         node_1st = self.root.children[x1][y1]
-        if node_1st.n_isLeaf:
+        """
+        Note that there are cases when the actual count of first level cell is zero but the noisy count is > 0, 
+        thus the cell may be splited into a number of empty cells
+        """
+        if node_1st.n_isLeaf or node_1st.children is None:
             return node_1st
         else:
             gran_2st = len(node_1st.children)
@@ -188,12 +193,13 @@ class Generic2(object):
     def checkCorrectness(self, node, nodePoints=None):
         """
         Total number of data points of all leaf nodes should equal to the total data points
+        only check the FIRST time instance
         """
         totalPoints = 0
         if node is None:
             return 0
         if (node.n_isLeaf and node.n_data is not None) or node.children is None:
-            return node.a_count
+            return node.a_count[0]
 
         for (_, _), child in np.ndenumerate(node.children):
             totalPoints += self.checkCorrectness(child)

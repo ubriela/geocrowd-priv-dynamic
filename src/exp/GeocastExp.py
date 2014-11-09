@@ -10,13 +10,6 @@ from datetime import datetime
 import numpy as np
 
 
-
-
-
-
-
-
-
 # sys.path.append('.')
 sys.path.append('../minball')
 sys.path.append('../geocast')
@@ -26,9 +19,9 @@ from Params import Params
 from PSDExp import data_readin
 
 # from Grid_adaptive import Grid_adaptive
-from Grid_adaptive2 import Grid_adaptive2
+from Grid_adaptiveM import Grid_adaptiveM
 
-from Geocast2 import geocast, post_geocast
+from GeocastM import geocast, post_geocast
 from GeocastLog import geocast_log
 from GeocastInfo import GeocastInfo
 
@@ -36,15 +29,54 @@ from GeocastKNN import geocast_knn
 from Utils import is_rect_cover, performed_tasks
 import os.path
 
-eps_list = [.1, .4, .7, 1.0]
+eps_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 # eps_list = [0.1]
 
-seed_list = [9110, 4064]
+# seed_list = [9110, 4064, 6903, 7509]
 
-# seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
+seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
 
 
-def tasks_gen(data, taskNo, x1=-124.8193, y1=31.3322, x2=-103.0020, y2=49.0025):
+def tasks_gen(data, param):
+    """
+    Generate random points within dataset
+    """
+    taskNo, x1, y1, x2, y2 = param.TASK_NO, param.x_min, param.y_min, param.x_max, param.y_max
+    all_points = []
+
+    if os.path.isfile(param.TASKPATH):
+        with open(param.TASKPATH) as f:
+            content = f.readlines()
+        for i in range(len(seed_list)):
+            ran_points = []
+            for j in range(taskNo):
+                ran_points.append(map(float, content[i * taskNo + j].split()))
+            all_points.append(ran_points)
+    else:
+        tasks = ""
+        logging.debug('tasks_gen: generating tasks...')
+
+        boundary = np.array([[x1, y1], [x2, y2]])
+        for seed in seed_list:
+            ran_points = []
+            np.random.seed(seed)
+            count = 0
+            while count < taskNo:
+                idx = np.random.randint(0, data.shape[1])
+                _ran_point = data[:, idx]
+                if is_rect_cover(boundary, _ran_point):
+                    ran_points.append(_ran_point)
+                    count = count + 1
+            all_points.append(ran_points)
+            for item in ran_points:
+                tasks = tasks + ("%s\n" % " ".join(map(str, item)))
+        outfile = open(param.TASKPATH, "w")
+        outfile.write(tasks.strip())
+        outfile.close()
+    return all_points
+
+
+def tasks_gen_old(data, taskNo, x1=-124.8193, y1=31.3322, x2=-103.0020, y2=49.0025):
     """
     Generate random points within dataset
     """
@@ -120,7 +152,7 @@ def evalGeocast_Utility(data, all_tasks):
             Params.PARTIAL_CELL_SELECTION = True
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree = Grid_adaptive2(data, p.Eps, p)
+            tree = Grid_adaptiveM(data, p.Eps, p)
             tree.buildIndex()
 
             for k in range(len(U_list)):
@@ -234,7 +266,7 @@ def evalGeocast_MAR(data, all_tasks):
             Params.PARTIAL_CELL_SELECTION = True
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree = Grid_adaptive2(data, p.Eps, p)
+            tree = Grid_adaptiveM(data, p.Eps, p)
             tree.buildIndex()
             for k in range(len(MAR_list)):
                 Params.MAR = MAR_list[k]
@@ -343,14 +375,14 @@ def evalGeocast_GRA_PAR(data, all_tasks):
             Params.CUSTOMIZED_GRANULARITY = False
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree_GDY = Grid_adaptive2(data, p.Eps, p)
+            tree_GDY = Grid_adaptiveM(data, p.Eps, p)
             tree_GDY.buildIndex()
 
             # GRA tree
             Params.CUSTOMIZED_GRANULARITY = True
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree_GRA = Grid_adaptive2(data, p.Eps, p)
+            tree_GRA = Grid_adaptiveM(data, p.Eps, p)
             tree_GRA.buildIndex()
 
             totalANW_GDY, totalANW_GRA, totalANW_PAR, totalANW_GRA_PAR = 0, 0, 0, 0
@@ -546,7 +578,7 @@ def evalGeocast_GRA_PAR(data, all_tasks):
     np.savetxt(Params.resdir + exp_name + '_cov_' + `Params.TASK_NO`, res_summary_cov, fmt='%.4f\t')
 
 
-def evalGeocast_Baseline(data, all_tasks):
+def evalGeocast_Baseline(data, all_tasks, p):
     """
     Evaluate geocast algorithm in privacy mode and in non-privacy mode
     """
@@ -570,37 +602,27 @@ def evalGeocast_Baseline(data, all_tasks):
             Params.CUSTOMIZED_GRANULARITY = True
             Params.PARTIAL_CELL_SELECTION = True
             Params.COST_FUNCTION = "hybrid"
-            p = Params(seed_list[j])
+            p.Seed = seed_list[j]
             p.Eps = eps_list[i]
-            tree = Grid_adaptive2(data, p.Eps, p)
+            tree = Grid_adaptiveM(data, p.Eps, p)
             tree.buildIndex()
             if Params.CONSTRAINT_INFERENCE:
                 tree.adjustConsistency()
 
-            totalANW_Naive, totalANW_Geocast, totalANW_Knn = 0, 0, 0
-            totalATD_Naive, totalATD_Naive_FCFS, totalATD_Geocast, totalATD_FCFS_Geocast, totalATD_Knn, totalATD_Knn_FCFS = 0, 0, 0, 0, 0, 0
+            totalANW_Geocast = 0
+            totalATD_Geocast, totalATD_FCFS_Geocast = 0, 0
             totalCell_Geocast = 0
             totalCompactness_Geocast = 0
-            totalPerformedTasks_Naive, totalPerformedTasks_Geocast, totalPerformedTasks_Knn = 0, 0, 0
-            totalHop_Geocast, totalHop_Knn = 0, 0
-            totalHop2_Geocast, totalHop2_Knn = 0, 0
-            totalCov_Geocast, totalCov_Knn = 0, 0
+            totalPerformedTasks_Geocast = 0
+            totalHop_Geocast = 0
+            totalHop2_Geocast = 0
+            totalCov_Geocast = 0
 
             tasks = all_tasks[j]
             for l in range(len(tasks)):
                 if (l + 1) % Params.LOGGING_STEPS == 0:
                     print ">> " + str(l + 1) + " tasks completed"
                 t = tasks[l]
-
-                # Naive approach
-                # workers_naive, performed, dist_naive = geocast_naive(tree, data, t, False, Params.U)
-                # if performed:
-                # totalPerformedTasks_Naive +=1
-                # totalANW_Naive += no_workers_naive
-                # totalATD_Naive += dist_naive
-                # workers_naive, performed, dist_naive_FCFS = geocast_naive(tree, data, t, True, Params.U)
-                # if performed:
-                # totalATD_Naive_FCFS += dist_naive_FCFS
 
                 # Geocast
                 q, q_log = geocast(tree, t, p.Eps)
@@ -619,24 +641,6 @@ def evalGeocast_Baseline(data, all_tasks):
                 if performed:
                     totalATD_FCFS_Geocast += dist_fcfs
 
-                # Baseline (no privacy)
-                no_workers_knn, performed, dist_knn, dist_knn_FCFS, no_hops, coverage, no_hops2 = geocast_knn(data, t)
-                if performed:
-                    totalPerformedTasks_Knn += 1
-                    totalANW_Knn += no_workers_knn
-                    totalATD_Knn += dist_knn
-                    totalATD_Knn_FCFS += dist_knn_FCFS
-                    totalHop_Knn += no_hops
-                    totalHop2_Knn += no_hops2
-                    totalCov_Knn += coverage
-
-
-                    # Naive
-                    # ANW_naive = (totalANW_Naive + 0.0)/totalPerformedTasks_Naive
-                    # ATD_naive = totalATD_Naive/totalPerformedTasks_Naive
-                    # ATD_naive_FCFS = totalATD_Naive_FCFS/totalPerformedTasks_Naive
-                    # APPT_naive = 100*float(totalPerformedTasks_Naive)/Params.TASK_NO
-
             # Geocast
             ANW_Geocast = (totalANW_Geocast + 0.0) / totalPerformedTasks_Geocast
             ATD_Geocast = totalATD_Geocast / totalPerformedTasks_Geocast
@@ -648,22 +652,6 @@ def evalGeocast_Baseline(data, all_tasks):
             HOP2_Geocast = float(totalHop2_Geocast) / Params.TASK_NO
             COV_Geocast = 100 * float(totalCov_Geocast) / Params.TASK_NO
 
-            # Baseline
-            ANW_Knn = (totalANW_Knn + 0.0) / totalPerformedTasks_Knn
-            ATD_Knn = totalATD_Knn / totalPerformedTasks_Knn
-            ATD_FCFS_Knn = totalATD_Knn_FCFS / totalPerformedTasks_Knn
-            APPT_Knn = 100 * float(totalPerformedTasks_Knn) / Params.TASK_NO
-            HOP_Knn = float(totalHop_Knn) / Params.TASK_NO
-            HOP2_Knn = float(totalHop2_Knn) / Params.TASK_NO
-            COV_Knn = 100 * float(totalCov_Knn) / Params.TASK_NO
-
-            # res_cube_anw[i,j,0] = ANW_naive
-            # res_cube_atd[i,j,0] = ATD_naive
-            # res_cube_atd_fcfs[i,j,0] = ATD_naive_FCFS
-            # res_cube_appt[i,j,0] = APPT_naive
-            # res_cube_cell[i,j,0] = 0
-            # res_cube_cmp[i,j,0] = 0
-
             res_cube_anw[i, j, 0] = ANW_Geocast
             res_cube_atd[i, j, 0] = ATD_Geocast
             res_cube_atd_fcfs[i, j, 0] = ATD_FCFS_Geocast
@@ -674,34 +662,68 @@ def evalGeocast_Baseline(data, all_tasks):
             res_cube_hop2[i, j, 0] = HOP2_Geocast
             res_cube_cov[i, j, 0] = COV_Geocast
 
-            res_cube_anw[i, j, 1] = ANW_Knn
-            res_cube_atd[i, j, 1] = ATD_Knn
-            res_cube_atd_fcfs[i, j, 1] = ATD_FCFS_Knn
-            res_cube_appt[i, j, 1] = APPT_Knn
-            res_cube_cell[i, j, 1] = 0
-            res_cube_cmp[i, j, 1] = 0
-            res_cube_hop[i, j, 1] = HOP_Knn
-            res_cube_hop2[i, j, 1] = HOP2_Knn
-            res_cube_cov[i, j, 1] = COV_Knn
+    # do not need to varying eps for non-privacy technique!
+    for j in range(len(seed_list)):
+        totalANW_Knn = 0
+        totalATD_Knn, totalATD_Knn_FCFS = 0, 0
+        totalPerformedTasks_Knn = 0
+        totalHop_Knn = 0
+        totalHop2_Knn = 0
+        totalCov_Knn = 0
 
+        tasks = all_tasks[j]
+        for l in range(len(tasks)):
+            t = tasks[l]
+
+            # Baseline (no privacy)
+            no_workers_knn, performed, dist_knn, dist_knn_FCFS, no_hops, coverage, no_hops2 = geocast_knn(data, t)
+            if performed:
+                totalPerformedTasks_Knn += 1
+                totalANW_Knn += no_workers_knn
+                totalATD_Knn += dist_knn
+                totalATD_Knn_FCFS += dist_knn_FCFS
+                totalHop_Knn += no_hops
+                totalHop2_Knn += no_hops2
+                totalCov_Knn += coverage
+
+        # Baseline
+        ANW_Knn = (totalANW_Knn + 0.0) / totalPerformedTasks_Knn
+        ATD_Knn = totalATD_Knn / totalPerformedTasks_Knn
+        ATD_FCFS_Knn = totalATD_Knn_FCFS / totalPerformedTasks_Knn
+        APPT_Knn = 100 * float(totalPerformedTasks_Knn) / Params.TASK_NO
+        HOP_Knn = float(totalHop_Knn) / Params.TASK_NO
+        HOP2_Knn = float(totalHop2_Knn) / Params.TASK_NO
+        COV_Knn = 100 * float(totalCov_Knn) / Params.TASK_NO
+
+        res_cube_anw[:, j, 1] = ANW_Knn
+        res_cube_atd[:, j, 1] = ATD_Knn
+        res_cube_atd_fcfs[:, j, 1] = ATD_FCFS_Knn
+        res_cube_appt[:, j, 1] = APPT_Knn
+        res_cube_cell[:, j, 1] = 0
+        res_cube_cmp[:, j, 1] = 0
+        res_cube_hop[:, j, 1] = HOP_Knn
+        res_cube_hop2[:, j, 1] = HOP2_Knn
+        res_cube_cov[:, j, 1] = COV_Knn
+
+    # average all values of KNN method when varying eps
     res_summary_anw = np.average(res_cube_anw, axis=1)
-    np.savetxt(Params.resdir + exp_name + '_anw_' + `Params.TASK_NO`, res_summary_anw, fmt='%.4f\t')
+    np.savetxt(p.resdir + exp_name + '_anw_' + `Params.TASK_NO`, res_summary_anw, fmt='%.4f\t')
     res_summary_atd = np.average(res_cube_atd, axis=1)
-    np.savetxt(Params.resdir + exp_name + '_atd_' + `Params.TASK_NO`, res_summary_atd, fmt='%.4f\t')
+    np.savetxt(p.resdir + exp_name + '_atd_' + `Params.TASK_NO`, res_summary_atd, fmt='%.4f\t')
     res_summary_atd = np.average(res_cube_atd_fcfs, axis=1)
-    np.savetxt(Params.resdir + exp_name + '_atd_fcfs_' + `Params.TASK_NO`, res_summary_atd, fmt='%.4f\t')
+    np.savetxt(p.resdir + exp_name + '_atd_fcfs_' + `Params.TASK_NO`, res_summary_atd, fmt='%.4f\t')
     res_summary_appt = np.average(res_cube_appt, axis=1)
-    np.savetxt(Params.resdir + exp_name + '_appt_' + `Params.TASK_NO`, res_summary_appt, fmt='%.4f\t')
+    np.savetxt(p.resdir + exp_name + '_appt_' + `Params.TASK_NO`, res_summary_appt, fmt='%.4f\t')
     res_summary_cell = np.average(res_cube_cell, axis=1)
-    np.savetxt(Params.resdir + exp_name + '_cell_' + `Params.TASK_NO`, res_summary_cell, fmt='%.4f\t')
+    np.savetxt(p.resdir + exp_name + '_cell_' + `Params.TASK_NO`, res_summary_cell, fmt='%.4f\t')
     res_summary_cmp = np.average(res_cube_cmp, axis=1)
-    np.savetxt(Params.resdir + exp_name + '_cmp_' + `Params.TASK_NO`, res_summary_cmp, fmt='%.4f\t')
+    np.savetxt(p.resdir + exp_name + '_cmp_' + `Params.TASK_NO`, res_summary_cmp, fmt='%.4f\t')
     res_summary_hop = np.average(res_cube_hop, axis=1)
-    np.savetxt(Params.resdir + exp_name + '_hop_' + `Params.TASK_NO`, res_summary_hop, fmt='%.4f\t')
+    np.savetxt(p.resdir + exp_name + '_hop_' + `Params.TASK_NO`, res_summary_hop, fmt='%.4f\t')
     res_summary_hop2 = np.average(res_cube_hop2, axis=1)
-    np.savetxt(Params.resdir + exp_name + '_hop2_' + `Params.TASK_NO`, res_summary_hop2, fmt='%.4f\t')
+    np.savetxt(p.resdir + exp_name + '_hop2_' + `Params.TASK_NO`, res_summary_hop2, fmt='%.4f\t')
     res_summary_cov = np.average(res_cube_cov, axis=1)
-    np.savetxt(Params.resdir + exp_name + '_cov_' + `Params.TASK_NO`, res_summary_cov, fmt='%.4f\t')
+    np.savetxt(p.resdir + exp_name + '_cov_' + `Params.TASK_NO`, res_summary_cov, fmt='%.4f\t')
 
 
 def evalGeocast_Compactness(data, all_tasks):
@@ -730,7 +752,7 @@ def evalGeocast_Compactness(data, all_tasks):
         for i in range(len(eps_list)):
             p = Params(seed_list[j])
             p.Eps = eps_list[i]
-            tree = Grid_adaptive2(data, p.Eps, p)
+            tree = Grid_adaptiveM(data, p.Eps, p)
             tree.buildIndex()
 
             totalANW_Utility, totalANW_Hybrid, totalANW_Compactness = 0, 0, 0
@@ -898,7 +920,7 @@ def _evalGeocast_Parameter_Fitting(data, all_tasks):
         Params.PARTIAL_CELL_SELECTION = True
         p = Params(seed_list[j])
         p.Eps = eps_list[j]
-        tree = Grid_adaptive2(data, p.Eps, p)
+        tree = Grid_adaptiveM(data, p.Eps, p)
         tree.buildIndex()
 
         for i in range(len(alphaList)):
@@ -972,7 +994,7 @@ def evalGeocast_Test(data, all_tasks):
     p.Eps = 1
 
     prev_time = datetime.now()
-    tree = Grid_adaptive2(data, p.Eps, p)
+    tree = Grid_adaptiveM(data, p.Eps, p)
     tree.buildIndex()
     tree.adjustConsistency()
     curr_time = datetime.now()
@@ -990,7 +1012,7 @@ def evalGeocast_Test(data, all_tasks):
 
         # Params.CONSTRAINT_INFERENCE = True
         # prev_time = datetime.now()
-        # tree = Grid_adaptive2(data, p.Eps, p)
+        # tree = Grid_adaptiveM(data, p.Eps, p)
         # tree.buildIndex()
         # curr_time = datetime.now()
         # print curr_time - prev_time
@@ -1015,7 +1037,7 @@ def evalGeocast_Granularity_Check(data, all_tasks):
                 p = Params(seed_list[j])
                 p.Eps = eps_list[i]
                 Params.c2_c = c2List[k]
-                tree = Grid_adaptive2(data, p.Eps, p)
+                tree = Grid_adaptiveM(data, p.Eps, p)
                 tree.buildIndex()
 
                 totalPerformedTasks_Hybrid = 0
@@ -1041,7 +1063,13 @@ def evalGeocast_Granularity_Check(data, all_tasks):
     Params.c2_c = temp_c2_c
 
 
-def read_tasks():
+def read_tasks(p):
+    p.select_dataset()
+    data = np.genfromtxt(p.dataset_task, unpack=True)
+    return data
+
+
+def read_tasks_old():
     p = Params(0)
     p.select_dataset()
     data = np.genfromtxt(Params.dataset_task, unpack=True)
@@ -1051,16 +1079,21 @@ def read_tasks():
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, filename='../log/debug.log')
     logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
-    worker_data = data_readin()
-    task_data = read_tasks()
-    all_tasks = tasks_gen(task_data, Params.TASK_NO, Params.x_min, Params.y_min, Params.x_max, Params.y_max)
+
+    param = Params(1000)
+    all_workers = data_readin(param)
+    param.NDIM, param.NDATA = all_workers.shape[0], all_workers.shape[1]
+    param.LOW, param.HIGH = np.amin(all_workers, axis=1), np.amax(all_workers, axis=1)
+
+    task_data = read_tasks(param)
+    all_tasks = tasks_gen(task_data, param)
 
     # Experiment: geocast query
-    evalGeocast_Test(worker_data, all_tasks)
+    # evalGeocast_Test(worker_data, all_tasks)
 
     # evalGeocast_GRA_PAR(worker_data, all_tasks)
     # evalGeocast_Compactness(worker_data, all_tasks)
-    # evalGeocast_Baseline(worker_data, all_tasks)
+    evalGeocast_Baseline(all_workers, all_tasks, param)
     # evalGeocast_MAR(worker_data, all_tasks)
     # evalGeocast_Utility(worker_data, all_tasks)
     # evalGeocast_Granularity_Check(worker_data, all_tasks)

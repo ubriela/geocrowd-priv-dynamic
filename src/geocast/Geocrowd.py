@@ -244,6 +244,7 @@ def hops_expansion(task, workers, network_diameter):
     @param workers : worker locations
     @param diameter : network diameter (some constant)
     """
+
     hops_count2 = simple_hop_count(mbr(workers))
 
     queue = Set()  # queue
@@ -251,7 +252,6 @@ def hops_expansion(task, workers, network_diameter):
     remained = Set([])
     hops_count = 0
 
-    # create kdtree
     remained = Set([])
     for i in range(len(workers)):
         remained.add((i, workers[i][0], workers[i][1]))
@@ -271,6 +271,16 @@ def hops_expansion(task, workers, network_diameter):
     return hops_count, math.ceil((len(traversed) + 0.0) / len(workers)), hops_count2
 
 
+def simple_hops_expansion(workers, network_diameter):
+    """
+    Find the number of hops (hops count) in infra structureless communication
+    @param workers : worker locations
+    @param diameter : network diameter (some constant)
+    """
+
+    return simple_hop_count(mbr(workers))
+
+
 def generate_worker_task(no_instance):
     """ Generate tasks and workers per time instance"""
     for i in range(no_instance):
@@ -286,6 +296,11 @@ def mbr(coords):
 
 
 def simple_hop_count(mbr):
+    """
+    Compute based on MBR of geocast region
+    :param mbr:
+    :return:
+    """
     return distance(mbr[0][0], mbr[0][1], mbr[1][0], mbr[1][1]) / (2 * Params.NETWORK_DIAMETER)
 
 
@@ -293,7 +308,7 @@ if __name__ == '__main__':
     # generate_worker_task()
     # print task_locs_gen(5,2,0,0,10,10)
     # query = [[0,0],[1,1]]
-    #    print resize(np.array(query), 2, Params.x_min,Params.y_min,Params.x_max,Params.y_max)
+    # print resize(np.array(query), 2, Params.x_min,Params.y_min,Params.x_max,Params.y_max)
 
     workers = np.array(
         [[0, 0],

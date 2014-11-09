@@ -8,6 +8,7 @@ import random
 
 
 
+
 # noinspection PyDeprecation
 from sets import Set
 
@@ -79,13 +80,18 @@ def _step_function(max_distance):
 def acc_rate(max_distance, dist):
     if Params.AR_FUNCTION == "zipf":
         k = max(1, int(dist * Params.ZIPF_STEPS / max_distance))  # rank
-        return _zipf_pmf(k, Params.s, Params.ZIPF_STEPS) * Params.MAR
+        return _zipf_pmf(k, Params.s, Params.ZIPF_STEPS) * Params.MAR / _zipf_pmf(1, Params.s, Params.ZIPF_STEPS)
+
+        # s = np.random.zipf(Params.s, 20)
+        # y = k**(-Params.s)/sps.zetac(Params.s)
+        # return y
+
     elif Params.AR_FUNCTION == "step":
         x, y = _step_function(max_distance)
         pos = np.searchsorted(x, dist)
         return max(0, y[pos])
     elif Params.AR_FUNCTION == "linear":
-        return max(0, (1 - dist / max_distance) * Params.MAR)
+        return max(0, (1 - (dist + 0.0) / max_distance) * Params.MAR)
     elif Params.AR_FUNCTION == "const":
         return Params.MAR
 
@@ -108,20 +114,32 @@ def is_performed(ar):
 
 
 # This function may be slow
-def performed_tasks(workers, max_dist, t, FCFS):
+def performed_tasks(workers, max_dist, t, FCFS, proportionate_selection=True):
     """
-    find the performed task, given the workers being geocasted and their acceptance rates
+    find the performed task, given the workers being geocast and their acceptance rates
     
     @param locs : a list of worker locations
-    @param max_dist : MTD, accepatance rate is zero at MTD
+    @param max_dist : MTD, acceptance rate is zero at MTD
     @param t : task location    
     @param FCFS : first-come-first-serve mode
     """
     if workers is None:  # double check
         return False, None, None
     workers_copy = workers.transpose()
-    if FCFS:
+    if proportionate_selection:
+        # proportionate selection
+
         ar_weights = [_acc_rate(max_dist, distance(t[0], t[1], w[0], w[1])) for w in workers_copy]
+        for w in ar_weights:
+            if is_performed(w):
+                sum_weights = np.cumsum(ar_weights)
+                rand = random.uniform(0, ar_weights[len(ar_weights) - 1])
+                idx = np.searchsorted(sum_weights, rand)
+                worker = workers_copy[idx]
+                return True, worker, distance(t[0], t[1], worker[0], worker[1])
+    elif FCFS:
+        ar_weights = [_acc_rate(max_dist, distance(t[0], t[1], w[0], w[1])) for w in workers_copy]
+
         while len(workers_copy) > 0:
             idx = min(list(it.islice(_wrg(ar_weights), 1))[0], len(ar_weights) - 1)
             ar = ar_weights[idx]
@@ -343,5 +361,5 @@ if __name__ == "__main__":
 # print isIntersect(rec, query)
 
 
-#lat1, lon1, lat2, lon2 = 39.436140 - Params.ONE_KM, -77.094491 - Params.ONE_KM, 39.436140 + Params.ONE_KM, -77.094491 + Params.ONE_KM
+# lat1, lon1, lat2, lon2 = 39.436140 - Params.ONE_KM, -77.094491 - Params.ONE_KM, 39.436140 + Params.ONE_KM, -77.094491 + Params.ONE_KM
 #print distance(lat2, lon2, lat1, lon1)

@@ -16,7 +16,7 @@ class HTree_TestCase(unittest.TestCase):
     # self.foo = None
 
     def test_hTree_(self):
-        #assert x != y;
+        # assert x != y;
         ht_pure = HT_pure()
         height = 2
         array = [1, 2, 3, 4, 5, 6, 7]

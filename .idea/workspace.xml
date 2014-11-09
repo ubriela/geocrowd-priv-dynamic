@@ -1,28 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7eb8d4fe-94a9-49db-9237-da32cd450971" name="Default" comment="first version of simple dynamic algorithm">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes_Pyreverse.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/packages_Pyreverse.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/icde12/Differential.py" afterPath="$PROJECT_DIR$/src/icde12/Differential.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocast/Geocast.py" afterPath="$PROJECT_DIR$/src/geocast/Geocast.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocast/Geocast2.py" afterPath="$PROJECT_DIR$/src/geocast/Geocast2.py" />
+    <list default="true" id="7eb8d4fe-94a9-49db-9237-da32cd450971" name="Default" comment="clean code">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/common/GenericT.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/geocast/GeocastT.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plot/GridPlot.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/dynamic/Grid_adaptiveT.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/dynamic/KalmanFilterTest.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/dynamic/MultipleDAG_KF.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/common/NodeT.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plot/path_patch_demo.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/brightkite.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/brightkite.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/buses.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/buses.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/charminar.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_CA.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_SF_workers.fig" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_SF_workers.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_sa.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_sa.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_sf.fig" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_sf.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/landmark.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcd.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcd.fig" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcd.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcd.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcdonald.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcdonald2.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/na.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/na.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/ne.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/ne.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/parkrec.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/restrnts.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/shopping.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/shopping.fig" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/shopping.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/tiger_NMWA.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/truck.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/truck.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/uniform.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/us_zipcode.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/yelp.fig" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/yelp.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/yelp_workers.fig" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/yelp_workers.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/exp/debug.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/geocrowd/test/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/Grid_adaptive.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/Grid_uniform.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/HT_standard.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/Kd_hybrid.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/Quad_geo.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/debug.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/gowalla_la_tasks.dat" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/gowalla_sf_tasks.dat" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/noisy_count.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/noisy_count_kf.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/true_count.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/yelp_tasks.dat" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/common/Generic2.py" afterPath="$PROJECT_DIR$/src/common/GenericM.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/common/Node2.py" afterPath="$PROJECT_DIR$/src/common/NodeM.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/geocast/Geocast2.py" afterPath="$PROJECT_DIR$/src/geocast/GeocastM.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/geocrowd/test/HTree_test.py" afterPath="$PROJECT_DIR$/src/test/HTree_test.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/grid/Grid_adaptive2.py" afterPath="$PROJECT_DIR$/src/grid/Grid_adaptiveM.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/htree/Params.py" afterPath="$PROJECT_DIR$/src/htree/_Params.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/icde12/Params.py" afterPath="$PROJECT_DIR$/src/icde12/_Params.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic/DynamicAG.py" afterPath="$PROJECT_DIR$/src/dynamic/DynamicAG.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/exp/DynamicExp.py" afterPath="$PROJECT_DIR$/src/exp/DynamicExp.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/common/GKExp.py" afterPath="$PROJECT_DIR$/src/common/GKExp.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/exp/GeocastExp.py" afterPath="$PROJECT_DIR$/src/exp/GeocastExp.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocast/GeocastNaive.py" afterPath="$PROJECT_DIR$/src/geocast/GeocastNaive.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocast/GeocastKNN.py" afterPath="$PROJECT_DIR$/src/geocast/GeocastKNN.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocast/Geocrowd.py" afterPath="$PROJECT_DIR$/src/geocast/Geocrowd.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/htree/HT_pure.py" afterPath="$PROJECT_DIR$/src/htree/HT_pure.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/htree/HT_standard.py" afterPath="$PROJECT_DIR$/src/htree/HT_standard.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocrowd/test/HTree_test.py" afterPath="$PROJECT_DIR$/src/geocrowd/test/HTree_test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/icde12/KExp.py" afterPath="$PROJECT_DIR$/src/icde12/KExp.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/grid/Grid_adaptive.py" afterPath="$PROJECT_DIR$/src/grid/Grid_adaptive.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic/KalmanFilterPID.py" afterPath="$PROJECT_DIR$/src/dynamic/KalmanFilterPID.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/icde12/MainExp.py" afterPath="$PROJECT_DIR$/src/icde12/MainExp.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic/MultipleDAG.py" afterPath="$PROJECT_DIR$/src/dynamic/MultipleDAG.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/exp/PSDExp.py" afterPath="$PROJECT_DIR$/src/exp/PSDExp.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/icde12/Params.py" afterPath="$PROJECT_DIR$/src/icde12/Params.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/common/SeedGenerator.py" afterPath="$PROJECT_DIR$/src/common/SeedGenerator.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocast/Params.py" afterPath="$PROJECT_DIR$/src/geocast/Params.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/common/Utils.py" afterPath="$PROJECT_DIR$/src/common/Utils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic/output.txt" afterPath="$PROJECT_DIR$/src/dynamic/output.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/private/private.xml" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/project.properties" afterPath="$PROJECT_DIR$/nbproject/project.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tornado/server.py" afterPath="$PROJECT_DIR$/src/tornado/server.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/minball/smallestenclosingcircle.py" afterPath="$PROJECT_DIR$/src/minball/smallestenclosingcircle.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/setup.py" afterPath="$PROJECT_DIR$/src/setup.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic/test.txt" afterPath="$PROJECT_DIR$/src/dynamic/test.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dataset/yelp_task.dat" afterPath="$PROJECT_DIR$/dataset/yelp_task.dat" />
     </list>
     <ignored path="PrivateGeoCrowd.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,43 +110,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="server.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tornado/server.py">
+      <file leaf-file-name="GridPlot.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/plot/GridPlot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1269" max-vertical-offset="9150">
-              <caret line="96" column="36" selection-start-line="96" selection-start-column="36" selection-end-line="96" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.10989011" vertical-offset="1240" max-vertical-offset="1695">
+              <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
               <folding>
-                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#43#54#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tornado/__init__.py">
+      <file leaf-file-name="path_patch_demo.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/plot/path_patch_demo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="setup.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/setup.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5945122" vertical-offset="0" max-vertical-offset="656">
-              <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="117" max-vertical-offset="585">
+              <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -100,64 +145,81 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/icde12/Kd_noisymean.py" />
-        <option value="$PROJECT_DIR$/src/icde12/Kd_pure.py" />
-        <option value="$PROJECT_DIR$/src/geocast/Geocast.py" />
-        <option value="$PROJECT_DIR$/src/grid/Grid_adaptive.py" />
-        <option value="$PROJECT_DIR$/src/common/Node.py" />
-        <option value="$PROJECT_DIR$/src/common/GNode" />
-        <option value="$PROJECT_DIR$/src/common/Node2.py" />
-        <option value="$PROJECT_DIR$/src/common/Generic.py" />
-        <option value="$PROJECT_DIR$/src/common/GKExp.py" />
-        <option value="$PROJECT_DIR$/src/tornado/server.py" />
-        <option value="$PROJECT_DIR$/output/yelp/Geocast_Baseline_appt_10" />
-        <option value="$PROJECT_DIR$/output/yelp/Geocast_Baseline_atd_fcfs_10" />
-        <option value="$PROJECT_DIR$/output/yelp/Geocast_Baseline_anw_10" />
-        <option value="$PROJECT_DIR$/output/yelp_zipf/Geocast_Baseline_atd_10" />
-        <option value="$PROJECT_DIR$/output/yelp_zipf/Geocast_Baseline_anw_10" />
-        <option value="$PROJECT_DIR$/output/yelp_zipf/Geocast_Baseline_atd_fcfs_10" />
-        <option value="$PROJECT_DIR$/src/dynamic/darwin.txt" />
+        <option value="$PROJECT_DIR$/dataset/yelp_task.dat" />
+        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/10/t2_yelp_workers0006.txt" />
+        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/10/t2_yelp_workers0007.txt" />
+        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/100/t2_yelp_workers0041.txt" />
+        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/100/t2_yelp_workers0042.txt" />
+        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/100/t2_yelp_workers0043.txt" />
+        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/100/t2_yelp_workers0044.txt" />
+        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/100/t2_yelp_workers0077.txt" />
         <option value="$PROJECT_DIR$/src/dynamic/output.txt" />
-        <option value="$PROJECT_DIR$/src/dynamic/brazil_econ.txt" />
-        <option value="$PROJECT_DIR$/src/dynamic/Parser.py" />
-        <option value="$PROJECT_DIR$/src/grid/DynamicAdaptiveGrid.py" />
-        <option value="$PROJECT_DIR$/src/dynamic/DynamicAdaptiveGrid.py" />
-        <option value="$PROJECT_DIR$/src/dynamic/MultiAdaptiveGrid.py" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/t2_yelp_workers1000.txt" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/t2_yelp_workers1001.txt" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/tmp/t2_yelp_workers1002.txt" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/tmp/t2_yelp_workers1003.txt" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/tmp/t2_yelp_workers1004.txt" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/tmp/t2_yelp_workers1005.txt" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/tmp/t2_yelp_workers1006.txt" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/tmp/t2_yelp_workers1007.txt" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/tmp/t2_yelp_workers1008.txt" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/tmp/t2_yelp_workers1009.txt" />
-        <option value="$PROJECT_DIR$/src/exp/GeocastExp.py" />
-        <option value="$PROJECT_DIR$/src/grid/Grid_adaptive2.py" />
-        <option value="$PROJECT_DIR$/src/exp/Log.py" />
-        <option value="$PROJECT_DIR$/dataset/dynamic/yelp/t2_yelp_workers0000.txt" />
-        <option value="$PROJECT_DIR$/src/log/seq_counts.log" />
-        <option value="$PROJECT_DIR$/src/log/debug.log" />
-        <option value="$PROJECT_DIR$/src/geocast/Params.py" />
+        <option value="$PROJECT_DIR$/src/dynamic/output100.txt" />
+        <option value="$PROJECT_DIR$/src/dynamic/output10.txt" />
+        <option value="$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_anw_100" />
+        <option value="$PROJECT_DIR$/src/dynamic/MultipleDAG_KFPID.py" />
+        <option value="$PROJECT_DIR$/dataset/foursquare_tasks.dat" />
+        <option value="$PROJECT_DIR$/src/common/Node3.py" />
+        <option value="$PROJECT_DIR$/src/common/Node2.py" />
         <option value="$PROJECT_DIR$/src/common/Generic2.py" />
+        <option value="$PROJECT_DIR$/src/grid/Grid_adaptive2.py" />
+        <option value="$PROJECT_DIR$/src/log/debug.log" />
+        <option value="$PROJECT_DIR$/src/common/GKExp.py" />
+        <option value="$PROJECT_DIR$/src/common/NodeT.py" />
+        <option value="$PROJECT_DIR$/src/common/GenericT.py" />
+        <option value="$PROJECT_DIR$/src/grid/Grid_adaptiveT.py" />
+        <option value="$PROJECT_DIR$/src/tornado/server.py" />
         <option value="$PROJECT_DIR$/src/dynamic/DynamicAG.py" />
-        <option value="$PROJECT_DIR$/src/geocast/Geocast2.py" />
+        <option value="$PROJECT_DIR$/src/geocast/GeocastKNN.py" />
+        <option value="$PROJECT_DIR$/output/foursquare/Dynamic_Baseline_anw_0.01_100" />
+        <option value="$PROJECT_DIR$/output/foursquare/Dynamic_Baseline_anw_0.1_100" />
+        <option value="$PROJECT_DIR$/output/foursquare_zipf/Dynamic_Baseline_anw_10" />
+        <option value="$PROJECT_DIR$/output/foursquare_zipf/Dynamic_Baseline_appt_10" />
+        <option value="$PROJECT_DIR$/src/geocast/Geocrowd.py" />
+        <option value="$PROJECT_DIR$/src/geocast/GeocastM.py" />
+        <option value="$PROJECT_DIR$/src/geocast/GeocastT.py" />
+        <option value="$PROJECT_DIR$/src/dynamic/Grid_adaptiveT.py" />
+        <option value="$PROJECT_DIR$/src/dynamic/MultipleDAG_KF.py" />
+        <option value="$PROJECT_DIR$/output/foursquare_zipf/Dynamic_Baseline_First_hop_100" />
+        <option value="$PROJECT_DIR$/src/common/Utils.py" />
         <option value="$PROJECT_DIR$/src/dynamic/test.txt" />
-        <option value="$PROJECT_DIR$/src/exp/DynamicExp.py" />
-        <option value="$PROJECT_DIR$/src/dynamic/MultipleDAG.py" />
-        <option value="$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_atd_fcfs_50" />
-        <option value="$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_cell_50" />
-        <option value="$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_cov_50" />
-        <option value="$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_hop_50" />
+        <option value="$PROJECT_DIR$/src/dynamic/Parser.py" />
+        <option value="$PROJECT_DIR$/src/test/test.py" />
+        <option value="$PROJECT_DIR$/src/dynamic/KalmanFilterTest.py" />
         <option value="$PROJECT_DIR$/src/dynamic/KalmanFilterPID.py" />
+        <option value="$PROJECT_DIR$/src/grid/Grid_adaptiveM.py" />
+        <option value="$PROJECT_DIR$/src/dynamic/MultipleDAG.py" />
+        <option value="$PROJECT_DIR$/src/exp/GeocastExp.py" />
+        <option value="$PROJECT_DIR$/src/exp/DynamicExp.py" />
+        <option value="$PROJECT_DIR$/src/plot/GeocastExp.py" />
+        <option value="$PROJECT_DIR$/src/common/GenericM.py" />
+        <option value="$PROJECT_DIR$/src/geocast/Params.py" />
+        <option value="$PROJECT_DIR$/src/plot/path_patch_demo.py" />
+        <option value="$PROJECT_DIR$/src/plot/GridPlot.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="7" />
     <option name="y" value="22" />
-    <option name="width" value="1277" />
+    <option name="width" value="1212" />
     <option name="height" value="774" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Buildout</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -204,42 +266,133 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PrivateGeoCrowd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="privategeocrowddynamic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PrivateGeoCrowd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="privategeocrowddynamic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PrivateGeoCrowd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="privategeocrowddynamic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="geocast" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PrivateGeoCrowd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="privategeocrowddynamic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="exp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PrivateGeoCrowd" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="privategeocrowddynamic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="options.lastSelected" value="com.jetbrains.python.buildout.BuildoutModulesConfigurable" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="LayoutCode.rearrangeEntriesPython" value="false" />
     <property name="LayoutCode.rearrangeEntries" value="true" />
     <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/plot/GridPlot.py" />
+    <property name="restartRequiresConfirmation" value="true" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
-      <console-settings />
+      <console-settings module-name="PrivateGeoCrowd" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="PrivateGeoCrowd" />
+      </console-settings>
     </option>
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/dataset/dynamic/yelp" />
-      <recent name="$PROJECT_DIR$/src/dynamic" />
+      <recent name="$PROJECT_DIR$/src/plot" />
+      <recent name="$PROJECT_DIR$/dataset/dynamic/foursquare/2" />
+      <recent name="$PROJECT_DIR$/dataset/dynamic/foursquare/10" />
+      <recent name="$PROJECT_DIR$/dataset/dynamic/foursquare/100" />
       <recent name="$PROJECT_DIR$/src/geocast" />
-      <recent name="$PROJECT_DIR$/src/grid" />
-      <recent name="$PROJECT_DIR$/src/common" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/tornado" />
-      <recent name="$PROJECT_DIR$/output" />
-      <recent name="$PROJECT_DIR$/dataset/dynamic/yelp" />
-      <recent name="$PROJECT_DIR$/dataset/dynamic/yelp/tmp" />
+      <recent name="$PROJECT_DIR$/src/log/foursquare" />
+      <recent name="$PROJECT_DIR$/dataset/dynamic/foursquare/2" />
+      <recent name="$PROJECT_DIR$/src/log/tmp" />
       <recent name="$PROJECT_DIR$/src/dynamic" />
+      <recent name="$PROJECT_DIR$/dataset/dynamic/yelp/tmp" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.DynamicExp">
+  <component name="RunManager" selected="Python.PlotTest">
     <configuration default="false" name="GeocastExp" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -255,26 +408,6 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/exp/GeocastExp.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="DynamicExp" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/exp" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PrivateGeoCrowd" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/exp/DynamicExp.py" />
-      <option name="PARAMETERS" value="" />
-      <RunnerSettings RunnerId="PyDebugRunner" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
@@ -399,14 +532,109 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="Python.GeocastExp" />
-      <item index="1" class="java.lang.String" itemvalue="Python.DynamicExp" />
+    <configuration default="false" name="DynamicExp" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/exp" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PrivateGeoCrowd" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/exp/DynamicExp.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Test" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/test" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PrivateGeoCrowd" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/test/test.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="TestKalmanFilter" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/dynamic" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PrivateGeoCrowd" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/dynamic/KalmanFilterTest.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="PlotTest" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/plot" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PrivateGeoCrowd" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/plot/path_patch_demo.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GridPlot" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/plot" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PrivateGeoCrowd" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/plot/GridPlot.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <list size="6">
+      <item index="0" class="java.lang.String" itemvalue="Python.DynamicExp" />
+      <item index="1" class="java.lang.String" itemvalue="Python.Test" />
+      <item index="2" class="java.lang.String" itemvalue="Python.TestKalmanFilter" />
+      <item index="3" class="java.lang.String" itemvalue="Python.PlotTest" />
+      <item index="4" class="java.lang.String" itemvalue="Python.GridPlot" />
+      <item index="5" class="java.lang.String" itemvalue="Python.GeocastExp" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Python.DynamicExp" />
-        <item index="1" class="java.lang.String" itemvalue="Python.GeocastExp" />
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Python.GeocastExp" />
       </list>
     </recent_temporary>
   </component>
@@ -424,7 +652,11 @@
       <created>1413491439017</created>
       <updated>1413491439017</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="clean code">
+      <created>1413625241542</created>
+      <updated>1413625241542</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -448,28 +680,48 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1277" height="774" extended-state="6" />
+    <frame x="7" y="22" width="1212" height="774" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23976608" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23900293" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30267063" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16356276" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22024292" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39910978" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25292397" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3003049" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1965812" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22222222" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398827" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.384273" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2431611" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24390244" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32886904" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32844576" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2521994" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23900293" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30058652" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398827" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2431611" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32844576" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18859649" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28333333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2431611" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2521994" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -488,413 +740,240 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="first version of simple dynamic algorithm" />
-    <option name="LAST_COMMIT_MESSAGE" value="first version of simple dynamic algorithm" />
+    <MESSAGE value="clean code" />
+    <option name="LAST_COMMIT_MESSAGE" value="clean code" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/src/exp/DynamicExp.py</url>
-          <line>117</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="11" />
+      <option name="time" value="12" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dataset/dynamic/yelp/t2_yelp_workers0000.txt">
+    <entry file="file://$PROJECT_DIR$/src/exp/GeocastExp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1061250">
-          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/geocast/Geocast.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="7342" max-vertical-offset="7815">
-          <caret line="428" column="10" selection-start-line="428" selection-start-column="10" selection-end-line="428" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/geocast/GeocastLog.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="481">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/log/debug.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="29115">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/geocast/GeocastNaive.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16042781" vertical-offset="0" max-vertical-offset="1305">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="585" max-vertical-offset="16650">
+          <caret line="71" column="36" selection-start-line="71" selection-start-column="36" selection-end-line="71" selection-end-column="36" />
           <folding>
-            <element signature="e#90#100#0" expanded="false" />
+            <element signature="e#43#54#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/numpy/lib/npyio.py">
+    <entry file="file://$PROJECT_DIR$/src/log/yelp_tasks.dat">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33241758" vertical-offset="16184" max-vertical-offset="27075">
-          <caret line="1106" column="4" selection-start-line="1106" selection-start-column="4" selection-end-line="1106" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="14620" max-vertical-offset="15090">
+          <caret line="1000" column="0" selection-start-line="1000" selection-start-column="0" selection-end-line="1000" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/exp/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="445">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/dynamic/foursquare/10/workers_000.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="677145">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/dynamic/foursquare/2/workers_000.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.505618" vertical-offset="0" max-vertical-offset="677145">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/geocast/GeocastM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="8175">
+          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/dynamic/yelp/100/t2_yelp_workers0000.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8076923" vertical-offset="1060782" max-vertical-offset="1061250">
+          <caret line="70744" column="23" selection-start-line="70744" selection-start-column="23" selection-end-line="70744" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/dynamic/foursquare/100/workers_000.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="676723" max-vertical-offset="677145">
+          <caret line="45137" column="30" selection-start-line="45137" selection-start-column="30" selection-end-line="45137" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/dynamic/foursquare/100/workers_001.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8076923" vertical-offset="676677" max-vertical-offset="677145">
+          <caret line="45137" column="30" selection-start-line="45137" selection-start-column="30" selection-end-line="45137" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/dynamic/yelp/100/t2_yelp_workers0099.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.5319147" vertical-offset="3540" max-vertical-offset="1061235">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dynamic/MultipleDAG.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.59080964" vertical-offset="45" max-vertical-offset="1170">
+          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/log/yelp_tasks.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.85714287" vertical-offset="14460" max-vertical-offset="15090">
+          <caret line="1000" column="0" selection-start-line="1000" selection-start-column="0" selection-end-line="1000" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/yelp/Dynamic_Baseline_appt_100">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+          <caret line="10" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/yelp/Dynamic_Baseline_atd_fcfs_100">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+          <caret line="10" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/yelp/Dynamic_Baseline_cell_100">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="447">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/yelp/Dynamic_Baseline_hop_100">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="447">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/yelp/Dynamic_Baseline_anw_100">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.31914893" vertical-offset="0" max-vertical-offset="470">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/matplotlib/path.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="804" max-vertical-offset="10440">
+          <caret line="75" column="4" selection-start-line="75" selection-start-column="4" selection-end-line="75" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/GenericM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2747253" vertical-offset="2515" max-vertical-offset="3330">
+          <caret line="176" column="0" selection-start-line="176" selection-start-column="0" selection-end-line="195" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#14#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/exp/PSDExp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13101605" vertical-offset="371" max-vertical-offset="7560">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="276" max-vertical-offset="7545">
           <caret line="33" column="4" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/geocast/Geocrowd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41880342" vertical-offset="1458" max-vertical-offset="4860">
-          <caret line="108" column="4" selection-start-line="108" selection-start-column="4" selection-end-line="108" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_atd_fcfs_100">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="341">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_cell_100">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="341">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_cmp_100">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="318">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_cov_100">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="341">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_hop2_100">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="341">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_hop_100">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="295">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_appt_100">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="364">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_anw_100">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="364">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/geocast/GeocastKNN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.040106952" vertical-offset="150" max-vertical-offset="705">
-          <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/geocast/Params.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6016043" vertical-offset="735" max-vertical-offset="3720">
-          <caret line="64" column="15" selection-start-line="64" selection-start-column="15" selection-end-line="64" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/common/Node2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6124031" vertical-offset="78" max-vertical-offset="465">
-          <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic/test.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="135">
-          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic/DynamicAG.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="1695">
-          <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic/output.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1068" max-vertical-offset="1455">
-          <caret line="13" column="3" selection-start-line="0" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic/brazil_econ.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.372093" vertical-offset="0" max-vertical-offset="1440">
-          <caret line="87" column="5" selection-start-line="87" selection-start-column="5" selection-end-line="87" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/common/Utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5190">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/common/Generic2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1766" max-vertical-offset="2985">
-          <caret line="130" column="18" selection-start-line="130" selection-start-column="8" selection-end-line="130" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/geocast/Geocast2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.923077" vertical-offset="949" max-vertical-offset="7845">
-          <caret line="78" column="25" selection-start-line="78" selection-start-column="19" selection-end-line="78" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/log/noisy_count.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="70136" max-vertical-offset="70500">
-          <caret line="4694" column="0" selection-start-line="4694" selection-start-column="0" selection-end-line="4694" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/log/noisy_count_kf.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="70136" max-vertical-offset="70500">
-          <caret line="4694" column="0" selection-start-line="4694" selection-start-column="0" selection-end-line="4694" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/log/true_count.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="70136" max-vertical-offset="70500">
-          <caret line="4693" column="0" selection-start-line="4693" selection-start-column="0" selection-end-line="4693" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_anw_50">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="364">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="3" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_appt_50">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
-          <caret line="3" column="15" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_atd_50">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
-          <caret line="4" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_atd_100">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_atd_fcfs_50">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
-          <caret line="4" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_cell_50">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
-          <caret line="4" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_cmp_50">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
-          <caret line="4" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_cov_50">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
-          <caret line="4" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_hop_50">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15503876" vertical-offset="0" max-vertical-offset="387">
-          <caret line="4" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/yelp_zipf/Dynamic_Baseline_hop2_50">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
-          <caret line="4" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tornado/fileuploadform.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36945814" vertical-offset="45" max-vertical-offset="330">
-          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic/KalmanFilterPID.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3409" max-vertical-offset="4455">
-          <caret line="226" column="8" selection-start-line="226" selection-start-column="8" selection-end-line="226" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/icde12/dataGen.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1500">
-          <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/exp/DynamicExp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="874" max-vertical-offset="3930">
-          <caret line="70" column="20" selection-start-line="70" selection-start-column="20" selection-end-line="70" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/exp/GeocastExp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="964" max-vertical-offset="16200">
-          <caret line="74" column="16" selection-start-line="74" selection-start-column="16" selection-end-line="74" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic/MultipleDAG.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2081" max-vertical-offset="2295">
-          <caret line="144" column="12" selection-start-line="144" selection-start-column="12" selection-end-line="144" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.24305555" vertical-offset="150" max-vertical-offset="16725">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="30" />
           <folding>
-            <element signature="e#24#43#0" expanded="false" />
+            <element signature="e#43#54#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/grid/Grid_adaptive2.py">
+    <entry file="file://$PROJECT_DIR$/src/grid/Grid_adaptiveM.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1312" max-vertical-offset="1560">
-          <caret line="98" column="21" selection-start-line="98" selection-start-column="21" selection-end-line="98" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.2901099" vertical-offset="213" max-vertical-offset="1605">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/common/Generic.py">
+    <entry file="file://$PROJECT_DIR$/src/exp/DynamicExp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1542056" vertical-offset="252" max-vertical-offset="3015">
-          <caret line="27" column="60" selection-start-line="27" selection-start-column="60" selection-end-line="27" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tornado/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1269" max-vertical-offset="9150">
-          <caret line="96" column="36" selection-start-line="96" selection-start-column="36" selection-end-line="96" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.5604396" vertical-offset="600" max-vertical-offset="10380">
+          <caret line="57" column="14" selection-start-line="57" selection-start-column="14" selection-end-line="57" selection-end-column="14" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#24#35#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tornado/__init__.py">
+    <entry file="file://$PROJECT_DIR$/src/common/NodeM.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="656">
+        <state vertical-scroll-proportion="0.3525641" vertical-offset="0" max-vertical-offset="468">
+          <caret line="11" column="20" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/geocast/Params.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.5384617" vertical-offset="3531" max-vertical-offset="4455">
+          <caret line="245" column="34" selection-start-line="245" selection-start-column="34" selection-end-line="245" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/matplotlib/pyplot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="46140">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/__init__.py">
+    <entry file="file://$PROJECT_DIR$/src/plot/path_patch_demo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="656">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="117" max-vertical-offset="585">
+          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/setup.py">
+    <entry file="file://$PROJECT_DIR$/src/plot/GridPlot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5945122" vertical-offset="0" max-vertical-offset="656">
-          <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
-          <folding />
+        <state vertical-scroll-proportion="0.10989011" vertical-offset="1240" max-vertical-offset="1695">
+          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+          <folding>
+            <element signature="e#43#54#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

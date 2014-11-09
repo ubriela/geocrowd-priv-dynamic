@@ -3,20 +3,20 @@ import logging
 
 import numpy as np
 
-from Generic2 import Generic2
+from GenericM import GenericM
 from Params import Params
 
 
-class Grid_adaptive2(Generic2):
+class Grid_adaptiveM(GenericM):
     """
     Budget is allocated for each AG
     """
 
-    def __init__(self, data, eps, param, use_domain_knowledge=None):
+    def __init__(self, data, eps, param, use_domain_knowledge=False):
         """
         two levels grid
         """
-        Generic2.__init__(self, data, param)
+        GenericM.__init__(self, data, param)
 
         self.eps = eps
 
@@ -27,8 +27,8 @@ class Grid_adaptive2(Generic2):
         if Params.FIX_GRANULARITY:
             self.m = Params.PARTITION_AG[0]
         else:
-            self.m = int(max(10, int(0.25 * math.ceil((self.param.NDATA * self.eps / param.c) ** (1.0 / 2)))))
-        logging.debug("Grid_adaptive2: Level 1 size: %d" % self.m)
+            self.m = int(max(10, int(0.25 * math.ceil((param.NDATA * self.eps / param.c) ** (1.0 / 2)))))
+        logging.debug("Grid_adaptiveM: Level 1 size: %d" % self.m)
 
     def getCountBudget(self):
         if not self.DOMAIN_KNOWLEDGE:
@@ -52,6 +52,7 @@ class Grid_adaptive2(Generic2):
         # find the number of partitions
         if curr_depth <= 0:
             parts = self.m
+        # print "l1 ", parts
         elif curr_depth == 1:
             if Params.FIX_GRANULARITY:
                 self.m2 = Params.PARTITION_AG[1]
@@ -68,10 +69,10 @@ class Grid_adaptive2(Generic2):
                 if Params.CUSTOMIZED_GRANULARITY:
                     self.m2 = int(math.sqrt(N_p * self.eps / Params.c2_c) + 0.5)
                 parts = self.m2
-        # print parts
+                # print "l2 ", parts
+
         if parts <= 1:
             return parts, None, None, None  # leaf node
-
         split_arr_x = self.getEqualSplit(parts, n_box[0, 0], n_box[1, 0])
         split_arr_y = self.getEqualSplit(parts, n_box[0, 1], n_box[1, 1])
 
@@ -82,9 +83,11 @@ class Grid_adaptive2(Generic2):
 
             # iterate all points
             for p in np.transpose(_data):
-                x = min(parts - 1, (p[0] - n_box[0, 0]) * parts / (n_box[1, 0] - n_box[0, 0]))
-                y = min(parts - 1, (p[1] - n_box[0, 1]) * parts / (n_box[1, 1] - n_box[0, 1]))
+                x = max(0, min(parts - 1, (p[0] - n_box[0, 0]) * parts / (n_box[1, 0] - n_box[0, 0])))
+                y = max(0, min(parts - 1, (p[1] - n_box[0, 1]) * parts / (n_box[1, 1] - n_box[0, 1])))
 
+                # if x < 0:
+                # print n_data_matrix.shape, x, y, p, n_box
                 if n_data_matrix[x][y] is None:
                     n_data_matrix[x][y] = []
                 n_data_matrix[x][y].append(p)
@@ -94,7 +97,7 @@ class Grid_adaptive2(Generic2):
     def adjustConsistency(self):  # used for adaptive grid only
         # similar to htree variants, adaptive grid do not apply constraint inference on root node
         for (_, _), l1_child in np.ndenumerate(self.root.children):
-            if not l1_child.n_isLeaf:
+            if not l1_child.n_isLeaf and l1_child.children is not None:
                 sum = 0
                 for (_, _), l2_child in np.ndenumerate(l1_child.children):  # child1 is a first-level cell
                     sum += l2_child.n_count

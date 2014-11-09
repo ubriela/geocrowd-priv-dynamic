@@ -1,11 +1,14 @@
 import math
 # # Basic parameters
 class Params(object):
-    dataset, x_min, y_min, x_max, y_max = None, None, None, None, None
-    NDATA = None
-    NDIM = None
-    LOW = None
-    HIGH = None
+    """
+    Class level variables
+    """
+    # dataset, x_min, y_min, x_max, y_max = None, None, None, None, None
+    #    NDATA = None
+    #    NDIM = None
+    #    LOW = None
+    #    HIGH = None
 
     SRT = 0.01  # sampling rate
     nQuery = 50  # number of queries
@@ -30,7 +33,6 @@ class Params(object):
     useLeafOnlyHTree = True
 
     # Grid (the parameter setting is recommended in ICDE'13)
-    Eps = 0.5
     PercentGrid = 0.5  # budget allocated for first level, used for adaptive grid
     PercentGridLocalness = 0.3
     m = partitionsHTree[1]  # grid size, computed in Grid_uniform
@@ -45,13 +47,13 @@ class Params(object):
     CONSTRAINT_INFERENCE = True
 
     maxHeightAdaptiveGrid = 2
-    NEGATIVE_CELL = False  # couting cells with negative count into geocast query
-    ZIPF_STEPS = 5
+    NEGATIVE_CELL = True  # couting cells with negative count into geocast query
+    ZIPF_STEPS = 100
     s = 1  # the value of the exponent characterizing the zipf distribution
     GAMMA = 0.9  # level expansion parameter
     LEVEL_EXPANSION = False
     GEOCAST_LOG = False
-    LOGGING_STEPS = 20
+    LOGGING_STEPS = 200
     FIX_GRANULARITY = False  # apply for first level of adaptive grid
     PARTITION_AG = [9, 9]
     ALPHA = 0.3  # the larger alpha the more important compactness
@@ -59,13 +61,66 @@ class Params(object):
 
     # ## Geocast algorithm
     # Variables
-    COST_FUNCTION = "distance"  # "utility", "hybrid", "compactness", "distance"
-    MAR, TASKPATH = 0.1, ""
+    COST_FUNCTION = "hybrid"  # "utility", "hybrid", "compactness", "distance"
+    MAR = 0.1
     U = 0.9  # Utility
-    TASK_NO = 50  # tasks per instance
-    NETWORK_DIAMETER = 0.1  # km
-    MTD = 0  # kms, mtd depends on dataset
+    NETWORK_DIAMETER = 0.05  # kme
+    TASK_NO = 100  # tasks per instance
     DATASET, AR_FUNCTION = "yelp", "zipf"
+
+    # multiple time instances
+    samplingRate = 0.25  # 2%
+    MTD = 5.0  # kms, mtd depends on dataset
+    dataset_task = ""
+    TASKPATH = ""
+    dataset = ""
+
+    def setData(self, param):
+        self = param
+
+    #        self.dataset, self.x_min, self.y_min, self.x_max, self.y_max = param.dataset, param.x_min, param.y_min, param.x_max, param.y_max
+    #        self.TASKPATH = param.TASKPATH
+    #        self.MTD = param.MTD
+    #        self.resdir = param.resdir
+    #
+    #        self.NDATA = param.NDATA
+    #        self.NDIM = param.NDIM
+    #        self.LOW = param.LOW
+    #        self.HIGH = param.HIGH
+
+    def debug(self):
+        print Params.dataset, Params.TASKPATH, Params.MTD, self.resdir
+        print self.x_min, self.y_min, self.x_max, self.y_max
+        print self.NDATA, self.NDIM, self.LOW, self.HIGH
+
+    # This parameter setting is of the same as ICDE'12
+    def __init__(self, seed):
+        self.resdir = ""
+        self.x_min, self.y_min, self.x_max, self.y_max = None, None, None, None
+        self.NDATA = None
+        self.NDIM = None
+        self.LOW = None
+        self.HIGH = None
+
+        self.structureEps = 0.5  # 50%
+        self.Eps = 0.5  # epsilon
+        self.Seed = seed  # used in generating noisy counts
+        self.minPartSize = 2  # maximum number of data points in a leaf node
+        self.Percent = 0.3  # budget allocated for split
+        self.switchLevel = 3  # switch level for hybrid tree
+        self.Res = 18  # Hilbert-R tree resolution
+        self.useLeafOnly = False  # only True for kd-cell and kd-noisymean
+        self.cellDistance = 40  # threshold to test uniformity in kd-cell
+
+        # self.geoBudget = 'none' # uniform budgeting
+        # self.geoBudget = 'aggressive' # geometric exponent i
+        # self.geoBudget = 'quadratic' # geometric exponent i/2
+        self.geoBudget = 'optimal'  # geometric exponent i/3
+        # self.geoBudget = 'quartic' # geometric exponent i/4
+
+        self.splitScheme = 'expo'  # exponential mechanism
+
+        # self.splitScheme = 'noisyMean' # noisy mean approximation
 
     def select_dataset(self):
         if Params.DATASET == "gowallasf":
@@ -96,17 +151,32 @@ class Params(object):
             Params.y_max = -118.192978
         elif Params.DATASET == "yelp":
             if Params.AR_FUNCTION == "linear":
-                Params.resdir = '../../output/yelp/'
+                self.resdir = '../../output/yelp/'
             else:
-                Params.resdir = '../../output/yelp_zipf/'
+                self.resdir = '../../output/yelp_zipf/'
             Params.dataset = '../../dataset/yelp.dat'
             Params.dataset_task = '../../dataset/yelp_task.dat'
-            Params.MTD = 13.5
+            # Params.MTD = 3.5
+            Params.MTD = 5
             Params.TASKPATH = '../log/yelp_tasks.dat'
-            Params.x_min = 32.8768481
-            Params.y_min = -112.875481
-            Params.x_max = 33.806805
-            Params.y_max = -111.671219
+
+            self.x_min = 32.8768481
+            self.y_min = -112.875481
+            self.x_max = 33.806805
+            self.y_max = -111.671219
+        elif Params.DATASET == "foursquare":
+            if Params.AR_FUNCTION == "linear":
+                self.resdir = '../../output/foursquare/'
+            else:
+                self.resdir = '../../output/foursquare_zipf/'
+            Params.dataset = '../../dataset/foursquare_PB.dat'
+            Params.dataset_task = '../../dataset/foursquare_PB.dat'
+            Params.MTD = 5
+            Params.TASKPATH = '../log/foursquare_tasks.dat'
+            self.x_min = 40.084029918076254
+            self.y_min = -80.422608999999994
+            self.x_max = 40.750032220137363
+            self.y_max = -79.520651000000001
         elif Params.DATASET == "test":
             Params.resdir = '../../output/test/'
             Params.dataset = '../../dataset/gowalla_SF.dat'
@@ -220,24 +290,4 @@ class Params(object):
             Params.dataset = '../../dataset/' + Params.DATASET
             Params.MTD = 10
             # Params.x_min=37.71127146 ; Params.y_min=-122.51350164; Params.x_max=37.83266118; Params.y_max=-122.3627126
-
-    # This parameter setting is of the same as ICDE'12
-    def __init__(self, seed):
-        self.Eps = Params.Eps  # epsilon
-        self.Seed = seed  # used in generating noisy counts
-        self.minPartSize = 2 ** 4  # maximum number of data points in a leaf node
-        self.Percent = 0.3  # budget allocated for split
-        self.switchLevel = 3  # switch level for hybrid tree
-        self.Res = 18  # Hilbert-R tree resolution
-        self.useLeafOnly = False  # only True for kd-cell and kd-noisymean
-        self.cellDistance = 40  # threshold to test uniformity in kd-cell
-
-        # self.geoBudget = 'none' # uniform budgeting
-        # self.geoBudget = 'aggressive' # geometric exponent i
-        # self.geoBudget = 'quadratic' # geometric exponent i/2
-        self.geoBudget = 'optimal'  # geometric exponent i/3
-        # self.geoBudget = 'quartic' # geometric exponent i/4
-
-        self.splitScheme = 'expo'  # exponential mechanism
-
-        # self.splitScheme = 'noisyMean' # noisy mean approximation
+            

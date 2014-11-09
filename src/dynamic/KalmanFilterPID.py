@@ -1,6 +1,9 @@
 import math
 import time
 
+import random
+
+
 sys.path.append('../geocast')
 sys.path.append('../icde12')
 
@@ -30,7 +33,7 @@ class KalmanFilterPID(Parser):
         self.P = 100
 
         # estimation error covariance (over all time instance)
-        self.Q = 100000
+        self.Q = 100
 
         # process noise synthetic data
         self.R = 1000000
@@ -39,21 +42,37 @@ class KalmanFilterPID(Parser):
         self.K = 0
 
         # kalman gain
-        #  PID control params - default
+        # PID control params - default
         self.Cp = 0.9  # proportional gain, to keep output proportional to current error
         self.Ci = 0.1  # integral gain, to eliminate offset
         self.Cd = 0.0  # derivative gain, to ensure stability - prevent large error in future
 
         #  fixed internally
-        self.theta = 5  # magnitude of changes
-        self.xi = 0.1  # gamma (10%)
+        self.theta = 1  # magnitude of changes
+        self.xi = 0.2  # gamma (10%)
         self.minIntvl = 1  # make sure the interval is greater than 1
 
         self.windowPID = 5  # I(integration) window
         self.ratioM = 0.2  # sampling rate
 
         #
-        self.isSampling = True
+        self.isSampling = False
+
+
+    def adjustParams(self):
+        # adjust params
+        if self.ratioM < 0.1:
+            self.theta = 20
+        if 0.1 <= self.ratioM < 0.2:
+            self.theta = 14
+        if 0.2 <= self.ratioM < 0.3:
+            self.theta = 2
+        if 0.3 <= self.ratioM < 0.4:
+            self.theta = 0.5
+        if 0.4 <= self.ratioM < 0.5:
+            self.theta = 0.3
+        if 0.5 <= self.ratioM:
+            self.theta = 0.1
 
     # test
     @classmethod
@@ -76,6 +95,7 @@ class KalmanFilterPID(Parser):
         kfPID.setQ(Q)
 
         kfPID.orig = Parser.getData(args[1])
+
         kfPID.publish = [None] * len(kfPID.orig)
 
         # adjust R based on T and alpha
@@ -104,6 +124,8 @@ class KalmanFilterPID(Parser):
         else:
             kfPID.setCd(1 - kfPID.Cp - kfPID.Ci)
 
+        # kfPID.adjustParams()
+
         start = time.time()
         kfPID.publishCounts()
         end = time.time()
@@ -117,9 +139,16 @@ class KalmanFilterPID(Parser):
         print "Average Relative Error:\t" + str(kfPID.getRelError())
         print "Time Used (in second):\t" + str(end - start)
 
-    def kalmanFilter(self, orig, budget):
-        self.epsilon = budget
+    def kalmanFilter(self, orig, budget, samplingRate=None):
+        self.totalBudget = budget
         self.orig = orig
+        if samplingRate is not None:
+            self.isSampling = True
+            self.ratioM = samplingRate
+        else:
+            self.isSampling = False
+
+        # self.adjustParams()
 
         self.publish = [None] * len(self.orig)
 
@@ -139,6 +168,7 @@ class KalmanFilterPID(Parser):
             return value
         else:
             return value + self.differ.getNoise(1, epsilon)  # sensitivity is 1
+
 
     # data publication procedure
     def publishCounts(self):
@@ -164,7 +194,7 @@ class KalmanFilterPID(Parser):
         for i in range(len(self.orig)):
             if i == 0:
                 # the first time instance
-                self.publish[i] = int(self.getCount(self.orig[i], self.epsilon))
+                self.publish[i] = self.getCount(self.orig[i], self.epsilon)
                 self.query[i] = 1
                 self.correctKF(i, 0)
             else:
@@ -172,26 +202,28 @@ class KalmanFilterPID(Parser):
                 self.predict[i] = predct
                 if self.query.count(1) < self.windowPID and self.query.count(1) < M:
                     # i is NOT the sampling point
-                    self.publish[i] = int(self.getCount(self.orig[i], self.epsilon))
+
+                    self.publish[i] = self.getCount(self.orig[i], self.epsilon)
                     self.query[i] = 1
 
                     # update count using observation
                     self.correctKF(i, predct)
                 elif i == nextQuery and self.query.count(1) < M:
                     # if i is the sampling point
+
                     # query
-                    self.publish[i] = int(self.getCount(self.orig[i], self.epsilon))
+                    self.publish[i] = self.getCount(self.orig[i], self.epsilon)
                     self.query[i] = 1
 
-                    #  update count using observation
+                    # update count using observation
                     self.correctKF(i, predct)
 
                     #  update freq
                     if (self.isSampling):
                         ratio = self.PID(i)
-
-                        frac = min(100, (ratio - self.xi) / self.xi)  # to avoid very big number
-                        deltaI = int(self.theta * (1 - math.exp(frac)))
+                        frac = min(20, (ratio - self.xi) / self.xi)
+                        deltaI = self.theta * (1 - math.exp(frac))
+                        deltaI = int(deltaI) + (random.random() < deltaI - int(deltaI))
                         self.interval += deltaI
                     else:
                         self.interval = 1
@@ -201,7 +233,27 @@ class KalmanFilterPID(Parser):
                     nextQuery += self.interval  # nextQuery is ns in the paper
                 else:
                     # --> predict
-                    self.publish[i] = int(predct)
+                    self.publish[i] = predct
+
+                    # del self.orig
+                    # del self.predict
+                    # del self.query
+
+                    # if self.isPostProcessing:
+                    # self.postProcessing()
+
+    # def postProcessing(self):
+    # print len(self.samples), self.samples
+    #     remainedEps = self.totalBudget - len(self.samples) * self.epsilon
+    #     self.epsilon = self.epsilon + remainedEps/len(self.samples)
+    #
+    #     # recompute noisy counts
+    #     prev = 0
+    #     for i in self.samples:
+    #         self.publish[i] = self.getCount(self.orig[i], self.epsilon)
+    #         if i > prev + 1:
+    #             self.publish[prev + 1 : i] = [self.publish[prev]] * (i - prev - 1)
+    #         prev = i
 
     def setR(self, r):
         """ generated source for method setR """
@@ -231,7 +283,6 @@ class KalmanFilterPID(Parser):
 
         # project estimation error
         self.P += self.Q  # Q is gaussian noise
-
         return lastValue
 
     # correction step
@@ -243,7 +294,7 @@ class KalmanFilterPID(Parser):
         # publish[curr] = Math.max((int) correct, 0)
         if curr > 0:
             # only correct from 2nd values
-            self.publish[curr] = int(correct)
+            self.publish[curr] = correct
 
         # print correct, "\t", self.publish[curr], self.K, self.P
 

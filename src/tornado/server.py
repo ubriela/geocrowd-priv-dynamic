@@ -9,7 +9,6 @@ import tornado.web
 import tornado.ioloop
 from tornado_cors import CorsMixin
 
-
 sys.path.append('.')
 
 sys.path.append('../minball')
@@ -24,8 +23,8 @@ import numpy as np
 from Params import Params
 from PSDExp import data_readin
 
-from Grid_adaptive2 import Grid_adaptive2
-from Geocast2 import geocast, post_geocast
+from Grid_adaptiveM import Grid_adaptiveM
+from GeocastM import geocast, post_geocast
 from GeocastLog import geocast_log
 from GeocastInfo import GeocastInfo
 from Utils import performed_tasks, is_rect_cover, distance_to_rect, rect_area, rect_vertex_set
@@ -35,12 +34,19 @@ from smallestenclosingcircle import make_circle
 # workerPSD parameters
 all_data = {}
 tree = []
-datasets = ["yelp", "gowallasf", "gowallala"]
-all_datafiles = {"yelp": "yelp", "gowallasf": "gowalla_SF", "gowallala": "gowalla_LA"}
-datasets2 = ["Yelp_Phoenix", "Gowalla_SF", "Gowalla_LA"]
-areas = [20342, 179, 2373]
-pearson_skewness = [-0.4, 0.18, 0.07]
-spearman_skewness = [0.41, 0.14, 0.26]
+# datasets = ["yelp", "gowallasf", "gowallala"]
+# all_datafiles = {"yelp": "yelp", "gowallasf": "gowalla_SF", "gowallala": "gowalla_LA"}
+# datasets2 = ["Yelp_Phoenix", "Gowalla_SF", "Gowalla_LA"]
+# areas = [20342, 179, 2373]
+# pearson_skewness = [-0.4, 0.18, 0.07]
+# spearman_skewness = [0.41, 0.14, 0.26]
+
+datasets = ["yelp", "gowallasf", "gowallala", "foursquare"]
+all_datafiles = {"yelp": "yelp", "gowallasf": "gowalla_SF", "gowallala": "gowalla_LA", "foursquare": "Foursquare_PB"}
+datasets2 = ["Yelp_Phoenix", "Gowalla_SF", "Gowalla_LA", "Foursquare_PB"]
+areas = [20342, 179, 2373, 0]
+pearson_skewness = [-0.4, 0.18, 0.07, 0]
+spearman_skewness = [0.41, 0.14, 0.26, 0]
 
 boundaries = []
 worker_counts = []
@@ -95,12 +101,12 @@ class ResetHandler(CorsMixin, tornado.web.RequestHandler):
         all_data = {}
         for dataset in datasets:
             Params.DATASET = dataset
-            data = data_readin()
             p = Params(1000)
+            data = data_readin(p)
             eps = p.Eps
-            tree = Grid_adaptive2(data, 1, p)
+            tree = Grid_adaptiveM(data, 1, p)
             tree.buildIndex()
-            bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
+            bounds = np.array([[p.x_min, p.y_min], [p.x_max, p.y_max]])
             all_data[dataset] = (tree, bounds, p.NDATA)
 
 
@@ -134,13 +140,13 @@ class DatasetHandler(CorsMixin, tornado.web.RequestHandler):
         if len(boundaries) == 0:
             for i in range(len(datasets)):
                 Params.DATASET = datasets[i]
-                data = data_readin()
                 p = Params(1000)
+                data = data_readin(p)
                 p.select_dataset()
                 MTDs.append(p.MTD)
                 worker_counts.append(p.NDATA)
                 boundaries.append(
-                    str(Params.x_min) + "," + str(Params.y_min) + "," + str(Params.x_max) + "," + str(Params.y_max))
+                    str(p.x_min) + "," + str(p.y_min) + "," + str(p.x_max) + "," + str(p.y_max))
 
         """
         Return information about datasets
@@ -207,12 +213,12 @@ class GeocastHandler(CorsMixin, tornado.web.RequestHandler):
         if len(all_data) == 0:
             for dataset in datasets:
                 Params.DATASET = dataset
-                data = data_readin()
                 p = Params(1000)
+                data = data_readin(p)
                 eps = p.Eps
-                tree = Grid_adaptive2(data, 1, p)
+                tree = Grid_adaptiveM(data, 1, p)
                 tree.buildIndex()
-                bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
+                bounds = np.array([[p.x_min, p.y_min], [p.x_max, p.y_max]])
                 all_data[dataset] = (tree, bounds, p.NDATA)
 
     def prepare(self):
@@ -233,7 +239,7 @@ class GeocastHandler(CorsMixin, tornado.web.RequestHandler):
     """
     Response to a geocast query
     
-    geocast/gowallasf/37.767712,-122.426834
+        geocast/gowallasf/37.767712,-122.426834
     """
 
     def get(self, geocast_id):
@@ -243,6 +249,7 @@ class GeocastHandler(CorsMixin, tornado.web.RequestHandler):
         global all_data, eps
         parts = geocast_id.split('/')
         dataset = parts[0]
+        print parts
         t = map(float, parts[1].split(','))
         print dataset, t
         # if task not in region
@@ -404,12 +411,12 @@ class ParamHandler(CorsMixin, tornado.web.RequestHandler):
         rebuild = int(rebuild)
         if rebuild == 1:
             print "Reading data ... " + dataset
-            data = data_readin()
             p = Params(1000)
+            data = data_readin(p)
             print "Creating WorkerPSD..."
-            tree = Grid_adaptive2(data, 1, p)
+            tree = Grid_adaptiveM(data, 1, p)
             tree.buildIndex()
-            bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
+            bounds = np.array([[p.x_min, p.y_min], [p.x_max, p.y_max]])
             all_data[dataset] = (tree, bounds, p.NDATA)
             print "Created WorkerPSD..." + dataset
 
@@ -492,7 +499,7 @@ class UpdateHandler(CorsMixin, tornado.web.RequestHandler):
         Params.DATASET = dataset
         p.select_dataset()
         print dataset
-        tree = Grid_adaptive2(data, 1, p)
+        tree = Grid_adaptiveM(data, 1, p)
         tree.buildIndex()
         bounds = np.array([[Params.x_min, Params.y_min], [Params.x_max, Params.y_max]])
         print bounds
@@ -566,10 +573,10 @@ class Upload(CorsMixin, tornado.web.RequestHandler):
         all_datafiles[fname] = fname
 
         Params.DATASET = fname + '.dat'
-        data = data_readin()
         p = Params(1000)
+        data = data_readin(p)
         eps = p.Eps
-        tree = Grid_adaptive2(data, 1, p)
+        tree = Grid_adaptiveM(data, 1, p)
         tree.buildIndex()
         bounds = np.array([[Params.LOW[0], Params.LOW[1]], [Params.HIGH[0], Params.HIGH[1]]])
 
