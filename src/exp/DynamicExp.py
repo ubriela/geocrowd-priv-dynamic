@@ -33,7 +33,7 @@ from Grid_adaptiveM import Grid_adaptiveM
 from GeocastKNN import geocast_knn
 from Utils import is_rect_cover, performed_tasks
 
-eps_list = [0.1, 0.2, 0.3, 0.4]
+eps_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
 first_list = [0.3, 0.4, 0.5, 0.6, 0.7]
 
@@ -53,6 +53,7 @@ def tasks_gen(data, param):
     """
     taskNo, x1, y1, x2, y2 = param.TASK_NO, param.x_min, param.y_min, param.x_max, param.y_max
     all_points = []
+
 
     if os.path.isfile(param.TASKPATH):
         with open(param.TASKPATH) as f:
@@ -129,7 +130,7 @@ def evalDynamic_Baseline(params):
 
     for j in range(len(seed_list)):
         for i in range(len(eps_list)):
-            #            Params(seed_list[j])
+            # Params(seed_list[j])
             p.Seed = seed_list[j]
             p.Eps = eps_list[i]
 
@@ -644,11 +645,11 @@ def createGnuData(p, exp_name, var_list):
         out.close()
 
         # for metric in metrics:
-        #     for eps in eps_list:
+        # for eps in eps_list:
         #         fileName = p.resdir + exp_name + metric + str(eps) + "_"  + `Params.TASK_NO`
         #         os.remove(fileName)
 
-#    kdtrees = []
+# kdtrees = []
 #    for i in range(len(all_workers)):
 #        kdtree = spatial.KDTree(all_workers[i].transpose())
 #        kdtrees.append(kdtree)
@@ -657,25 +658,26 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, filename='../log/debug.log')
     logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
 
-    all_workers = readInstances("../../dataset/dynamic/yelp/100/")
+    # all_workers = readInstances("../../dataset/dynamic/gowallasf/100/")
     param = Params(1000)
-    param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
-    param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
+    # param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
+    # param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
+    #
+    # print param.NDIM, param.NDATA, param.LOW, param.HIGH
+    # task_data = read_tasks(param)
+    # all_tasks = tasks_gen(task_data, param)
+    #
+    # param.debug()
+    #
+    # pool = Pool(processes=len(eps_list))
+    # params = []
+    # for eps in eps_list:
+    #     params.append((all_workers, all_tasks, param, eps))
+    # pool.map(evalDynamic_Baseline, params)
+    # pool.join()
 
-    task_data = read_tasks(param)
-    all_tasks = tasks_gen(task_data, param)
-
-    param.debug()
-
-    pool = Pool(processes=len(eps_list))
-    params = []
-    for eps in eps_list:
-        params.append((all_workers, all_tasks, param, eps))
-    pool.map(evalDynamic_Baseline, params)
-    pool.join()
-
-    # param.resdir = '../../output/yelp/'
-    # createGnuData(param,"Dynamic_Baseline", eps_list)
+    param.resdir = '../../output/gowalla_sf/'
+    createGnuData(param,"Dynamic_Baseline", eps_list)
 
     # for eps in eps_list:
     #     evalDynamic_Baseline((all_workers, all_tasks, param, eps))

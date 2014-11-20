@@ -13,7 +13,7 @@ class NodeM(object):
         self.n_depth = 0
         # self.n_budget = 0  # represented by height of the tree
         self.n_isLeaf = False
-        #        self.eps = None
+        # self.eps = None
         #        self.neighbor = None # used in geocast algorithm
         self.index = None  # the order of the node in the parent's children
 

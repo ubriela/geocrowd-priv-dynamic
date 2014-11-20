@@ -50,7 +50,7 @@ class MultipleDAG(object):
 
         del budgets
 
-    #            print self.AGs[i].checkCorrectness(self.AGs[i].root)
+    # print self.AGs[i].checkCorrectness(self.AGs[i].root)
 
 
     def getCountAt(self, actual, i, x1, y1, x2=None, y2=None):

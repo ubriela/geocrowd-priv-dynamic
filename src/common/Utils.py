@@ -9,6 +9,7 @@ import random
 
 
 
+
 # noinspection PyDeprecation
 from sets import Set
 
@@ -362,4 +363,4 @@ if __name__ == "__main__":
 
 
 # lat1, lon1, lat2, lon2 = 39.436140 - Params.ONE_KM, -77.094491 - Params.ONE_KM, 39.436140 + Params.ONE_KM, -77.094491 + Params.ONE_KM
-#print distance(lat2, lon2, lat1, lon1)
+# print distance(lat2, lon2, lat1, lon1)

@@ -2,7 +2,7 @@ import math
 import time
 
 import random
-
+import sys
 
 sys.path.append('../geocast')
 sys.path.append('../icde12')
@@ -47,7 +47,7 @@ class KalmanFilterPID(Parser):
         self.Ci = 0.1  # integral gain, to eliminate offset
         self.Cd = 0.0  # derivative gain, to ensure stability - prevent large error in future
 
-        #  fixed internally
+        # fixed internally
         self.theta = 1  # magnitude of changes
         self.xi = 0.2  # gamma (10%)
         self.minIntvl = 1  # make sure the interval is greater than 1
@@ -218,7 +218,7 @@ class KalmanFilterPID(Parser):
                     # update count using observation
                     self.correctKF(i, predct)
 
-                    #  update freq
+                    # update freq
                     if (self.isSampling):
                         ratio = self.PID(i)
                         frac = min(20, (ratio - self.xi) / self.xi)
@@ -244,7 +244,7 @@ class KalmanFilterPID(Parser):
 
     # def postProcessing(self):
     # print len(self.samples), self.samples
-    #     remainedEps = self.totalBudget - len(self.samples) * self.epsilon
+    # remainedEps = self.totalBudget - len(self.samples) * self.epsilon
     #     self.epsilon = self.epsilon + remainedEps/len(self.samples)
     #
     #     # recompute noisy counts

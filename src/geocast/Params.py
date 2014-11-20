@@ -5,7 +5,7 @@ class Params(object):
     Class level variables
     """
     # dataset, x_min, y_min, x_max, y_max = None, None, None, None, None
-    #    NDATA = None
+    # NDATA = None
     #    NDIM = None
     #    LOW = None
     #    HIGH = None
@@ -66,7 +66,7 @@ class Params(object):
     U = 0.9  # Utility
     NETWORK_DIAMETER = 0.05  # kme
     TASK_NO = 100  # tasks per instance
-    DATASET, AR_FUNCTION = "yelp", "zipf"
+    DATASET, AR_FUNCTION = "gowallasf", "linear"
 
     # multiple time instances
     samplingRate = 0.25  # 2%
@@ -102,7 +102,7 @@ class Params(object):
         self.LOW = None
         self.HIGH = None
 
-        self.structureEps = 0.5  # 50%
+        self.structureEps = 0.1  # 50%
         self.Eps = 0.5  # epsilon
         self.Seed = seed  # used in generating noisy counts
         self.minPartSize = 2  # maximum number of data points in a leaf node
@@ -125,17 +125,19 @@ class Params(object):
     def select_dataset(self):
         if Params.DATASET == "gowallasf":
             if Params.AR_FUNCTION == "linear":
-                Params.resdir = '../../output/gowalla_sf/'
+                self.resdir = '../../output/gowalla_sf/'
             else:
-                Params.resdir = '../../output/gowalla_sf_zipf/'
-            Params.dataset = '../../dataset/gowalla_sf.dat'
-            Params.dataset_task = '../../dataset/gowalla_sf_task.dat'
-            Params.MTD = 3.6
+                self.resdir = '../../output/gowalla_sf_zipf/'
+
+            Params.dataset = '../../dataset/gowalla_SF.dat'
+            # Params.dataset_task = '../../dataset/gowalla_SF.dat'
+            Params.dataset_task = '../../dataset/gowalla_SF_task.dat'
+            Params.MTD = 5
             Params.TASKPATH = '../log/gowalla_sf_tasks.dat'
-            Params.x_min = 37.71127146
-            Params.y_min = -122.51350164
-            Params.x_max = 37.83266118
-            Params.y_max = -122.3627126
+            self.x_min = 37.71127146
+            self.y_min = -122.51350164
+            self.x_max = 37.83266118
+            self.y_max = -122.3627126
         elif Params.DATASET == "gowallala":
             if Params.AR_FUNCTION == "linear":
                 Params.resdir = '../../output/gowalla_la/'
@@ -180,7 +182,8 @@ class Params(object):
         elif Params.DATASET == "test":
             Params.resdir = '../../output/test/'
             Params.dataset = '../../dataset/gowalla_SF.dat'
-            Params.dataset_task = '../../dataset/gowalla_SF_task.dat'
+            Params.dataset_task = '../../dataset/gowalla_SF.dat'
+            # Params.dataset_task = '../../dataset/gowalla_SF_task.dat'
             Params.MTD = 3.6
             Params.TASKPATH = '../log/test_tasks.dat'
             Params.x_min = 37.71127146
@@ -290,4 +293,3 @@ class Params(object):
             Params.dataset = '../../dataset/' + Params.DATASET
             Params.MTD = 10
             # Params.x_min=37.71127146 ; Params.y_min=-122.51350164; Params.x_max=37.83266118; Params.y_max=-122.3627126
-            

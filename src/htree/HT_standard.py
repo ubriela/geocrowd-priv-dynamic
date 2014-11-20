@@ -25,7 +25,7 @@ class HT_standard(HT_true):
             # unit = count_eps / (n1**(1.0/3) + n2**(1.0/3))
             # eps1 = unit*n1**(1.0/3)
             # eps2 = unit*n2**(1.0/3)
-            #            return [0, eps1, eps2]
+            # return [0, eps1, eps2]
             return [0, count_eps / 2, count_eps / 2]
         else:
             logging.error('No such geoBudget scheme')

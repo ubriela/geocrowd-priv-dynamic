@@ -4,7 +4,7 @@ import random
 
 
 list = []
-for i in range(4):
+for i in range(15):
     list.append(random.randint(0, 10000))
 print list
 

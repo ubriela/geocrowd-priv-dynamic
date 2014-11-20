@@ -40,8 +40,8 @@ def getPathData(data, param):
     for (_, _), l1_child in np.ndenumerate(tree.root.children):
         if not l1_child.n_isLeaf and l1_child.children is not None:
             for (_, _), l2_child in np.ndenumerate(l1_child.children):  # child1 is a first-level cell
-                left_boxes.append((l2_child.n_box, l2_child.n_count))
-        left_boxes.append((l1_child.n_box, l1_child.n_count))
+                left_boxes.append((l2_child.n_box, l2_child.a_count))
+        left_boxes.append((l1_child.n_box, l1_child.a_count))
 
     for data in left_boxes:
         # [[x_min,y_min],[x_max,y_max]]
@@ -64,11 +64,11 @@ if __name__ == '__main__':
     logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
 
 
-    # eps_list = [0.1, 0.4, 0.7, 1.0]
-    # dataset_list = ['yelp', 'foursquare', 'gowallasf', 'gowallala']
+    eps_list = [0.001, 0.004, 0.007, 0.01]
+    dataset_list = ['yelp', 'foursquare', 'gowallasf', 'gowallala']
 
-    eps_list = [1.0]
-    dataset_list = ['yelp']
+    # eps_list = [0.1]
+    # dataset_list = ['yelp']
 
     for dataset in dataset_list:
         for eps in eps_list:
@@ -87,21 +87,23 @@ if __name__ == '__main__':
             # max_count = 0
             # for data in path_data:
             # if data[1] > max_count:
-            #         max_count = data[1]
+            # max_count = data[1]
 
             fig, ax = plt.subplots()
+            # img = imread("background.png")
             for data in path_data:
                 path = data[0]
                 codes, verts = zip(*path)
                 path = mpath.Path(verts, codes)
-                weight = min(1, (data[1] + 0.0) / 100)
+                weight = min(1, (data[1] + 0.0) / 500)
                 patch = mpatches.PathPatch(path, facecolor='orange', alpha=weight)
                 ax.add_patch(patch)
 
                 # plot control points and connecting lines
                 x, y = zip(*path.vertices)
+                # ax.imshow(img)
                 line, = ax.plot(x, y, 'k-', linewidth=0.1)
 
             ax.grid()
-            ax.axis('equal')
+            # ax.axis('equal')
             savefig('../../dataset/graph/grid/' + param.DATASET + '_' + str(param.Eps) + '.eps', format='eps', dpi=1000)

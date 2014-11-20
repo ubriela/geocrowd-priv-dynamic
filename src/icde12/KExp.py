@@ -158,7 +158,7 @@ class KExp(object):
     # param.geoBudget = 'optimal'
     # tree = Quad_standard(self.data, param)
     # tree.buildIndex()
-    #        tree.adjustConsistency()
+    # tree.adjustConsistency()
     #        return self.query(tree)
     #
     #    def run_Quad_post_vldb(self, param):
