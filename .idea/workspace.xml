@@ -2,71 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7eb8d4fe-94a9-49db-9237-da32cd450971" name="Default" comment="clean code">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/plot/background.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/log/noisy_count.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/log/noisy_count_kf.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/log/true_count.log" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/brightkite.eps" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/brightkite.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/buses.eps" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/buses.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/charminar.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_CA.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_SF_workers.fig" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_SF_workers.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_sa.eps" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_sa.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_sf.fig" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/gowalla_sf.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/landmark.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcd.bmp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcd.fig" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcd.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcd.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcdonald.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/mcdonald2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/na.eps" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/na.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/ne.eps" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/ne.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/parkrec.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/restrnts.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/shopping.eps" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/shopping.fig" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/shopping.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/tiger_NMWA.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/truck.eps" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/truck.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/uniform.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/us_zipcode.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/yelp.fig" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/yelp.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/yelp_workers.fig" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dataset/graph/yelp_workers.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/debug.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/log/yelp_tasks.dat" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/exp/DynamicExp.py" afterPath="$PROJECT_DIR$/src/exp/DynamicExp.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/gowalla_sf/Dynamic_Baseline_cell_100" afterPath="$PROJECT_DIR$/output/gowalla_sf/Dynamic_Baseline_cell_100" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocast/Geocast.py" afterPath="$PROJECT_DIR$/src/geocast/Geocast.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/exp/GeocastExp.py" afterPath="$PROJECT_DIR$/src/exp/GeocastExp.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocast/GeocastM.py" afterPath="$PROJECT_DIR$/src/geocast/GeocastM.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocast/GeocastT.py" afterPath="$PROJECT_DIR$/src/geocast/GeocastT.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plot/GridPlot.py" afterPath="$PROJECT_DIR$/src/plot/GridPlot.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/htree/HT_pure.py" afterPath="$PROJECT_DIR$/src/htree/HT_pure.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/htree/HT_standard.py" afterPath="$PROJECT_DIR$/src/htree/HT_standard.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/icde12/KExp.py" afterPath="$PROJECT_DIR$/src/icde12/KExp.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic/KalmanFilterPID.py" afterPath="$PROJECT_DIR$/src/dynamic/KalmanFilterPID.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/icde12/MainExp.py" afterPath="$PROJECT_DIR$/src/icde12/MainExp.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic/MultipleDAG.py" afterPath="$PROJECT_DIR$/src/dynamic/MultipleDAG.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/common/NodeM.py" afterPath="$PROJECT_DIR$/src/common/NodeM.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/exp/PSDExp.py" afterPath="$PROJECT_DIR$/src/exp/PSDExp.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/geocast/Params.py" afterPath="$PROJECT_DIR$/src/geocast/Params.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/common/SeedGenerator.py" afterPath="$PROJECT_DIR$/src/common/SeedGenerator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/common/Utils.py" afterPath="$PROJECT_DIR$/src/common/Utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/icde12/_Params.py" afterPath="$PROJECT_DIR$/src/icde12/_Params.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/private/private.xml" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dataset/yelp_task.dat" afterPath="$PROJECT_DIR$/dataset/yelp_task.dat" />
     </list>
     <ignored path="PrivateGeoCrowd.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,7 +25,30 @@
     <favorites_list name="PrivateGeoCrowd" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="Utils.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/common/Utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="920" max-vertical-offset="5580">
+              <caret line="26" column="7" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Params.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/geocast/Params.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.34035656" vertical-offset="420" max-vertical-offset="4500">
+              <caret line="42" column="17" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -156,9 +116,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="7" />
     <option name="y" value="22" />
-    <option name="width" value="1212" />
+    <option name="width" value="1280" />
     <option name="height" value="774" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -203,6 +162,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -249,24 +209,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="log" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PrivateGeoCrowd" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="privategeocrowddynamic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="geocast" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -285,45 +227,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="exp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PrivateGeoCrowd" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="privategeocrowddynamic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="output" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PrivateGeoCrowd" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="privategeocrowddynamic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="output" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gowalla_sf" />
+              <option name="myItemId" value="common" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -654,14 +563,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="7" y="22" width="1212" height="774" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="22" width="1280" height="774" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23780487" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14871795" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25042737" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14862682" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26655897" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398827" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2431611" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -669,12 +578,12 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3003049" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32844576" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2521994" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -726,13 +635,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/grid/Grid_adaptiveM.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2901099" vertical-offset="213" max-vertical-offset="1605">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/common/NodeM.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3525641" vertical-offset="0" max-vertical-offset="468">
@@ -793,13 +695,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.8952992" vertical-offset="676168" max-vertical-offset="677145">
           <caret line="45137" column="38" selection-start-line="45137" selection-start-column="38" selection-end-line="45137" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataset/foursquare_PB_task.dat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20316027" vertical-offset="0" max-vertical-offset="1274595">
-          <caret line="6" column="9" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -1003,7 +898,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.85714287" vertical-offset="14460" max-vertical-offset="15090">
           <caret line="1000" column="0" selection-start-line="1000" selection-start-column="0" selection-end-line="1000" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1011,7 +905,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="11.095238" vertical-offset="670065" max-vertical-offset="677145">
           <caret line="45137" column="30" selection-start-line="45137" selection-start-column="30" selection-end-line="45137" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1019,7 +912,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.79820627" vertical-offset="1508329" max-vertical-offset="1508775">
           <caret line="100579" column="24" selection-start-line="100579" selection-start-column="24" selection-end-line="100579" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1027,15 +919,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="525">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/geocast/Params.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26200873" vertical-offset="1815" max-vertical-offset="4500">
-          <caret line="129" column="27" selection-start-line="129" selection-start-column="27" selection-end-line="129" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1043,9 +926,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-12.0" vertical-offset="9858" max-vertical-offset="10515">
           <caret line="678" column="43" selection-start-line="678" selection-start-column="43" selection-end-line="678" selection-end-column="43" />
-          <folding>
-            <element signature="e#24#35#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1053,7 +933,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
           <caret line="10" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1061,7 +940,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="448">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1069,7 +947,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1077,7 +954,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
           <caret line="10" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1085,7 +961,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="448">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1093,6 +968,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="471">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/foursquare_PB_task.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.92727274" vertical-offset="1273944" max-vertical-offset="1274595">
+          <caret line="84967" column="38" selection-start-line="84967" selection-start-column="38" selection-end-line="84967" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/Utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="920" max-vertical-offset="5580">
+          <caret line="26" column="7" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/geocast/Params.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34035656" vertical-offset="420" max-vertical-offset="4500">
+          <caret line="42" column="17" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="17" />
           <folding />
         </state>
       </provider>
