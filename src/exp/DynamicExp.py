@@ -35,7 +35,11 @@ from Utils import is_rect_cover, performed_tasks
 
 eps_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
-first_list = [0.3, 0.4, 0.5, 0.6, 0.7]
+first_list = [0.1,0.2, 0.3, 0.4, 0.5, 0.6, 0.7,0.8,0.9]
+
+T_list = [50,60,70,80,90,100]
+
+EU_list = [0.3,0.4,0.5,0.6,0.7,0.8,0.9]
 
 # seed_list = [9110, 4064, 6903, 7509]
 seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
@@ -113,8 +117,8 @@ def evalDynamic_Baseline(params):
 
     logging.info("evalDynamic_Baseline")
     exp_name = "Dynamic_Baseline"
-    methodList = ["BasicD", "BasicS", "KF", "KFPID", "Baseline"]
-    # methodList = ["Basic", "KF", "Baseline"]
+    # methodList = ["BasicD", "BasicS", "KF", "KFPID", "Baseline"]
+    methodList = ["BasicS"]
 
     eps_list = [eps]
 
@@ -142,7 +146,6 @@ def evalDynamic_Baseline(params):
                 if method == "BasicS":
                     dag = MultipleDAG(all_workers, p, True)
                     dag.publish()
-
                 elif method == "KF":
                     dag = MultipleDAG_KF(all_workers, p)
                     dag.publish()
@@ -225,6 +228,7 @@ def evalDynamic_Baseline(params):
                 gc.collect()
                 proc.get_memory_info().rss
 
+    """
     # do not need to varying eps for non-privacy technique!
     for j in range(len(seed_list)):
         totalANW_Knn = 0
@@ -272,6 +276,7 @@ def evalDynamic_Baseline(params):
         # res_cube_hop2[:, j, len(methodList) - 1] = HOP2_Knn
         # res_cube_cov[:, j, len(methodList) - 1] = COV_Knn
 
+    """
     res_summary_anw = np.average(res_cube_anw, axis=1)
     np.savetxt(p.resdir + exp_name + '_anw_' + str(eps) + "_" + `Params.TASK_NO`, res_summary_anw, fmt='%.4f\t')
     # res_summary_atd = np.average(res_cube_atd, axis=1)
@@ -292,7 +297,7 @@ def evalDynamic_Baseline(params):
     # np.savetxt(p.resdir + exp_name + '_cov_' + str(eps) + "_"  + `Params.TASK_NO`, res_summary_cov, fmt='%.4f\t')
 
 
-def evalDynamic_Baseline_First(params):
+def evalDynamic_Baseline_F(params):
     """
     Evaluate geocast algorithm in privacy mode and in non-privacy mode
     """
@@ -302,9 +307,9 @@ def evalDynamic_Baseline_First(params):
     p = params[2]
     first = params[3]
 
-    logging.info("evalDynamic_Baseline_First")
+    logging.info("evalDynamic_Baseline_F")
     exp_name = "Dynamic_Baseline_First"
-    methodList = ["KF", "KFPID", "Baseline"]
+    methodList = ["Basic", "KF", "KFPID", "Baseline"]
 
     first_list = [first]
 
@@ -433,6 +438,293 @@ def evalDynamic_Baseline_First(params):
     np.savetxt(p.resdir + exp_name + '_cell_' + str(first) + "_" + `Params.TASK_NO`, res_summary_cell, fmt='%.4f\t')
     res_summary_hop = np.average(res_cube_hop, axis=1)
     np.savetxt(p.resdir + exp_name + '_hop_' + str(first) + "_" + `Params.TASK_NO`, res_summary_hop, fmt='%.4f\t')
+
+
+def evalDynamic_Baseline_T(params):
+    """
+    Evaluate geocast algorithm in privacy mode and in non-privacy mode
+    """
+
+    all_workers = params[0]
+    all_tasks = params[1]
+    p = params[2]
+    T = params[3]
+
+    logging.info("evalDynamic_Baseline_T")
+    exp_name = "Dynamic_Baseline_T"
+    methodList = ["Basic", "KF", "KFPID", "Baseline"]
+
+
+    res_cube_anw = np.zeros((1, len(seed_list), len(methodList)))
+    res_cube_atd_fcfs = np.zeros((1, len(seed_list), len(methodList)))
+    res_cube_appt = np.zeros((1, len(seed_list), len(methodList)))
+    res_cube_cell = np.zeros((1, len(seed_list), len(methodList)))
+    res_cube_hop = np.zeros((1, len(seed_list), len(methodList)))
+
+    for j in range(len(seed_list)):
+        for i in range(1):
+            p.Seed = seed_list[j]
+
+            for method in methodList[0:len(methodList) - 1]:
+                proc = psutil.Process(os.getpid())
+                if method == "Basic":
+                    dag = MultipleDAG(all_workers, p)
+                    dag.publish()
+
+                elif method == "KF":
+                    dag = MultipleDAG_KF(all_workers, p)
+                    dag.publish()
+                    dag.applyKalmanFilter()
+                    # dag.dumpSequenceCounts(True, "true_count_" + method + "_" + str(eps_list[i]))
+                    # dag.dumpSequenceCounts(False, "noisy_count_" + method + "_" + str(eps_list[i]))
+
+                elif method == "KFPID":
+                    dag = MultipleDAG_KF(all_workers, p, True)
+                    dag.publish()
+                    dag.applyKalmanFilter()
+                    # dag.dumpSequenceCounts(True, "true_count_" + method + "_" + str(eps_list[i]))
+                    # dag.dumpSequenceCounts(False, "noisy_count_" + method + "_" + str(eps_list[i]))
+
+                totalANW_Geocast = 0
+                totalATD_FCFS_Geocast = 0
+                totalCell_Geocast = 0
+                totalPerformedTasks_Geocast = 0
+                totalHop_Geocast = 0
+
+                T = len(dag.getAGs())
+                # test all tasks for all time instances
+                for ti in range(T):
+                    if len(dag.getAGs()) == 0:
+                        break
+                    # free memory of previous instances
+                    for l in range(len(all_tasks[j])):
+                        if (l + 1) % Params.LOGGING_STEPS == 0:
+                            print ">> " + str(l + 1) + " tasks completed"
+                        t = all_tasks[j][l]
+
+                        # Geocast
+                        q, q_log = geocast(dag.getAGs()[ti], t, p.Eps)
+                        no_workers, workers, Cells, no_hops = simple_post_geocast(t, q, q_log)
+                        performed, worker, dist_fcfs = performed_tasks(workers, Params.MTD, t, True)
+                        if performed:
+                            totalPerformedTasks_Geocast += 1
+                            totalANW_Geocast += no_workers
+                            totalCell_Geocast += Cells
+                            totalHop_Geocast += no_hops
+
+                            # if performed:
+                            totalATD_FCFS_Geocast += dist_fcfs
+
+                    if len(dag.getAGs()) - 1 == ti:
+                        dag.clearMemory()
+                        break
+
+                # Geocast
+                ANW_Geocast = (totalANW_Geocast + 0.0) / totalPerformedTasks_Geocast
+                ATD_FCFS_Geocast = totalATD_FCFS_Geocast / totalPerformedTasks_Geocast
+                ASC_Geocast = (totalCell_Geocast + 0.0) / totalPerformedTasks_Geocast
+                APPT_Geocast = 100 * float(totalPerformedTasks_Geocast) / (Params.TASK_NO * T)
+                HOP_Geocast = float(totalHop_Geocast) / (Params.TASK_NO * T)
+
+                res_cube_anw[i, j, methodList.index(method)] = ANW_Geocast
+                res_cube_atd_fcfs[i, j, methodList.index(method)] = ATD_FCFS_Geocast
+                res_cube_appt[i, j, methodList.index(method)] = APPT_Geocast
+                res_cube_cell[i, j, methodList.index(method)] = ASC_Geocast
+                res_cube_hop[i, j, methodList.index(method)] = HOP_Geocast
+
+                gc.collect()
+                proc.get_memory_info().rss
+
+    # do not need to varying eps for non-privacy technique!
+    for j in range(len(seed_list)):
+        totalANW_Knn = 0
+        totalATD_Knn_FCFS = 0
+        totalPerformedTasks_Knn = 0
+        totalHop_Knn = 0
+
+        tasks = all_tasks[j]
+        # test all tasks for all time instances
+        for ti in range(len(all_workers)):
+            for l in range(len(tasks)):
+                t = tasks[l]
+
+                # Baseline (no privacy)
+                no_workers_knn, performed, dist_knn, dist_knn_FCFS, no_hops, coverage, no_hops2 = geocast_knn(
+                    all_workers[ti], t)
+                if performed:
+                    totalPerformedTasks_Knn += 1
+                    totalANW_Knn += no_workers_knn
+                    totalATD_Knn_FCFS += dist_knn_FCFS
+                    totalHop_Knn += no_hops
+
+        # Baseline
+        ANW_Knn = (totalANW_Knn + 0.0) / totalPerformedTasks_Knn
+        ATD_FCFS_Knn = totalATD_Knn_FCFS / totalPerformedTasks_Knn
+        APPT_Knn = 100 * float(totalPerformedTasks_Knn) / (Params.TASK_NO * T)
+        HOP_Knn = float(totalHop_Knn) / (Params.TASK_NO * T)
+
+        res_cube_anw[:, j, len(methodList) - 1] = ANW_Knn
+        res_cube_atd_fcfs[:, j, len(methodList) - 1] = ATD_FCFS_Knn
+        res_cube_appt[:, j, len(methodList) - 1] = APPT_Knn
+        res_cube_cell[:, j, len(methodList) - 1] = 0
+        res_cube_hop[:, j, len(methodList) - 1] = HOP_Knn
+
+    res_summary_anw = np.average(res_cube_anw, axis=1)
+    np.savetxt(p.resdir + exp_name + '_anw_' + str(T) + "_" + `Params.TASK_NO`, res_summary_anw, fmt='%.4f\t')
+    res_summary_atd = np.average(res_cube_atd_fcfs, axis=1)
+    np.savetxt(p.resdir + exp_name + '_atd_fcfs_' + str(T) + "_" + `Params.TASK_NO`, res_summary_atd, fmt='%.4f\t')
+    res_summary_appt = np.average(res_cube_appt, axis=1)
+    np.savetxt(p.resdir + exp_name + '_appt_' + str(T) + "_" + `Params.TASK_NO`, res_summary_appt, fmt='%.4f\t')
+    res_summary_cell = np.average(res_cube_cell, axis=1)
+    np.savetxt(p.resdir + exp_name + '_cell_' + str(T) + "_" + `Params.TASK_NO`, res_summary_cell, fmt='%.4f\t')
+    res_summary_hop = np.average(res_cube_hop, axis=1)
+    np.savetxt(p.resdir + exp_name + '_hop_' + str(T) + "_" + `Params.TASK_NO`, res_summary_hop, fmt='%.4f\t')
+
+
+
+def evalDynamic_Baseline_EU(params):
+    """
+    Evaluate geocast algorithm in privacy mode and in non-privacy mode
+    """
+
+    all_workers = params[0]
+    all_tasks = params[1]
+    p = params[2]
+    EU = params[3]
+
+    logging.info("evalDynamic_Baseline_EU")
+    exp_name = "Dynamic_Baseline_First"
+    methodList = ["Basic", "KF", "KFPID", "Baseline"]
+
+    EU_list = [EU]
+
+    res_cube_anw = np.zeros((len(EU_list), len(seed_list), len(methodList)))
+    res_cube_atd_fcfs = np.zeros((len(EU_list), len(seed_list), len(methodList)))
+    res_cube_appt = np.zeros((len(EU_list), len(seed_list), len(methodList)))
+    res_cube_cell = np.zeros((len(EU_list), len(seed_list), len(methodList)))
+    res_cube_hop = np.zeros((len(EU_list), len(seed_list), len(methodList)))
+
+    for j in range(len(seed_list)):
+        for i in range(len(first_list)):
+            p.Seed = seed_list[j]
+            p.U = EU_list[i]
+
+            for method in methodList[0:len(methodList) - 1]:
+                proc = psutil.Process(os.getpid())
+                if method == "Basic":
+                    dag = MultipleDAG(all_workers, p)
+                    dag.publish()
+
+                elif method == "KF":
+                    dag = MultipleDAG_KF(all_workers, p)
+                    dag.publish()
+                    dag.applyKalmanFilter()
+                    # dag.dumpSequenceCounts(True, "true_count_" + method + "_" + str(eps_list[i]))
+                    # dag.dumpSequenceCounts(False, "noisy_count_" + method + "_" + str(eps_list[i]))
+
+                elif method == "KFPID":
+                    dag = MultipleDAG_KF(all_workers, p, True)
+                    dag.publish()
+                    dag.applyKalmanFilter()
+                    # dag.dumpSequenceCounts(True, "true_count_" + method + "_" + str(eps_list[i]))
+                    # dag.dumpSequenceCounts(False, "noisy_count_" + method + "_" + str(eps_list[i]))
+
+                totalANW_Geocast = 0
+                totalATD_FCFS_Geocast = 0
+                totalCell_Geocast = 0
+                totalPerformedTasks_Geocast = 0
+                totalHop_Geocast = 0
+
+                T = len(dag.getAGs())
+                # test all tasks for all time instances
+                for ti in range(T):
+                    if len(dag.getAGs()) == 0:
+                        break
+                    # free memory of previous instances
+                    for l in range(len(all_tasks[j])):
+                        if (l + 1) % Params.LOGGING_STEPS == 0:
+                            print ">> " + str(l + 1) + " tasks completed"
+                        t = all_tasks[j][l]
+
+                        # Geocast
+                        q, q_log = geocast(dag.getAGs()[ti], t, p.Eps)
+                        no_workers, workers, Cells, no_hops = simple_post_geocast(t, q, q_log)
+                        performed, worker, dist_fcfs = performed_tasks(workers, Params.MTD, t, True)
+                        if performed:
+                            totalPerformedTasks_Geocast += 1
+                            totalANW_Geocast += no_workers
+                            totalCell_Geocast += Cells
+                            totalHop_Geocast += no_hops
+
+                            # if performed:
+                            totalATD_FCFS_Geocast += dist_fcfs
+
+                    if len(dag.getAGs()) - 1 == ti:
+                        dag.clearMemory()
+                        break
+
+                # Geocast
+                ANW_Geocast = (totalANW_Geocast + 0.0) / totalPerformedTasks_Geocast
+                ATD_FCFS_Geocast = totalATD_FCFS_Geocast / totalPerformedTasks_Geocast
+                ASC_Geocast = (totalCell_Geocast + 0.0) / totalPerformedTasks_Geocast
+                APPT_Geocast = 100 * float(totalPerformedTasks_Geocast) / (Params.TASK_NO * T)
+                HOP_Geocast = float(totalHop_Geocast) / (Params.TASK_NO * T)
+
+                res_cube_anw[i, j, methodList.index(method)] = ANW_Geocast
+                res_cube_atd_fcfs[i, j, methodList.index(method)] = ATD_FCFS_Geocast
+                res_cube_appt[i, j, methodList.index(method)] = APPT_Geocast
+                res_cube_cell[i, j, methodList.index(method)] = ASC_Geocast
+                res_cube_hop[i, j, methodList.index(method)] = HOP_Geocast
+
+                gc.collect()
+                proc.get_memory_info().rss
+
+    # do not need to varying eps for non-privacy technique!
+    for j in range(len(seed_list)):
+        totalANW_Knn = 0
+        totalATD_Knn_FCFS = 0
+        totalPerformedTasks_Knn = 0
+        totalHop_Knn = 0
+
+        tasks = all_tasks[j]
+        # test all tasks for all time instances
+        for ti in range(len(all_workers)):
+            for l in range(len(tasks)):
+                t = tasks[l]
+
+                # Baseline (no privacy)
+                no_workers_knn, performed, dist_knn, dist_knn_FCFS, no_hops, coverage, no_hops2 = geocast_knn(
+                    all_workers[ti], t)
+                if performed:
+                    totalPerformedTasks_Knn += 1
+                    totalANW_Knn += no_workers_knn
+                    totalATD_Knn_FCFS += dist_knn_FCFS
+                    totalHop_Knn += no_hops
+
+        # Baseline
+        ANW_Knn = (totalANW_Knn + 0.0) / totalPerformedTasks_Knn
+        ATD_FCFS_Knn = totalATD_Knn_FCFS / totalPerformedTasks_Knn
+        APPT_Knn = 100 * float(totalPerformedTasks_Knn) / (Params.TASK_NO * T)
+        HOP_Knn = float(totalHop_Knn) / (Params.TASK_NO * T)
+
+        res_cube_anw[:, j, len(methodList) - 1] = ANW_Knn
+        res_cube_atd_fcfs[:, j, len(methodList) - 1] = ATD_FCFS_Knn
+        res_cube_appt[:, j, len(methodList) - 1] = APPT_Knn
+        res_cube_cell[:, j, len(methodList) - 1] = 0
+        res_cube_hop[:, j, len(methodList) - 1] = HOP_Knn
+
+    res_summary_anw = np.average(res_cube_anw, axis=1)
+    np.savetxt(p.resdir + exp_name + '_anw_' + str(EU) + "_" + `Params.TASK_NO`, res_summary_anw, fmt='%.4f\t')
+    res_summary_atd = np.average(res_cube_atd_fcfs, axis=1)
+    np.savetxt(p.resdir + exp_name + '_atd_fcfs_' + str(EU) + "_" + `Params.TASK_NO`, res_summary_atd, fmt='%.4f\t')
+    res_summary_appt = np.average(res_cube_appt, axis=1)
+    np.savetxt(p.resdir + exp_name + '_appt_' + str(EU) + "_" + `Params.TASK_NO`, res_summary_appt, fmt='%.4f\t')
+    res_summary_cell = np.average(res_cube_cell, axis=1)
+    np.savetxt(p.resdir + exp_name + '_cell_' + str(EU) + "_" + `Params.TASK_NO`, res_summary_cell, fmt='%.4f\t')
+    res_summary_hop = np.average(res_cube_hop, axis=1)
+    np.savetxt(p.resdir + exp_name + '_hop_' + str(EU) + "_" + `Params.TASK_NO`, res_summary_hop, fmt='%.4f\t')
+
+
 
 
 def evalGeocast_Baseline(all_workers, all_tasks):
@@ -649,16 +941,12 @@ def createGnuData(p, exp_name, var_list):
         #         fileName = p.resdir + exp_name + metric + str(eps) + "_"  + `Params.TASK_NO`
         #         os.remove(fileName)
 
-# kdtrees = []
-#    for i in range(len(all_workers)):
-#        kdtree = spatial.KDTree(all_workers[i].transpose())
-#        kdtrees.append(kdtree)
 
-if __name__ == '__main__':
+def exp1():
     logging.basicConfig(level=logging.DEBUG, filename='../log/debug.log')
     logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
 
-    # all_workers = readInstances("../../dataset/dynamic/gowallasf/100/")
+    # all_workers = readInstances("../../dataset/dynamic/yelp/100/")
     param = Params(1000)
     # param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
     # param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
@@ -676,21 +964,91 @@ if __name__ == '__main__':
     # pool.map(evalDynamic_Baseline, params)
     # pool.join()
 
-    param.resdir = '../../output/gowalla_sf/'
+    param.resdir = '../../output/yelp/'
     createGnuData(param,"Dynamic_Baseline", eps_list)
 
-    # for eps in eps_list:
-    #     evalDynamic_Baseline((all_workers, all_tasks, param, eps))
+def exp2():
+    logging.basicConfig(level=logging.DEBUG, filename='../log/debug.log')
+    logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
 
+    # all_workers = readInstances("../../dataset/dynamic/yelp/100/")
+    param = Params(1000)
+    # param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
+    # param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
+    #
+    # print param.NDIM, param.NDATA, param.LOW, param.HIGH
+    # task_data = read_tasks(param)
+    # all_tasks = tasks_gen(task_data, param)
+    #
+    # param.debug()
+    #
     # pool = Pool(processes=len(first_list))
     # params = []
     # for first in first_list:
     #     params.append((all_workers, all_tasks, param, first))
-    # pool.map(evalDynamic_Baseline_First, params)
+    # pool.map(evalDynamic_Baseline_F, params)
     # pool.join()
-    # createGnuData(param, "Dynamic_Baseline_First", first_list)
 
-    # for first in first_list:
-    #     evalDynamic_Baseline_First((all_workers, all_tasks, param, first))
+    param.resdir = '../../output/yelp/'
+    createGnuData(param, "Dynamic_Baseline_First", first_list)
 
-    # evalDynamic_Baseline((all_workers, all_tasks, param, 1.0))
+
+def exp3():
+    logging.basicConfig(level=logging.DEBUG, filename='../log/debug.log')
+    logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
+
+    # pool = Pool(processes=len(eps_list))
+    # params = []
+    # for T in T_list:
+    #     all_workers = readInstances("../../dataset/dynamic/yelp/" + str(T) + "/")
+    #     param = Params(1000)
+    #     param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
+    #     param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
+    #
+    #     task_data = read_tasks(param)
+    #     all_tasks = tasks_gen(task_data, param)
+    #     params.append((all_workers, all_tasks, param, T))
+    # pool.map(evalDynamic_Baseline_T, params)
+    # pool.join()
+
+    param = Params(1000)
+    param.resdir = '../../output/yelp/'
+    createGnuData(param,"Dynamic_Baseline_First", T_list)
+
+
+
+def exp4():
+    logging.basicConfig(level=logging.DEBUG, filename='../log/debug.log')
+    logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
+
+    all_workers = readInstances("../../dataset/dynamic/yelp/100/")
+    param = Params(1000)
+    param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
+    param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
+
+    print param.NDIM, param.NDATA, param.LOW, param.HIGH
+    task_data = read_tasks(param)
+    all_tasks = tasks_gen(task_data, param)
+
+    param.debug()
+
+    pool = Pool(processes=len(first_list))
+    params = []
+    for EU in EU_list:
+        params.append((all_workers, all_tasks, param, EU))
+    pool.map(evalDynamic_Baseline_EU, params)
+    pool.join()
+
+    #    param.resdir = '../../output/gowalla_sf/'
+    createGnuData(param, "Dynamic_Baseline_EU", first_list)
+
+#    param.resdir = '../../output/gowalla_sf/'
+#    createGnuData(param,"Dynamic_Baseline", eps_list)
+# kdtrees = []
+#    for i in range(len(all_workers)):
+#        kdtree = spatial.KDTree(all_workers[i].transpose())
+#        kdtrees.append(kdtree)
+
+if __name__ == '__main__':
+    exp1()
+

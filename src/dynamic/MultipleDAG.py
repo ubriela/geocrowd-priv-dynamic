@@ -40,13 +40,29 @@ class MultipleDAG(object):
         :return:
         """
         budgets = self.getCountBudget()
+
         for i in range(self.instances):
-            if (i + 1) % 10 == 0:
-                print "Basic: construct AG at time", i, "eps", self.param.Eps
-            ag = DynamicAG(self.data[i], budgets[i], self.param)
-            ag.buildIndex()
-            ag.adjustConsistency()
-            self.AGs.append(ag)
+            if not self.static:
+                if (i + 1) % 10 == 0:
+                    print "Basic: construct AG at time", i, "eps", self.param.Eps
+                ag = DynamicAG(self.data[i], budgets[i], self.param)
+                ag.buildIndex()
+                ag.adjustConsistency()
+                self.AGs.append(ag)
+            else:
+                if i == 0:
+                    # init the first grid
+                    ag = DynamicAG(self.data[0], budgets[0], self.param)
+                    ag.buildIndex()
+                    ag.adjustConsistency()
+                    self.AGs.append(ag)
+                    # self.AGs[0].adjustConsistency()
+                else:
+                    # the following grid use the partition AND NOISY COUNTS provided by the first grid
+                    ag = DynamicAG(self.data[i], budgets[i], self.param, self.AGs[0])
+                    ag.buildIndexFromTemplate()
+                    self.AGs.append(ag)
+
 
         del budgets
 

@@ -148,7 +148,7 @@ class DynamicAG(Grid_adaptiveM):
         del budget_c
 
     def buildIndexFromTemplate(self):
-        """build the grid structure."""
+        """keep the structure and the noisy counts but change the actual counts"""
         self.root.n_count = self.getCount(self.root, 0)  # add noisy count to the root
         queue = deque()
         queue.append(self.root)
