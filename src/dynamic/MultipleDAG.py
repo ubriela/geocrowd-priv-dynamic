@@ -52,15 +52,15 @@ class MultipleDAG(object):
             else:
                 if i == 0:
                     # init the first grid
-                    ag = DynamicAG(self.data[0], budgets[0], self.param)
+                    ag = DynamicAG(self.data[i], budgets[0], self.param)
                     ag.buildIndex()
                     ag.adjustConsistency()
                     self.AGs.append(ag)
                     # self.AGs[0].adjustConsistency()
                 else:
                     # the following grid use the partition AND NOISY COUNTS provided by the first grid
-                    ag = DynamicAG(self.data[i], budgets[i], self.param, self.AGs[0])
-                    ag.buildIndexFromTemplate()
+                    ag = DynamicAG(self.data[i], budgets[0], self.param, self.AGs[0])
+                    ag.buildIndexFromTemplateS()
                     self.AGs.append(ag)
 
 

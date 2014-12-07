@@ -8,6 +8,7 @@ from os.path import isfile, join
 import os
 import gc
 from multiprocessing import Pool
+import random
 
 import psutil
 import numpy as np
@@ -33,6 +34,7 @@ from Grid_adaptiveM import Grid_adaptiveM
 from GeocastKNN import geocast_knn
 from Utils import is_rect_cover, performed_tasks
 
+# eps_list = [0.1]
 eps_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
 first_list = [0.1,0.2, 0.3, 0.4, 0.5, 0.6, 0.7,0.8,0.9]
@@ -41,7 +43,7 @@ T_list = [50,60,70,80,90,100]
 
 EU_list = [0.3,0.4,0.5,0.6,0.7,0.8,0.9]
 
-# seed_list = [9110, 4064, 6903, 7509]
+# seed_list = [9110]
 seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
 
 
@@ -96,13 +98,31 @@ def readInstances(input_dir):
     files = [f for f in listdir(input_dir) if isfile(join(input_dir, f))]
 
     all_data = []
+    i = 0
     for file in files:
         data = np.genfromtxt(input_dir + file, unpack=True)
+        p = random.random()
+        if i == 0:
+            p = 0.5
+        data = filter(data, p)
+        print data.shape[1]
         all_data.append(data)
         for p in np.transpose(data):
             if p[0] == 0 or p[1] == 0:
                 print p, file
+        i = i + 1
     return all_data
+
+
+"""
+p percentage of the data online
+"""
+
+
+def filter(data, p):
+    idx = np.random.randint(0, data.shape[1], int(p * data.shape[1]))
+    filter_data = data[:, idx]
+    return filter_data
 
 
 def evalDynamic_Baseline(params):
@@ -117,8 +137,8 @@ def evalDynamic_Baseline(params):
 
     logging.info("evalDynamic_Baseline")
     exp_name = "Dynamic_Baseline"
-    # methodList = ["BasicD", "BasicS", "KF", "KFPID", "Baseline"]
-    methodList = ["BasicS"]
+    methodList = ["BasicD", "BasicS", "KF", "KFPID", "Baseline"]
+    # methodList = ["BasicS"]
 
     eps_list = [eps]
 
@@ -138,12 +158,12 @@ def evalDynamic_Baseline(params):
             p.Seed = seed_list[j]
             p.Eps = eps_list[i]
 
-            for method in methodList[0:len(methodList) - 1]:
+            for method in methodList[0:len(methodList)]:
                 proc = psutil.Process(os.getpid())
                 if method == "BasicD":
                     dag = MultipleDAG(all_workers, p)
                     dag.publish()
-                if method == "BasicS":
+                elif method == "BasicS":
                     dag = MultipleDAG(all_workers, p, True)
                     dag.publish()
                 elif method == "KF":
@@ -946,26 +966,26 @@ def exp1():
     logging.basicConfig(level=logging.DEBUG, filename='../log/debug.log')
     logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
 
-    # all_workers = readInstances("../../dataset/dynamic/yelp/100/")
     param = Params(1000)
-    # param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
-    # param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
-    #
-    # print param.NDIM, param.NDATA, param.LOW, param.HIGH
-    # task_data = read_tasks(param)
-    # all_tasks = tasks_gen(task_data, param)
-    #
-    # param.debug()
-    #
-    # pool = Pool(processes=len(eps_list))
-    # params = []
-    # for eps in eps_list:
-    #     params.append((all_workers, all_tasks, param, eps))
-    # pool.map(evalDynamic_Baseline, params)
-    # pool.join()
+    all_workers = readInstances("../../dataset/dynamic/yelp/100/")
+    param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
+    param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
 
-    param.resdir = '../../output/yelp/'
-    createGnuData(param,"Dynamic_Baseline", eps_list)
+    print param.NDIM, param.NDATA, param.LOW, param.HIGH
+    task_data = read_tasks(param)
+    all_tasks = tasks_gen(task_data, param)
+
+    param.debug()
+
+    pool = Pool(processes=len(eps_list))
+    params = []
+    for eps in eps_list:
+        params.append((all_workers, all_tasks, param, eps))
+    pool.map(evalDynamic_Baseline, params)
+    pool.join()
+
+    # param.resdir = '../../output/yelp/'
+    # createGnuData(param,"Dynamic_Baseline", eps_list)
 
 def exp2():
     logging.basicConfig(level=logging.DEBUG, filename='../log/debug.log')
