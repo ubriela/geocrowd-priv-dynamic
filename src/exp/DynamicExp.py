@@ -34,17 +34,17 @@ from Grid_adaptiveM import Grid_adaptiveM
 from GeocastKNN import geocast_knn
 from Utils import is_rect_cover, performed_tasks
 
-# eps_list = [0.1]
+# eps_list = [0.1, 0.3, 0.5, 0.7, 0.9, 1.0]
 eps_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
-first_list = [0.1,0.2, 0.3, 0.4, 0.5, 0.6, 0.7,0.8,0.9]
+first_list = [0.1, 0.3, 0.5, 0.7, 0.9]
 
 T_list = [50,60,70,80,90,100]
 
 EU_list = [0.3,0.4,0.5,0.6,0.7,0.8,0.9]
 
-# seed_list = [9110]
-seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
+seed_list = [9110]
+# seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
 
 
 def read_tasks(p):
@@ -99,29 +99,30 @@ def readInstances(input_dir):
 
     all_data = []
     i = 0
+    first_prob = 0.25
+    prob = first_prob
     for file in files:
         data = np.genfromtxt(input_dir + file, unpack=True)
-        p = random.random()
-        if i == 0:
-            p = 0.5
-        data = filter(data, p)
-        print data.shape[1]
+
+        data = filter(data, prob)
+        print prob, data.shape[1]
         all_data.append(data)
         for p in np.transpose(data):
             if p[0] == 0 or p[1] == 0:
                 print p, file
         i = i + 1
+        prob = prob + (1.0 - first_prob)/len(files)
     return all_data
 
 
 """
 p percentage of the data online
 """
-
-
-def filter(data, p):
-    idx = np.random.randint(0, data.shape[1], int(p * data.shape[1]))
+def filter(data, prob):
+    idx = np.random.randint(0, data.shape[1], int(prob * data.shape[1]))
     filter_data = data[:, idx]
+
+
     return filter_data
 
 
@@ -179,6 +180,8 @@ def evalDynamic_Baseline(params):
                     dag.applyKalmanFilter()
                     # dag.dumpSequenceCounts(True, "true_count_" + method + "_" + str(eps_list[i]))
                     # dag.dumpSequenceCounts(False, "noisy_count_" + method + "_" + str(eps_list[i]))
+                else:
+                    continue;
 
                 totalANW_Geocast = 0
                 # totalATD_Geocast = 0
@@ -191,10 +194,10 @@ def evalDynamic_Baseline(params):
                 # totalCov_Geocast = 0
 
                 T = len(dag.getAGs())
+                if T == 0:
+                        continue
                 # test all tasks for all time instances
                 for ti in range(T):
-                    if len(dag.getAGs()) == 0:
-                        break
                     # free memory of previous instances
                     for l in range(len(all_tasks[j])):
                         if (l + 1) % Params.LOGGING_STEPS == 0:
@@ -225,10 +228,10 @@ def evalDynamic_Baseline(params):
                         break
 
                 # Geocast
-                ANW_Geocast = (totalANW_Geocast + 0.0) / totalPerformedTasks_Geocast
+                ANW_Geocast = (totalANW_Geocast + 0.0) / max(1, totalPerformedTasks_Geocast)
                 # ATD_Geocast = totalATD_Geocast / totalPerformedTasks_Geocast
-                ATD_FCFS_Geocast = totalATD_FCFS_Geocast / totalPerformedTasks_Geocast
-                ASC_Geocast = (totalCell_Geocast + 0.0) / totalPerformedTasks_Geocast
+                ATD_FCFS_Geocast = totalATD_FCFS_Geocast / max(1, totalPerformedTasks_Geocast)
+                ASC_Geocast = (totalCell_Geocast + 0.0) / max(1, totalPerformedTasks_Geocast)
                 # CMP_Geocast = totalCompactness_Geocast / totalPerformedTasks_Geocast
                 APPT_Geocast = 100 * float(totalPerformedTasks_Geocast) / (Params.TASK_NO * T)
                 HOP_Geocast = float(totalHop_Geocast) / (Params.TASK_NO * T)
@@ -248,7 +251,6 @@ def evalDynamic_Baseline(params):
                 gc.collect()
                 proc.get_memory_info().rss
 
-    """
     # do not need to varying eps for non-privacy technique!
     for j in range(len(seed_list)):
         totalANW_Knn = 0
@@ -278,11 +280,11 @@ def evalDynamic_Baseline(params):
                     # totalCov_Knn += coverage
 
         # Baseline
-        ANW_Knn = (totalANW_Knn + 0.0) / totalPerformedTasks_Knn
+        ANW_Knn = (totalANW_Knn + 0.0) / max(1, totalPerformedTasks_Knn)
         # ATD_Knn = totalATD_Knn / totalPerformedTasks_Knn
-        ATD_FCFS_Knn = totalATD_Knn_FCFS / totalPerformedTasks_Knn
-        APPT_Knn = 100 * float(totalPerformedTasks_Knn) / (Params.TASK_NO * T)
-        HOP_Knn = float(totalHop_Knn) / (Params.TASK_NO * T)
+        ATD_FCFS_Knn = totalATD_Knn_FCFS / max(1, totalPerformedTasks_Knn)
+        APPT_Knn = 100 * float(totalPerformedTasks_Knn) / (Params.TASK_NO*len(all_workers))
+        HOP_Knn = float(totalHop_Knn) / (Params.TASK_NO*len(all_workers))
         # HOP2_Knn = float(totalHop2_Knn) / (Params.TASK_NO * T)
         # COV_Knn = 100 * float(totalCov_Knn) / (Params.TASK_NO * T)
 
@@ -296,7 +298,6 @@ def evalDynamic_Baseline(params):
         # res_cube_hop2[:, j, len(methodList) - 1] = HOP2_Knn
         # res_cube_cov[:, j, len(methodList) - 1] = COV_Knn
 
-    """
     res_summary_anw = np.average(res_cube_anw, axis=1)
     np.savetxt(p.resdir + exp_name + '_anw_' + str(eps) + "_" + `Params.TASK_NO`, res_summary_anw, fmt='%.4f\t')
     # res_summary_atd = np.average(res_cube_atd, axis=1)
@@ -329,7 +330,7 @@ def evalDynamic_Baseline_F(params):
 
     logging.info("evalDynamic_Baseline_F")
     exp_name = "Dynamic_Baseline_First"
-    methodList = ["Basic", "KF", "KFPID", "Baseline"]
+    methodList = ["BasicD", "KFPID", "Baseline"]
 
     first_list = [first]
 
@@ -346,7 +347,7 @@ def evalDynamic_Baseline_F(params):
 
             for method in methodList[0:len(methodList) - 1]:
                 proc = psutil.Process(os.getpid())
-                if method == "Basic":
+                if method == "BasicD":
                     dag = MultipleDAG(all_workers, p)
                     dag.publish()
 
@@ -967,7 +968,7 @@ def exp1():
     logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
 
     param = Params(1000)
-    all_workers = readInstances("../../dataset/dynamic/yelp/100/")
+    all_workers = readInstances("../../dataset/dynamic/gowallasf/100/")
     param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
     param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
 
@@ -980,37 +981,41 @@ def exp1():
     pool = Pool(processes=len(eps_list))
     params = []
     for eps in eps_list:
+        # evalDynamic_Baseline((all_workers, all_tasks, param, eps))
         params.append((all_workers, all_tasks, param, eps))
     pool.map(evalDynamic_Baseline, params)
     pool.join()
 
-    # param.resdir = '../../output/yelp/'
-    # createGnuData(param,"Dynamic_Baseline", eps_list)
+    time.sleep(5)
+
+    param.resdir = '../../output/gowalla_sf/'
+    createGnuData(param,"Dynamic_Baseline", eps_list)
 
 def exp2():
     logging.basicConfig(level=logging.DEBUG, filename='../log/debug.log')
     logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
 
-    # all_workers = readInstances("../../dataset/dynamic/yelp/100/")
-    param = Params(1000)
-    # param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
-    # param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
-    #
-    # print param.NDIM, param.NDATA, param.LOW, param.HIGH
-    # task_data = read_tasks(param)
-    # all_tasks = tasks_gen(task_data, param)
-    #
-    # param.debug()
-    #
-    # pool = Pool(processes=len(first_list))
-    # params = []
-    # for first in first_list:
-    #     params.append((all_workers, all_tasks, param, first))
-    # pool.map(evalDynamic_Baseline_F, params)
-    # pool.join()
+    param = Params(1000) 
+    all_workers = readInstances("../../dataset/dynamic/gowallasf/100/")
+    param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
+    param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
 
-    param.resdir = '../../output/yelp/'
-    createGnuData(param, "Dynamic_Baseline_First", first_list)
+    print param.NDIM, param.NDATA, param.LOW, param.HIGH
+    task_data = read_tasks(param)
+    all_tasks = tasks_gen(task_data, param)
+
+    param.debug()
+
+    pool = Pool(processes=len(first_list))
+    params = []
+    for first in first_list:
+        params.append((all_workers, all_tasks, param, first))
+    pool.map(evalDynamic_Baseline_F, params)
+    pool.join()
+#    time.sleep(5)
+
+#    param.resdir = '../../output/gowalla_sf/'
+#    createGnuData(param, "Dynamic_Baseline_First", first_list)
 
 
 def exp3():

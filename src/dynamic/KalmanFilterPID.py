@@ -33,7 +33,7 @@ class KalmanFilterPID(Parser):
         self.P = 100
 
         # estimation error covariance (over all time instance)
-        self.Q = 100
+        self.Q = 1000
 
         # process noise synthetic data
         self.R = 1000000
