@@ -9,6 +9,9 @@ import numpy as np
 
 
 
+
+
+
 # import multiprocessing as mult
 import sys
 import logging
@@ -233,8 +236,8 @@ if __name__ == '__main__':
     createGnuData()
     # ## Experiment 2: test various kd-trees ###
     # for q_shape in q_list:
-    #        test_kdTrees(q_shape)
-    #    createGnuData()
+    # test_kdTrees(q_shape)
+    # createGnuData()
     ## Experiment 3: test the impact of max tree height ###
     #    for q_shape in q_list:
     #        test_height(q_shape)

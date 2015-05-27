@@ -6,8 +6,8 @@ class Params(object):
     """
     # dataset, x_min, y_min, x_max, y_max = None, None, None, None, None
     # NDATA = None
-    #    NDIM = None
-    #    LOW = None
+    # NDIM = None
+    # LOW = None
     #    HIGH = None
 
     SRT = 0.01  # sampling rate

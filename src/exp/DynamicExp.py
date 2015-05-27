@@ -8,7 +8,6 @@ from os.path import isfile, join
 import os
 import gc
 from multiprocessing import Pool
-import random
 
 import psutil
 import numpy as np
@@ -39,9 +38,9 @@ eps_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
 first_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
-T_list = [50,60,70,80,90,100]
+T_list = [50, 60, 70, 80, 90, 100]
 
-EU_list = [0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+EU_list = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
 # seed_list = [9110]
 seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
@@ -59,7 +58,6 @@ def tasks_gen(data, param):
     """
     taskNo, x1, y1, x2, y2 = param.TASK_NO, param.x_min, param.y_min, param.x_max, param.y_max
     all_points = []
-
 
     if os.path.isfile(param.TASKPATH):
         with open(param.TASKPATH) as f:
@@ -111,17 +109,18 @@ def readInstances(input_dir):
             if p[0] == 0 or p[1] == 0:
                 print p, file
         i = i + 1
-        prob = prob - 0.9/len(files)
+        prob = prob - 0.9 / len(files)
     return all_data
 
 
 """
 p percentage of the data online
 """
+
+
 def filter(data, prob):
     idx = np.random.randint(0, data.shape[1], int(prob * data.shape[1]))
     filter_data = data[:, idx]
-
 
     return filter_data
 
@@ -195,7 +194,7 @@ def evalDynamic_Baseline(params):
 
                 T = len(dag.getAGs())
                 if T == 0:
-                        continue
+                    continue
                 # test all tasks for all time instances
                 for ti in range(T):
                     # free memory of previous instances
@@ -283,8 +282,8 @@ def evalDynamic_Baseline(params):
         ANW_Knn = (totalANW_Knn + 0.0) / max(1, totalPerformedTasks_Knn)
         # ATD_Knn = totalATD_Knn / totalPerformedTasks_Knn
         ATD_FCFS_Knn = totalATD_Knn_FCFS / max(1, totalPerformedTasks_Knn)
-        APPT_Knn = 100 * float(totalPerformedTasks_Knn) / (Params.TASK_NO*len(all_workers))
-        HOP_Knn = float(totalHop_Knn) / (Params.TASK_NO*len(all_workers))
+        APPT_Knn = 100 * float(totalPerformedTasks_Knn) / (Params.TASK_NO * len(all_workers))
+        HOP_Knn = float(totalHop_Knn) / (Params.TASK_NO * len(all_workers))
         # HOP2_Knn = float(totalHop2_Knn) / (Params.TASK_NO * T)
         # COV_Knn = 100 * float(totalCov_Knn) / (Params.TASK_NO * T)
 
@@ -373,7 +372,7 @@ def evalDynamic_Baseline_F(params):
 
                 T = len(dag.getAGs())
                 if T == 0:
-                        continue
+                    continue
                 # test all tasks for all time instances
                 for ti in range(T):
                     # free memory of previous instances
@@ -474,7 +473,6 @@ def evalDynamic_Baseline_T(params):
     logging.info("evalDynamic_Baseline_T")
     exp_name = "Dynamic_Baseline_T"
     methodList = ["Basic", "KF", "KFPID", "Baseline"]
-
 
     res_cube_anw = np.zeros((1, len(seed_list), len(methodList)))
     res_cube_atd_fcfs = np.zeros((1, len(seed_list), len(methodList)))
@@ -600,7 +598,6 @@ def evalDynamic_Baseline_T(params):
     np.savetxt(p.resdir + exp_name + '_cell_' + str(T) + "_" + `Params.TASK_NO`, res_summary_cell, fmt='%.4f\t')
     res_summary_hop = np.average(res_cube_hop, axis=1)
     np.savetxt(p.resdir + exp_name + '_hop_' + str(T) + "_" + `Params.TASK_NO`, res_summary_hop, fmt='%.4f\t')
-
 
 
 def evalDynamic_Baseline_EU(params):
@@ -744,8 +741,6 @@ def evalDynamic_Baseline_EU(params):
     np.savetxt(p.resdir + exp_name + '_cell_' + str(EU) + "_" + `Params.TASK_NO`, res_summary_cell, fmt='%.4f\t')
     res_summary_hop = np.average(res_cube_hop, axis=1)
     np.savetxt(p.resdir + exp_name + '_hop_' + str(EU) + "_" + `Params.TASK_NO`, res_summary_hop, fmt='%.4f\t')
-
-
 
 
 def evalGeocast_Baseline(all_workers, all_tasks):
@@ -959,7 +954,7 @@ def createGnuData(p, exp_name, var_list):
 
         # for metric in metrics:
         # for eps in eps_list:
-        #         fileName = p.resdir + exp_name + metric + str(eps) + "_"  + `Params.TASK_NO`
+        # fileName = p.resdir + exp_name + metric + str(eps) + "_"  + `Params.TASK_NO`
         #         os.remove(fileName)
 
 
@@ -991,11 +986,12 @@ def exp1():
     # param.resdir = '../../output/yelp/'
     # createGnuData(param,"Dynamic_Baseline", eps_list)
 
+
 def exp2():
     logging.basicConfig(level=logging.DEBUG, filename='../log/debug.log')
     logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
 
-    param = Params(1000) 
+    param = Params(1000)
     # all_workers = readInstances("../../dataset/dynamic/gowallasf/100/")
     # param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
     # param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
@@ -1009,11 +1005,11 @@ def exp2():
     # pool = Pool(processes=len(first_list))
     # params = []
     # for first in first_list:
-    #     # evalDynamic_Baseline_F((all_workers, all_tasks, param, first))
+    # # evalDynamic_Baseline_F((all_workers, all_tasks, param, first))
     #     params.append((all_workers, all_tasks, param, first))
     # pool.map(evalDynamic_Baseline_F, params)
     # pool.join()
-   # time.sleep(5)
+    # time.sleep(5)
     param.resdir = '../../output/gowalla_sf/'
     createGnuData(param, "Dynamic_Baseline_First", first_list)
 
@@ -1025,7 +1021,7 @@ def exp3():
     # pool = Pool(processes=len(eps_list))
     # params = []
     # for T in T_list:
-    #     all_workers = readInstances("../../dataset/dynamic/yelp/" + str(T) + "/")
+    # all_workers = readInstances("../../dataset/dynamic/yelp/" + str(T) + "/")
     #     param = Params(1000)
     #     param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
     #     param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
@@ -1038,8 +1034,7 @@ def exp3():
 
     param = Params(1000)
     param.resdir = '../../output/yelp/'
-    createGnuData(param,"Dynamic_Baseline_First", T_list)
-
+    createGnuData(param, "Dynamic_Baseline_First", T_list)
 
 
 def exp4():
@@ -1064,10 +1059,10 @@ def exp4():
     pool.map(evalDynamic_Baseline_EU, params)
     pool.join()
 
-    #    param.resdir = '../../output/gowalla_sf/'
+    # param.resdir = '../../output/gowalla_sf/'
     createGnuData(param, "Dynamic_Baseline_EU", first_list)
 
-#    param.resdir = '../../output/gowalla_sf/'
+# param.resdir = '../../output/gowalla_sf/'
 #    createGnuData(param,"Dynamic_Baseline", eps_list)
 # kdtrees = []
 #    for i in range(len(all_workers)):

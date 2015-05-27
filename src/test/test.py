@@ -25,8 +25,8 @@ size = 100000
 #
 # for i in range(size):
 # true[i] = i
-#     n_count = true[i] + np.random.laplace(0, 1/0.1, 1)[0]
-#     noisy[i] = n_count
+# n_count = true[i] + np.random.laplace(0, 1/0.1, 1)[0]
+# noisy[i] = n_count
 #
 # print np.sqrt(2*(1/0.1)**2), np.sqrt(((noisy - true) ** 2).mean())
 

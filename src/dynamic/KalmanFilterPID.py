@@ -2,7 +2,6 @@ import math
 import time
 
 import random
-import sys
 
 sys.path.append('../geocast')
 sys.path.append('../icde12')
@@ -245,9 +244,9 @@ class KalmanFilterPID(Parser):
     # def postProcessing(self):
     # print len(self.samples), self.samples
     # remainedEps = self.totalBudget - len(self.samples) * self.epsilon
-    #     self.epsilon = self.epsilon + remainedEps/len(self.samples)
+    # self.epsilon = self.epsilon + remainedEps/len(self.samples)
     #
-    #     # recompute noisy counts
+    # # recompute noisy counts
     #     prev = 0
     #     for i in self.samples:
     #         self.publish[i] = self.getCount(self.orig[i], self.epsilon)

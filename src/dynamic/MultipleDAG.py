@@ -63,7 +63,6 @@ class MultipleDAG(object):
                     ag.buildIndexFromTemplateS()
                     self.AGs.append(ag)
 
-
         del budgets
 
     # print self.AGs[i].checkCorrectness(self.AGs[i].root)

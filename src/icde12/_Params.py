@@ -24,7 +24,7 @@ class Params(object):
     # x_min=-124.2640; y_min=24.5515; x_max=-68.2106; y_max=48.9939 # shopping
 
     # dataset = '../../dataset/parkrec.dat'; resdir = '../../output/parkrec/'
-    #    x_min=-124.5249; y_min=24.5510; x_max=-66.9687; y_max=49.0010 # parkrec
+    # x_min=-124.5249; y_min=24.5510; x_max=-66.9687; y_max=49.0010 # parkrec
 
     #    dataset = '../../dataset/zipcode.dat'; resdir = '../../output/zipcode/'
     #    x_min=-176.6368; y_min=17.9622; x_max=-65.2926; y_max=71.2995 # zipcode

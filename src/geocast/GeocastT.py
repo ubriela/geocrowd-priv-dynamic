@@ -194,8 +194,8 @@ def is_level_expansion(parent, childrens):
 # x_min = id_xmin_1st*x_width_1st + Params.LOW[0]
 # y_min = id_ymin_1st*y_width_1st + Params.LOW[1]
 # x_max = id_xmax_1st*x_width_1st + Params.LOW[0]
-#            y_max = id_ymax_1st*y_width_1st + Params.LOW[1]
-#            id_xmin_2nd = int(math.floor((cell[0][0] - x_min)/x_width_2nd))
+# y_max = id_ymax_1st*y_width_1st + Params.LOW[1]
+# id_xmin_2nd = int(math.floor((cell[0][0] - x_min)/x_width_2nd))
 #            id_ymin_2nd = int(math.floor((cell[0][1] - y_min)/y_width_2nd))
 #            id_xmax_2nd = int(math.ceil((cell[1][0] - x_min)/x_width_2nd))
 #            id_ymax_2nd = int(math.ceil((cell[1][1] - y_min)/y_width_2nd))

@@ -64,10 +64,10 @@ if __name__ == '__main__':
     logging.info(time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime()) + "  START")
 
 
-    #eps_list = [0.001, 0.004, 0.007, 0.01]
-    #dataset_list = ['yelp', 'foursquare', 'gowallasf', 'gowallala']
+    # eps_list = [0.001, 0.004, 0.007, 0.01]
+    # dataset_list = ['yelp', 'foursquare', 'gowallasf', 'gowallala']
 
-    eps_list = [0.05,0.005]
+    eps_list = [0.05, 0.005]
     dataset_list = ['yelp']
 
     for dataset in dataset_list:

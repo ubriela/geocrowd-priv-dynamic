@@ -153,8 +153,8 @@ class HT_pure(HTree):
         # return pos, med
         #
         # def getNoisySlice(self,array,left,right,epsilon,partitions,slice):
-        #        med = self.differ.getSplit_slice(array, left, right, epsilon, partitions, slice)
-        #        pos = np.searchsorted(array, med)
+        # med = self.differ.getSplit_slice(array, left, right, epsilon, partitions, slice)
+        # pos = np.searchsorted(array, med)
         #        return pos, med
         #
         #
@@ -193,8 +193,8 @@ if __name__ == '__main__':
     # test recursiveSlices
     # height = 2
     # array = range(1001)
-    #    budget_s = [0 for _ in range(3)]
-    #    x = ht_pure.recursiveSlices(height,8,array,budget_s)
+    # budget_s = [0 for _ in range(3)]
+    # x = ht_pure.recursiveSlices(height,8,array,budget_s)
     #    print x
     #    print len(x)
 

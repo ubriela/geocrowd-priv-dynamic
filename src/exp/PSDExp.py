@@ -147,9 +147,9 @@ def query_gen_mtd(queryShape, seed, x1=-124.8193, y1=31.3322, x2=-103.0020, y2=4
 # y_low = point_y - y_range
 # y_high = point_y
 # for i in range(int(Params.nQuery/2)):
-#        querylist.append(np.array([[x_low[i],y_low[i]],[x_high[i],y_high[i]]]))
+# querylist.append(np.array([[x_low[i],y_low[i]],[x_high[i],y_high[i]]]))
 #
-#    point_x = np.random.uniform(x2,Params.HIGH[0],Params.nQuery/2)
+# point_x = np.random.uniform(x2,Params.HIGH[0],Params.nQuery/2)
 #    point_y = np.random.uniform(Params.LOW[1],y1,Params.nQuery/2)
 #    x_low = point_x - x_range
 #    x_high = point_x

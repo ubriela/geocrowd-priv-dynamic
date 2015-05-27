@@ -189,8 +189,8 @@ def is_level_expansion(parent, childrens):
 # if granularity_2nd >= 2:
 # x_width_2nd = x_width_1st/granularity_2nd
 # y_width_2nd = y_width_1st/granularity_2nd
-#            x_min = id_xmin_1st*x_width_1st + Params.LOW[0]
-#            y_min = id_ymin_1st*y_width_1st + Params.LOW[1]
+# x_min = id_xmin_1st*x_width_1st + Params.LOW[0]
+# y_min = id_ymin_1st*y_width_1st + Params.LOW[1]
 #            x_max = id_xmax_1st*x_width_1st + Params.LOW[0]
 #            y_max = id_ymax_1st*y_width_1st + Params.LOW[1]
 #            id_xmin_2nd = int(math.floor((cell[0][0] - x_min)/x_width_2nd))
