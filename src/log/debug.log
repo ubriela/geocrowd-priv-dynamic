@@ -8,3 +8,12 @@ INFO:root:Mon, 22 Dec 2014 08:05:32  START
 INFO:root:Tue, 23 Dec 2014 00:30:55  START
 INFO:root:Tue, 23 Dec 2014 08:11:10  START
 INFO:root:Tue, 23 Dec 2014 10:21:32  START
+INFO:root:Wed, 27 May 2015 18:47:31  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10

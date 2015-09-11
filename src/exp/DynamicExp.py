@@ -13,7 +13,6 @@ import psutil
 import numpy as np
 from scipy import spatial
 
-
 sys.path.append('../minball')
 sys.path.append('../common')
 sys.path.append('../geocast')
@@ -1071,4 +1070,3 @@ def exp4():
 
 if __name__ == '__main__':
     exp1()
-

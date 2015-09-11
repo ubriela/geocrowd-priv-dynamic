@@ -1,7 +1,3 @@
-"""
-Contains all experimental methods
-"""
-
 import time
 import logging
 
@@ -36,14 +32,14 @@ def getPathData(data, param):
     tree.buildIndex()
     tree.adjustConsistency()
 
-    left_boxes = []
+    leaf_boxes = []
     for (_, _), l1_child in np.ndenumerate(tree.root.children):
         if not l1_child.n_isLeaf and l1_child.children is not None:
             for (_, _), l2_child in np.ndenumerate(l1_child.children):  # child1 is a first-level cell
-                left_boxes.append((l2_child.n_box, l2_child.a_count))
-        left_boxes.append((l1_child.n_box, l1_child.a_count))
+                leaf_boxes.append((l2_child.n_box, l2_child.a_count))
+        leaf_boxes.append((l1_child.n_box, l1_child.a_count))
 
-    for data in left_boxes:
+    for data in leaf_boxes:
         # [[x_min,y_min],[x_max,y_max]]
         path = []
         box = data[0]

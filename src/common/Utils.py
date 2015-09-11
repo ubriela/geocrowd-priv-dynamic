@@ -6,10 +6,6 @@ import random
 
 
 
-
-
-
-
 # noinspection PyDeprecation
 from sets import Set
 
@@ -81,7 +77,7 @@ def _step_function(max_distance):
 def acc_rate(max_distance, dist):
     if Params.AR_FUNCTION == "zipf":
         k = max(1, int(dist * Params.ZIPF_STEPS / max_distance))  # rank
-        return _zipf_pmf(k, Params.s, Params.ZIPF_STEPS) * Params.MAR / _zipf_pmf(1, Params.s, Params.ZIPF_STEPS)
+        return zipf_pmf(k, Params.s, Params.ZIPF_STEPS) * Params.MAR / zipf_pmf(1, Params.s, Params.ZIPF_STEPS)
 
         # s = np.random.zipf(Params.s, 20)
         # y = k**(-Params.s)/sps.zetac(Params.s)
@@ -274,6 +270,7 @@ def is_rect_cover_rect(rect, query):
 def is_rect_cover(rect, loc):
     """
     checks if the rectangle covers a point
+    [[x_min,y_min],[x_max,y_max]]
     """
     bool_m1 = rect[0, 0] <= loc[0] <= rect[1, 0]
     bool_m2 = rect[0, 1] <= loc[1] <= rect[1, 1]
@@ -311,11 +308,11 @@ def is_range_overlap(range1, range2):
 
 
 # http://en.wikipedia.org/wiki/Zipf's_law
-def _zipf_pmf(k, s, N):
+def zipf_pmf(k, s, N):
     return (1.0 / k ** s) / np.sum([float(n) ** -s for n in range(1, N + 1)])
 
 
-def _zipf_cdf(k, s, N):
+def zipf_cdf(k, s, N):
     return np.sum([float(n) ** -s for n in range(1, k + 1)]) / np.sum([float(n) ** -s for n in range(1, N + 1)])
 
 
