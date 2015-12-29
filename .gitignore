@@ -1,5 +1,6 @@
 nbproject
-dataset_tmp
+dataset
+dataset_git
 .idea
 download_result.sh
 setup.py
