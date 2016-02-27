@@ -3,6 +3,7 @@ import bisect
 import itertools as it
 
 import random
+import numpy as np
 
 
 
@@ -74,21 +75,25 @@ def _step_function(max_distance):
     return x, y
 
 
+"""
+Acceptance rate of a worker is the probability the worker accepts to
+complete a task for which s/he receives a request
+"""
 def acc_rate(max_distance, dist):
-    if Params.AR_FUNCTION == "zipf":
+    if Params.AR_FUNCTION == "linear":
+        return max(0, (1 - (dist + 0.0) / max_distance) * Params.MAR)
+    elif Params.AR_FUNCTION == "zipf":
         k = max(1, int(dist * Params.ZIPF_STEPS / max_distance))  # rank
         return zipf_pmf(k, Params.s, Params.ZIPF_STEPS) * Params.MAR / zipf_pmf(1, Params.s, Params.ZIPF_STEPS)
 
         # s = np.random.zipf(Params.s, 20)
         # y = k**(-Params.s)/sps.zetac(Params.s)
         # return y
-
     elif Params.AR_FUNCTION == "step":
         x, y = _step_function(max_distance)
         pos = np.searchsorted(x, dist)
         return max(0, y[pos])
-    elif Params.AR_FUNCTION == "linear":
-        return max(0, (1 - (dist + 0.0) / max_distance) * Params.MAR)
+
     elif Params.AR_FUNCTION == "const":
         return Params.MAR
 
@@ -96,10 +101,8 @@ def acc_rate(max_distance, dist):
 _acc_rate = acc_rate
 
 """
-acceptance rate
+check if current user performs the task by simulating Binomial distribution
 """
-
-
 def is_performed(ar):
     """
     Simulate whether a task is performed or not 0<=acc_rate<=1
@@ -109,12 +112,14 @@ def is_performed(ar):
         return True
     return False
 
+ # s = np.random.binomial(n, p, 1000)
+
 
 # This function may be slow
 def performed_tasks(workers, max_dist, t, FCFS, proportionate_selection=True):
     """
     find the performed task, given the workers being geocast and their acceptance rates
-    
+
     @param locs : a list of worker locations
     @param max_dist : MTD, acceptance rate is zero at MTD
     @param t : task location    
@@ -196,6 +201,22 @@ def performed_task(loc, max_dist, t):
     return False, None
 
 
+# http://stackoverflow.com/questions/3025162/statistics-combinations-in-python/3025194#3025194
+def choose(n, k):
+    """
+    A fast way to calculate binomial coefficients by Andrew Dalke (contrib).
+    """
+    if 0 <= k <= n:
+        ntok = 1
+        ktok = 1
+        for t in xrange(1, min(k, n - k) + 1):
+            ntok *= n
+            ktok *= t
+            n -= 1
+        return ntok // ktok
+    else:
+        return 0
+
 def utility(node, max_dist, t):
     """
     Compute utility of a cell with respect to location of a task
@@ -203,11 +224,19 @@ def utility(node, max_dist, t):
     @param node : node
     @param max_dist : MTD, utility = 0 at  MTD
     @param t : location of the task
+    @param k : number of worker requires
     """
     dist = distance_to_rect(t[0], t[1], node.n_box)
     ar = _acc_rate(max_dist, dist)
     # print ar, node.n_count
-    return np.sign(node.n_count) * (1 - (1 - ar) ** abs(node.n_count)), dist
+    p_count = abs(node.n_count) # positive count
+    if Params.K == 1: # single task assignment
+        return [np.sign(node.n_count) * (1 - (1 - ar) ** p_count)], dist
+    elif Params.K > abs(node.n_count):
+        return [0 for _ in range(Params.K)], dist  # if less than k workers in the node --> utility = 0
+    else: # multiple task assignment
+        print sum([choose(p_count, i) * ar ** i * (1 - ar) ** (p_count - i) for i in range(1, Params.K + 1)])
+        return 1 - sum([choose(p_count, i) * ar ** i * (1 - ar) ** (p_count - i) for i in range(1, Params.K + 1)]), dist
 
 
 def utility_naive(query, w, max_dist):

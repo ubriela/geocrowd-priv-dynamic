@@ -67,6 +67,7 @@ class Params(object):
     NETWORK_DIAMETER = 0.05  # kme
     TASK_NO = 100  # tasks per instance
     DATASET, AR_FUNCTION = "yelp", "linear"
+    K = 1
 
     # multiple time instances
     samplingRate = 0.25  # 2%

@@ -371,6 +371,9 @@ def cost_function(utility, compactness, eps, alpha=Params.ALPHA):
     return (1 - eps) * utility * (1 - alpha) + eps * compactness * alpha
 
 
+"""
+
+"""
 def geocast(tree, t, eps):
     """
     Given WorkerPSD and a task, find the region around the task that covers enough workers so that
@@ -378,14 +381,15 @@ def geocast(tree, t, eps):
     with high probability
     
     @param tree : WorkerPSD
-    @param L : task location
+    @param t : task location
+    @param eps : privacy budget
     """
     centers = Set([])
     MTD_RECT = np.array([[t[0] - Params.ONE_KM * Params.MTD, t[1] - Params.ONE_KM * Params.MTD],
                          [t[0] + Params.ONE_KM * Params.MTD, t[1] + Params.ONE_KM * Params.MTD]])
 
     # initialize q as the cell that covers L
-    q_init = tree.leafCover(t)  # get the leaf node that covers L
+    q_init = tree.leafCover(t)  # get the leaf node that covers t
     if q_init is None:
         print "q_init is None" + t
         return None, None
