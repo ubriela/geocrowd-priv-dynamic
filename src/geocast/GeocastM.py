@@ -278,7 +278,7 @@ def leaf_granularity(tree, index):
 
 def select_partial_cell(t, cell, u_prev):
     """
-    Partial selectio on the last grid cell
+    Partial selection on the last grid cell
     
     @param L: task location
     @param cell
@@ -373,6 +373,9 @@ def cost_function(utility, compactness, eps, alpha=Params.ALPHA):
     return (1 - eps) * utility * (1 - alpha) + eps * compactness * alpha
 
 
+"""
+for jounal extension
+"""
 def geocast(tree, t, eps):
     """
     Given WorkerPSD and a task, find the region around the task that covers enough workers so that
@@ -380,7 +383,8 @@ def geocast(tree, t, eps):
     with high probability
     
     @param tree : WorkerPSD
-    @param L : task location
+    @param t : task location
+    @param eps : privacy budget
     """
     centers = Set([])
     MTD_RECT = np.array([[t[0] - Params.ONE_KM * Params.MTD, t[1] - Params.ONE_KM * Params.MTD],
@@ -394,6 +398,7 @@ def geocast(tree, t, eps):
     q_init.neighbor = q_init
     q_init.n_count = math.floor(q_init.n_count)
     u_q, dist = utility(q_init, Params.MTD, t)
+    print u_q
     f_q = u_q  # cost function
     Q = [(f_q, [u_q, q_init, 2 / math.pi, -dist])]
     q = []  # final cell {a set of cells}
