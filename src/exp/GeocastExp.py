@@ -25,7 +25,7 @@ from PSDExp import data_readin
 # from Grid_adaptive import Grid_adaptive
 from Grid_adaptiveM import Grid_adaptiveM
 
-from GeocastM import geocast, post_geocast
+from GeocastM import geocast, geocast_m, post_geocast
 from GeocastLog import geocast_log
 from GeocastInfo import GeocastInfo
 
@@ -33,11 +33,10 @@ from GeocastKNN import geocast_knn
 from Utils import is_rect_cover, performed_tasks
 import os.path
 
-eps_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+
 # eps_list = [0.1]
-
+eps_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 # seed_list = [9110, 4064, 6903, 7509]
-
 seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
 
 
@@ -361,18 +360,18 @@ def evalGeocast_KWorkers(data, all_tasks, p):
     logging.info("evalGeocast_MAR")
     exp_name = "evalGeocast_KWorkers"
     # temp_MAR = Params.MAR
-    Workers_list = [2, 3, 4, 5]
-    # MAR_list = [0.5]
+    Worker_list = [2, 3, 4, 5]
+    # Worker_list = [2]
 
-    res_cube_anw = np.zeros((len(eps_list), len(seed_list), len(Workers_list)))
-    res_cube_atd = np.zeros((len(eps_list), len(seed_list), len(Workers_list)))
-    res_cube_atd_fcfs = np.zeros((len(eps_list), len(seed_list), len(Workers_list)))
-    res_cube_appt = np.zeros((len(eps_list), len(seed_list), len(Workers_list)))
-    res_cube_cell = np.zeros((len(eps_list), len(seed_list), len(Workers_list)))
-    res_cube_cmp = np.zeros((len(eps_list), len(seed_list), len(Workers_list)))
-    res_cube_hop = np.zeros((len(eps_list), len(seed_list), len(Workers_list)))
-    res_cube_hop2 = np.zeros((len(eps_list), len(seed_list), len(Workers_list)))
-    res_cube_cov = np.zeros((len(eps_list), len(seed_list), len(Workers_list)))
+    res_cube_anw = np.zeros((len(eps_list), len(seed_list), len(Worker_list)))
+    res_cube_atd = np.zeros((len(eps_list), len(seed_list), len(Worker_list)))
+    res_cube_atd_fcfs = np.zeros((len(eps_list), len(seed_list), len(Worker_list)))
+    res_cube_appt = np.zeros((len(eps_list), len(seed_list), len(Worker_list)))
+    res_cube_cell = np.zeros((len(eps_list), len(seed_list), len(Worker_list)))
+    res_cube_cmp = np.zeros((len(eps_list), len(seed_list), len(Worker_list)))
+    res_cube_hop = np.zeros((len(eps_list), len(seed_list), len(Worker_list)))
+    res_cube_hop2 = np.zeros((len(eps_list), len(seed_list), len(Worker_list)))
+    res_cube_cov = np.zeros((len(eps_list), len(seed_list), len(Worker_list)))
 
     for j in range(len(seed_list)):
         for i in range(len(eps_list)):
@@ -383,8 +382,8 @@ def evalGeocast_KWorkers(data, all_tasks, p):
             p.Eps = eps_list[i]
             tree = Grid_adaptiveM(data, p.Eps, p)
             tree.buildIndex()
-            for k in range(len(Workers_list)):
-                Params.K = Workers_list[k]  # workers
+            for k in range(len(Worker_list)):
+                Params.K = Worker_list[k]  # workers
                 totalANW, totalATD, totalATD_FCFS, totalCell = 0, 0, 0, 0
                 totalPerformedTasks, totalCompactness = 0, 0
                 totalHop_GDY, totalHop2_GDY, totalCov_GDY = 0, 0, 0
@@ -394,7 +393,7 @@ def evalGeocast_KWorkers(data, all_tasks, p):
                     if (l + 1) % Params.LOGGING_STEPS == 0:
                         print ">> " + str(l + 1) + " tasks completed"
                     t = tasks[l]
-                    q, q_log = geocast(tree, t, p.Eps)
+                    q, q_log = geocast_m(tree, t, p.Eps)
                     no_workers, workers, Cells, no_hops, coverage, no_hops2 = post_geocast(t, q, q_log)
                     performed, worker, dist = performed_tasks(workers, Params.MTD, t, False)
                     if performed:

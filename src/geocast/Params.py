@@ -47,7 +47,7 @@ class Params(object):
     CONSTRAINT_INFERENCE = True
 
     maxHeightAdaptiveGrid = 2
-    NEGATIVE_CELL = True  # couting cells with negative count into geocast query
+    NEGATIVE_CELL = False  # couting cells with negative count into geocast query
     ZIPF_STEPS = 100
     s = 1  # the value of the exponent characterizing the zipf distribution
     GAMMA = 0.9  # level expansion parameter

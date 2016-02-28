@@ -202,7 +202,7 @@ def performed_task(loc, max_dist, t):
 
 
 # http://stackoverflow.com/questions/3025162/statistics-combinations-in-python/3025194#3025194
-def choose(n, k):
+def comb(n, k):
     """
     A fast way to calculate binomial coefficients by Andrew Dalke (contrib).
     """
@@ -224,20 +224,48 @@ def utility(node, max_dist, t):
     @param node : node
     @param max_dist : MTD, utility = 0 at  MTD
     @param t : location of the task
-    @param k : number of worker requires
     """
     dist = distance_to_rect(t[0], t[1], node.n_box)
     ar = _acc_rate(max_dist, dist)
     # print ar, node.n_count
     p_count = abs(node.n_count) # positive count
-    if Params.K == 1: # single task assignment
-        return [np.sign(node.n_count) * (1 - (1 - ar) ** p_count)], dist
-    elif Params.K > abs(node.n_count):
-        return [0 for _ in range(Params.K)], dist  # if less than k workers in the node --> utility = 0
-    else: # multiple task assignment
-        print sum([choose(p_count, i) * ar ** i * (1 - ar) ** (p_count - i) for i in range(1, Params.K + 1)])
-        return 1 - sum([choose(p_count, i) * ar ** i * (1 - ar) ** (p_count - i) for i in range(1, Params.K + 1)]), dist
+    return np.sign(node.n_count) * (1 - (1 - ar) ** p_count), dist
 
+def utility_m(node, max_dist, t):
+    """
+    Compute utility of a cell with respect to location of a task
+
+    @param node : node
+    @param max_dist : MTD, utility = 0 at  MTD
+    @param t : location of the task
+    """
+    dist = distance_to_rect(t[0], t[1], node.n_box)
+    ar = _acc_rate(max_dist, dist)
+    # print ar, node.n_count
+    p_count = abs(int(node.n_count)) # positive count
+    if Params.K <= p_count: # multiple task assignment
+        return [np.sign(node.n_count) * comb(p_count, i) * ar ** i * (1 - ar) ** (p_count - i) for i in range(0, Params.K)], dist
+    else: # K > p_count
+        temp = [np.sign(node.n_count) * comb(p_count, i) * ar ** i * (1 - ar) ** (p_count - i) for i in range(0, p_count + 1)]
+        return temp + [0.0] * (Params.K - p_count - 1), dist
+
+def utility_m_c(node, max_dist, t, count):
+    """
+    Compute utility of a cell with respect to location of a task
+
+    @param node : node
+    @param max_dist : MTD, utility = 0 at  MTD
+    @param t : location of the task
+    @param c : number of considered workers
+    """
+    dist = distance_to_rect(t[0], t[1], node.n_box)
+    ar = _acc_rate(max_dist, dist)
+
+    if Params.K <= count: # multiple task assignment
+        return [comb(count, i) * ar ** i * (1 - ar) ** (count - i) for i in range(0, Params.K)], dist
+    else: # K > p_count
+        temp = [comb(count, i) * ar ** i * (1 - ar) ** (count - i) for i in range(0, count + 1)]
+        return temp + [0.0] * (Params.K - count), dist
 
 def utility_naive(query, w, max_dist):
     dist = math.sqrt((query[1][0] - query[0][0]) ** 2 + (query[1][1] - query[0][1]) ** 2) / 2

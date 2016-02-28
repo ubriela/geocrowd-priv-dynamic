@@ -7,7 +7,7 @@ import copy
 from sets import Set
 
 import numpy as np
-
+import copy
 from Params import Params
 from Geocrowd import rect_query_points, hops_expansion, simple_hops_expansion
 from Utils import *
@@ -276,6 +276,82 @@ def leaf_granularity(tree, index):
 #		if u >= Params.U:
 #		    break
 
+def select_partial_cell_m(t, cell, u_prev):
+    """
+    Partial selection on the last grid cell
+
+    @param L: task location
+    @param cell
+    @u_prev: previous utility
+    """
+    sub_cell = copy.copy(cell)
+    [[min_x, min_y], [max_x, max_y]] = cell.n_box
+    dist = distance_to_rect(t[0], t[1], cell.n_box)
+
+    # find a sub-region (i.e., sub-cell) whose utility is just enough
+    # ar = acc_rate(Params.MTD, dist)
+    # u_need = (Params.U - u_prev) / (1 - u_prev)
+    # sub_cell.n_count = math.floor(math.log(1 - u_need, 1 - ar))
+
+    # print cell.n_count
+    sub_cell_count = 0
+    for i in range(int(cell.n_count)):
+        sub_cell_count = i + 1
+        # u[i] : at most i workers perform the task
+        # u_c[j] : exact j workers perform
+        # u_c[K - j - 1] : at most K - j - 1 workers perform the task
+        u_c, dist = utility_m_c(cell, Params.MTD, t, sub_cell_count)
+        u = 1 - sum([(u_c[j] * u_prev[Params.K - j - 1]) for j in range(Params.K)])
+        # print u
+        if u >= Params.U:   # found
+            break
+
+    sub_cell.n_count = sub_cell_count
+    percentile = sub_cell.n_count / cell.n_count  # area fraction
+
+    # compute the partial region
+    if is_rect_cover(cell.n_box, t):  # there is only one cell in geocast query
+        # find a sub rectangle that is similar to a larger one, but smaller by a percentile
+        x_len = math.sqrt(percentile) * (max_x - min_x)
+        y_len = math.sqrt(percentile) * (max_y - min_y)
+        small_rect = np.array([[min_x + x_len / 2, min_y + y_len / 2], [max_x - x_len / 2, max_y - y_len / 2]])
+
+        c_x, c_y = None, None
+        if t[0] < small_rect[0][0]:
+            if t[1] < small_rect[0][1]:  # [0,0]
+                c_x, c_y = small_rect[0][0], small_rect[0][1]
+            elif small_rect[0][1] <= t[1] <= small_rect[1][1]:  # [0,1]
+                c_x, c_y = small_rect[0][0], t[1]
+            elif small_rect[1][1] < t[1]:  # [0,2]
+                c_x, c_y = small_rect[0][0], small_rect[1][1]
+        elif small_rect[0][0] <= t[0] <= small_rect[1][0]:
+            if t[1] < small_rect[0][1]:  # [1,0]
+                c_x, c_y = t[0], small_rect[0][1]
+            elif small_rect[0][1] <= t[1] <= small_rect[1][1]:  # [1,1]
+                c_x, c_y = t[0], t[1]
+            elif small_rect[1][1] < t[1]:  # [1,2]
+                c_x, c_y = t[0], small_rect[1][1]
+        elif small_rect[1][0] < t[0]:
+            if t[1] < small_rect[0][1]:  # [2,0]
+                c_x, c_y = small_rect[1][0], small_rect[0][1]
+            elif small_rect[0][1] <= t[1] <= small_rect[1][1]:  # [2,1]
+                c_x, c_y = small_rect[1][0], t[1]
+            elif small_rect[1][1] < t[1]:  # [2,2]
+                c_x, c_y = small_rect[1][0], small_rect[1][1]
+        sub_cell.n_box = np.array([[c_x - x_len / 2, c_y - y_len / 2], [c_x + x_len / 2, c_y + y_len / 2]])
+    else:  # the task is outside the cell (i.e., the geocast query includes multiple cells)
+        [mid_x, mid_y] = rect_center(cell.n_box)
+        mid_neighbor = rect_center(cell.neighbor.n_box)
+        if is_intersect_segment(mid_neighbor, [mid_x, mid_y], [min_x, min_y], [max_x, min_y]):  # bottom
+            sub_cell.n_box = np.array([[min_x, min_y], [max_x, min_y + (max_y - min_y) * percentile]])
+        elif is_intersect_segment(mid_neighbor, [mid_x, mid_y], [max_x, min_y], [max_x, max_y]):  # right
+            sub_cell.n_box = np.array([[max_x - (max_x - min_x) * percentile, min_y], [max_x, max_y]])
+        elif is_intersect_segment(mid_neighbor, [mid_x, mid_y], [min_x, max_y], [max_x, max_y]):  # ceil
+            sub_cell.n_box = np.array([[min_x, max_y - (max_y - min_y) * percentile], [max_x, max_y]])
+        elif is_intersect_segment(mid_neighbor, [mid_x, mid_y], [min_x, min_y], [min_x, max_y]):  # left
+            sub_cell.n_box = np.array([[min_x, min_y], [min_x + (max_x - min_x) * percentile, max_y]])
+    return sub_cell
+
 def select_partial_cell(t, cell, u_prev):
     """
     Partial selection on the last grid cell
@@ -376,6 +452,119 @@ def cost_function(utility, compactness, eps, alpha=Params.ALPHA):
 """
 for jounal extension
 """
+"""
+for jounal extension
+"""
+def geocast_m(tree, t, eps):
+    """
+    Given WorkerPSD and a task, find the region around the task that covers enough workers so that
+    if we geocast the task to the region (i.e., geocast region/query), the task would be performed
+    with high probability
+
+    @param tree : WorkerPSD
+    @param t : task location
+    @param eps : privacy budget
+    """
+    centers = Set([])
+    MTD_RECT = np.array([[t[0] - Params.ONE_KM * Params.MTD, t[1] - Params.ONE_KM * Params.MTD],
+                         [t[0] + Params.ONE_KM * Params.MTD, t[1] + Params.ONE_KM * Params.MTD]])
+
+    # initialize q as the cell that covers L
+    q_init = tree.leafCover(t)  # get the leaf node that covers L
+    if q_init is None:
+        print "q_init is None" + t
+        return None, None
+    q_init.neighbor = q_init
+    q_init.n_count = math.floor(q_init.n_count)
+    u_q, dist = utility_m(q_init, Params.MTD, t)
+    f_q = 1 - u_q [Params.K - 1]  # cost function
+    Q = [(f_q, [u_q, q_init, 2 / math.pi, -dist])]
+    q = []  # final cell {a set of cells}
+    q_log = []  # [(lambda, cell[i]'s utility, utility, compactness, distance, cx, cy, r),..] of the cells in q
+    u = [1] * Params.K  # current utility
+    A = 0  # current geocast area
+    corner_points = Set([])  # all corner points of geocast cell, used as an input to compute minimum bounding circle
+
+    while True:
+        if len(Q) == 0:  # Empty queue, no more expansion
+            break
+
+        subQ = list(filter(lambda p: p[1][0] > 0, Q))
+        if len(subQ) > 0:
+            c = max(subQ, key=lambda p: p[0])  # (lambda, [utility, cell, compactness, distance, cx, cy, r])
+            # print "" + c[0]
+        else:
+            c = max(Q, key=lambda p: p[0])  # (lambda, [utility, cell, compactness, distance, cx, cy, r])
+        Q.remove(c)
+
+        # update cell
+        cell = c[1][1]
+        cen = rect_center(cell.n_box)
+        if (cen[0], cen[1]) in centers:
+            continue
+
+        # update utility
+        u_c = c[1][0]
+        u_curr = u
+        u_tmp = copy.deepcopy(u)
+        if u_c[0] >= 0:
+            # u[i] : at most i workers perform the task
+            # u_c[j] : exact j workers perform
+            # u_c[K - j - 1] : at most K - j - 1 workers perform the task
+            u = [sum([(u_c[j] * u_tmp[Params.K - j - 1]) for j in range(i + 1)]) for i in range(Params.K)]
+        elif Params.NEGATIVE_CELL:
+            u = (u - u_c) / (1 - u_c)
+
+
+        q_log.append((float("%.1f" % c[0]), float("%.3f" % (1 - c[1][0][Params.K - 1])), float("%.3f" % (1 - u[Params.K - 1])), float("%.3f" % c[1][2]),
+                      float("%.3f" % c[1][3])))
+
+        # if the new cell is too much (over-provision), then we may want to take part of the cell
+        if 1 - u[Params.K - 1] >= Params.U:
+            if Params.PARTIAL_CELL_SELECTION and cell.n_count > 0 and u >= Params.U + 0.05:
+                sub_cell = select_partial_cell_m(t, cell, u_curr)
+                q.append(sub_cell)
+            else:
+                q.append(cell)
+            break
+
+        q.append(cell)
+        centers.add((cen[0], cen[1]))
+
+        corner_points = corner_points | rect_vertex_set(cell.n_box)
+        A += rect_area(cell.n_box)
+
+        # filter out the neighbors that already in q, then cut off region that is outside MTD
+        q_valid_neighbors = new_neighbors(tree, centers, cell, MTD_RECT)
+
+        # update Q
+        for nb in q_valid_neighbors:
+            u_q, dist = utility_m(nb, Params.MTD, t)
+            Q.append((1 - u_q[Params.K - 1], [u_q, nb, 0, -dist, 0.0, 0.0, 0.0]))
+
+        for i in range(len(Q)):
+            # update key
+            points = list(corner_points | rect_vertex_set(Q[i][1][1].n_box))
+            x = make_circle(points)
+            if x is None:
+                print "x is None " + x
+                return None, None
+            cx, cy, r = x
+            compactness = min(1.0, (A + rect_area(Q[i][1][1].n_box)) / (math.pi * (
+                r / Params.ONE_KM) ** 2))  # the area of the shape divided by the area of the minimum bounding circle
+            if Params.COST_FUNCTION == "hybrid":
+                f_q = cost_function(1 - Q[i][1][0][Params.K - 1], compactness, eps)
+            elif Params.COST_FUNCTION == "compactness":
+                f_q = compactness
+            elif Params.COST_FUNCTION == "distance":
+                f_q = Q[i][1][3]
+            elif Params.COST_FUNCTION == "utility":
+                f_q = 1 - Q[i][1][0][Params.K - 1]
+
+            Q[i] = (f_q, [Q[i][1][0], Q[i][1][1], compactness, Q[i][1][3]])
+
+    return q, q_log
+
 def geocast(tree, t, eps):
     """
     Given WorkerPSD and a task, find the region around the task that covers enough workers so that
@@ -398,7 +587,6 @@ def geocast(tree, t, eps):
     q_init.neighbor = q_init
     q_init.n_count = math.floor(q_init.n_count)
     u_q, dist = utility(q_init, Params.MTD, t)
-    print u_q
     f_q = u_q  # cost function
     Q = [(f_q, [u_q, q_init, 2 / math.pi, -dist])]
     q = []  # final cell {a set of cells}
