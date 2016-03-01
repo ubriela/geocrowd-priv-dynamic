@@ -32,11 +32,12 @@ from Grid_adaptiveM import Grid_adaptiveM
 from GeocastKNN import geocast_knn
 from Utils import is_rect_cover, performed_tasks
 
-# eps_list = [0.1, 0.3, 0.5, 0.7, 0.9, 1.0]
+# eps_list = [0.1]
 eps_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
 first_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
+# K_list = [2]
 K_list = [2, 3, 4, 5]
 
 T_list = [50, 60, 70, 80, 90, 100]
@@ -45,7 +46,6 @@ EU_list = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
 # seed_list = [9110]
 seed_list = [9110, 4064, 6903, 7509, 5342, 3230, 3584, 7019, 3564, 6456]
-
 
 def read_tasks(p):
     p.select_dataset()
@@ -469,10 +469,12 @@ def evalDynamic_Baseline_K(params):
     all_tasks = params[1]
     p = params[2]
     K = params[3]
+    T = 100
 
     logging.info("evalDynamic_Baseline_K")
     exp_name = "Dynamic_Baseline_K"
     methodList = ["BasicD", "KFPID", "Baseline"]
+    # methodList = ["BasicD"]
 
     K_list = [K]
 
@@ -488,7 +490,7 @@ def evalDynamic_Baseline_K(params):
             Params.K = K_list[i]
 
             for method in methodList[0:len(methodList) - 1]:
-                proc = psutil.Process(os.getpid())
+                # proc = psutil.Process(os.getpid())
                 if method == "BasicD":
                     dag = MultipleDAG(all_workers, p)
                     dag.publish()
@@ -554,8 +556,8 @@ def evalDynamic_Baseline_K(params):
                 res_cube_cell[i, j, methodList.index(method)] = ASC_Geocast
                 res_cube_hop[i, j, methodList.index(method)] = HOP_Geocast
 
-                gc.collect()
-                proc.get_memory_info().rss
+                # gc.collect()
+                # proc.get_memory_info().rss
 
     # do not need to varying eps for non-privacy technique!
     for j in range(len(seed_list)):
@@ -591,6 +593,8 @@ def evalDynamic_Baseline_K(params):
         res_cube_cell[:, j, len(methodList) - 1] = 0
         res_cube_hop[:, j, len(methodList) - 1] = HOP_Knn
 
+    print p.resdir + exp_name + '_anw_'
+    print str(K) + "_" + `Params.TASK_NO`
     res_summary_anw = np.average(res_cube_anw, axis=1)
     np.savetxt(p.resdir + exp_name + '_anw_' + str(K) + "_" + `Params.TASK_NO`, res_summary_anw, fmt='%.4f\t')
     res_summary_atd = np.average(res_cube_atd_fcfs, axis=1)
@@ -1213,21 +1217,23 @@ def exp5():
     param.NDIM, param.NDATA = all_workers[0].shape[0], all_workers[0].shape[1]
     param.LOW, param.HIGH = np.amin(all_workers[0], axis=1), np.amax(all_workers[0], axis=1)
 
-    print param.NDIM, param.NDATA, param.LOW, param.HIGH
-    task_data = read_tasks(param)
-    all_tasks = tasks_gen(task_data, param)
+    # print param.NDIM, param.NDATA, param.LOW, param.HIGH
+    # task_data = read_tasks(param)
+    # all_tasks = tasks_gen(task_data, param)
 
-    param.debug()
+    # param.debug()
+    #
+    # pool = Pool(processes=len(K_list))
+    # params = []
+    # # params = (all_workers, all_tasks, param, 2)
+    # # evalDynamic_Baseline_K(params)
+    # for K in K_list:
+    #     params.append((all_workers, all_tasks, param, K))
+    # pool.map(evalDynamic_Baseline_K, params)
+    # pool.join()
 
-    pool = Pool(processes=len(K_list))
-    params = []
-    for K in K_list:
-        params.append((all_workers, all_tasks, param, K))
-    pool.map(evalDynamic_Baseline_K, params)
-    pool.join()
-
-    # param.resdir = '../../output/gowalla_sf/'
-    # createGnuData(param, "Dynamic_Baseline_EU", first_list)
+    param.resdir = '../../output/yelp/'
+    createGnuData(param, "Dynamic_Baseline_K", K_list)
 
 if __name__ == '__main__':
     exp5()
