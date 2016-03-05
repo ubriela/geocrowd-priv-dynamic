@@ -116,7 +116,7 @@ def is_performed(ar):
 
 
 # This function may be slow
-def performed_tasks(workers, max_dist, t, FCFS, proportionate_selection=True):
+def performed_tasks(workers, max_dist, t, FCFS, proportionate_selection=False):
     """
     find the performed task, given the workers being geocast and their acceptance rates
 
@@ -159,7 +159,6 @@ def performed_tasks(workers, max_dist, t, FCFS, proportionate_selection=True):
                 return True, worker, dist
     return False, None, None
 
-
 def performed_tasks_naive(locs, max_dist, t, FCFS, seed):
     """
     compute performed task, given the number of workers being geocasted and their acceptance rate
@@ -186,6 +185,9 @@ def performed_tasks_naive(locs, max_dist, t, FCFS, seed):
     return False, None
 
 
+"""
+used in performed_tasks_naive
+"""
 def performed_task(loc, max_dist, t):
     """
     Simulate whether a task is perform given location of the worker
@@ -251,7 +253,7 @@ def utility_m(node, max_dist, t):
 
 def utility_m_c(node, max_dist, t, count):
     """
-    Compute utility of a cell with respect to location of a task
+    Compute utility of a cell given a particular count
 
     @param node : node
     @param max_dist : MTD, utility = 0 at  MTD

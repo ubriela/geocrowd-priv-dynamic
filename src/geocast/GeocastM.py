@@ -452,9 +452,6 @@ def cost_function(utility, compactness, eps, alpha=Params.ALPHA):
 """
 for jounal extension
 """
-"""
-for jounal extension
-"""
 def geocast_m(tree, t, eps):
     """
     Given WorkerPSD and a task, find the region around the task that covers enough workers so that
