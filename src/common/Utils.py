@@ -3,7 +3,6 @@ import bisect
 import itertools as it
 
 import random
-import numpy as np
 
 
 
@@ -79,6 +78,8 @@ def _step_function(max_distance):
 Acceptance rate of a worker is the probability the worker accepts to
 complete a task for which s/he receives a request
 """
+
+
 def acc_rate(max_distance, dist):
     if Params.AR_FUNCTION == "linear":
         return max(0, (1 - (dist + 0.0) / max_distance) * Params.MAR)
@@ -103,6 +104,8 @@ _acc_rate = acc_rate
 """
 check if current user performs the task by simulating Binomial distribution
 """
+
+
 def is_performed(ar):
     """
     Simulate whether a task is performed or not 0<=acc_rate<=1
@@ -112,7 +115,7 @@ def is_performed(ar):
         return True
     return False
 
- # s = np.random.binomial(n, p, 1000)
+    # s = np.random.binomial(n, p, 1000)
 
 
 # This function may be slow
@@ -159,6 +162,61 @@ def performed_tasks(workers, max_dist, t, FCFS, proportionate_selection=False):
                 return True, worker, dist
     return False, None, None
 
+
+def performed_tasks_m(workers, max_dist, t, FCFS, proportionate_selection=False):
+    """
+    find the performed tasks, given the workers being geocast and their acceptance rates
+
+    @param locs : a list of worker locations
+    @param max_dist : MTD, acceptance rate is zero at MTD
+    @param t : task location
+    @param FCFS : first-come-first-serve mode
+    """
+    if workers is None:  # double check
+        return False, None, None
+    workers_copy = workers.transpose()
+    if proportionate_selection:
+        # proportionate selection
+
+        ar_weights = [_acc_rate(max_dist, distance(t[0], t[1], w[0], w[1])) for w in workers_copy]
+        for w in ar_weights:
+            if is_performed(w):
+                sum_weights = np.cumsum(ar_weights)
+                rand = random.uniform(0, ar_weights[len(ar_weights) - 1])
+                idx = np.searchsorted(sum_weights, rand)
+                worker = workers_copy[idx]
+                return True, worker, distance(t[0], t[1], worker[0], worker[1])
+    elif FCFS:
+        k = 0
+        totalDist = 0.0
+        ar_weights = [_acc_rate(max_dist, distance(t[0], t[1], w[0], w[1])) for w in workers_copy]
+
+        while len(workers_copy) > 0:
+            idx = min(list(it.islice(_wrg(ar_weights), 1))[0], len(ar_weights) - 1)
+            ar = ar_weights[idx]
+            if is_performed(ar):
+                k = k + 1
+                worker = workers_copy[idx]
+                totalDist = totalDist + distance(t[0], t[1], worker[0], worker[1])
+                if k == Params.K:
+                    return True, worker, totalDist / k  # average distance
+            del ar_weights[idx]
+            workers_copy = np.delete(workers_copy, idx, 0)
+    else:
+        k = 0
+        totalDist = 0.0
+        workers_copy = sorted(workers_copy, key=lambda loc: distance(loc[0], loc[1], t[0], t[1]))
+        for worker in workers_copy:
+            dist = distance(t[0], t[1], worker[0], worker[1])
+            ar = _acc_rate(max_dist, dist)
+            if is_performed(ar):
+                k = k + 1
+                totalDist = totalDist + dist
+                if k == Params.K:
+                    return True, worker, totalDist / k  # average distance
+    return False, None, None
+
+
 def performed_tasks_naive(locs, max_dist, t, FCFS, seed):
     """
     compute performed task, given the number of workers being geocasted and their acceptance rate
@@ -188,6 +246,8 @@ def performed_tasks_naive(locs, max_dist, t, FCFS, seed):
 """
 used in performed_tasks_naive
 """
+
+
 def performed_task(loc, max_dist, t):
     """
     Simulate whether a task is perform given location of the worker
@@ -219,6 +279,7 @@ def comb(n, k):
     else:
         return 0
 
+
 def utility(node, max_dist, t):
     """
     Compute utility of a cell with respect to location of a task
@@ -230,8 +291,9 @@ def utility(node, max_dist, t):
     dist = distance_to_rect(t[0], t[1], node.n_box)
     ar = _acc_rate(max_dist, dist)
     # print ar, node.n_count
-    p_count = abs(node.n_count) # positive count
+    p_count = abs(node.n_count)  # positive count
     return np.sign(node.n_count) * (1 - (1 - ar) ** p_count), dist
+
 
 def utility_m(node, max_dist, t):
     """
@@ -244,12 +306,15 @@ def utility_m(node, max_dist, t):
     dist = distance_to_rect(t[0], t[1], node.n_box)
     ar = _acc_rate(max_dist, dist)
     # print ar, node.n_count
-    p_count = abs(int(node.n_count)) # positive count
-    if Params.K <= p_count: # multiple task assignment
-        return [np.sign(node.n_count) * comb(p_count, i) * ar ** i * (1 - ar) ** (p_count - i) for i in range(0, Params.K)], dist
-    else: # K > p_count
-        temp = [np.sign(node.n_count) * comb(p_count, i) * ar ** i * (1 - ar) ** (p_count - i) for i in range(0, p_count + 1)]
+    p_count = abs(int(node.n_count))  # positive count
+    if Params.K <= p_count:  # multiple task assignment
+        return [np.sign(node.n_count) * comb(p_count, i) * ar ** i * (1 - ar) ** (p_count - i) for i in
+                range(0, Params.K)], dist
+    else:  # K > p_count
+        temp = [np.sign(node.n_count) * comb(p_count, i) * ar ** i * (1 - ar) ** (p_count - i) for i in
+                range(0, p_count + 1)]
         return temp + [0.0] * (Params.K - p_count - 1), dist
+
 
 def utility_m_c(node, max_dist, t, count):
     """
@@ -263,11 +328,12 @@ def utility_m_c(node, max_dist, t, count):
     dist = distance_to_rect(t[0], t[1], node.n_box)
     ar = _acc_rate(max_dist, dist)
 
-    if Params.K <= count: # multiple task assignment
+    if Params.K <= count:  # multiple task assignment
         return [comb(count, i) * ar ** i * (1 - ar) ** (count - i) for i in range(0, Params.K)], dist
-    else: # K > p_count
+    else:  # K > p_count
         temp = [comb(count, i) * ar ** i * (1 - ar) ** (count - i) for i in range(0, count + 1)]
         return temp + [0.0] * (Params.K - count), dist
+
 
 def utility_naive(query, w, max_dist):
     dist = math.sqrt((query[1][0] - query[0][0]) ** 2 + (query[1][1] - query[0][1]) ** 2) / 2

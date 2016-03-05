@@ -14,6 +14,7 @@ import numpy as np
 
 
 
+
 # sys.path.append('.')
 sys.path.append('../minball')
 sys.path.append('../geocast')
@@ -30,7 +31,7 @@ from GeocastLog import geocast_log
 from GeocastInfo import GeocastInfo
 
 from GeocastKNN import geocast_knn
-from Utils import is_rect_cover, performed_tasks
+from Utils import is_rect_cover, performed_tasks, performed_tasks_m
 import os.path
 
 
@@ -395,7 +396,7 @@ def evalGeocast_KWorkers(data, all_tasks, p):
                     t = tasks[l]
                     q, q_log = geocast_m(tree, t, p.Eps)
                     no_workers, workers, Cells, no_hops, coverage, no_hops2 = post_geocast(t, q, q_log)
-                    performed, worker, dist = performed_tasks(workers, Params.MTD, t, False)
+                    performed, worker, dist = performed_tasks_m(workers, Params.MTD, t, False)
                     if performed:
                         totalPerformedTasks += 1
                         totalANW += no_workers
@@ -416,7 +417,7 @@ def evalGeocast_KWorkers(data, all_tasks, p):
                             log_str = log_str + str(info.logging()) + "\n"
 
                     # FCFS
-                    performed, worker, dist = performed_tasks(workers, Params.MTD, t, True)
+                    performed, worker, dist = performed_tasks_m(workers, Params.MTD, t, True)
                     if performed:
                         totalATD_FCFS += dist
 
