@@ -155,15 +155,21 @@ def performed_tasks(workers, max_dist, t, FCFS, proportionate_selection=False):
             workers_copy = np.delete(workers_copy, idx, 0)
     else:
         workers_copy = sorted(workers_copy, key=lambda loc: distance(loc[0], loc[1], t[0], t[1]))
+        count = 0
+        performed = False
+        worker = None
+        dist = None
         for worker in workers_copy:
             dist = distance(t[0], t[1], worker[0], worker[1])
             ar = _acc_rate(max_dist, dist)
             if is_performed(ar):
-                return True, worker, dist
+                performed = True
+                count = count + 1
+        return performed, worker, dist, count
     return False, None, None
 
 
-def performed_tasks_m(workers, max_dist, t, FCFS, proportionate_selection=False):
+def performed_tasks_m(workers, max_dist, t, FCFS, proportionate_selection=True):
     """
     find the performed tasks, given the workers being geocast and their acceptance rates
 
@@ -177,15 +183,19 @@ def performed_tasks_m(workers, max_dist, t, FCFS, proportionate_selection=False)
     workers_copy = workers.transpose()
     if proportionate_selection:
         # proportionate selection
-
+        k = 0
+        totalDist = 0.0
         ar_weights = [_acc_rate(max_dist, distance(t[0], t[1], w[0], w[1])) for w in workers_copy]
         for w in ar_weights:
             if is_performed(w):
+                k = k + 1
                 sum_weights = np.cumsum(ar_weights)
                 rand = random.uniform(0, ar_weights[len(ar_weights) - 1])
                 idx = np.searchsorted(sum_weights, rand)
                 worker = workers_copy[idx]
-                return True, worker, distance(t[0], t[1], worker[0], worker[1])
+                totalDist = totalDist + distance(t[0], t[1], worker[0], worker[1])
+                if k == Params.K:
+                    return True, worker, totalDist / k # average distance
     elif FCFS:
         k = 0
         totalDist = 0.0

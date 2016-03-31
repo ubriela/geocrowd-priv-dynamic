@@ -30,7 +30,7 @@ from GeocastM import geocast, geocast_m, post_geocast, simple_post_geocast
 from Grid_adaptiveM import Grid_adaptiveM
 
 from GeocastKNN import geocast_knn
-from Utils import is_rect_cover, performed_tasks
+from Utils import is_rect_cover, performed_tasks, performed_tasks_m
 
 # eps_list = [0.1]
 eps_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
@@ -529,7 +529,7 @@ def evalDynamic_Baseline_K(params):
                         # Geocast
                         q, q_log = geocast_m(dag.getAGs()[ti], t, p.Eps)
                         no_workers, workers, Cells, no_hops = simple_post_geocast(t, q, q_log)
-                        performed, worker, dist_fcfs = performed_tasks(workers, Params.MTD, t, True)
+                        performed, worker, dist_fcfs = performed_tasks_m(workers, Params.MTD, t, True)
                         if performed:
                             totalPerformedTasks_Geocast += 1
                             totalANW_Geocast += no_workers
@@ -1220,15 +1220,16 @@ def exp5():
     # print param.NDIM, param.NDATA, param.LOW, param.HIGH
     # task_data = read_tasks(param)
     # all_tasks = tasks_gen(task_data, param)
-
+    #
     # param.debug()
     #
     # pool = Pool(processes=len(K_list))
     # params = []
-    # # params = (all_workers, all_tasks, param, 2)
-    # # evalDynamic_Baseline_K(params)
     # for K in K_list:
-    #     params.append((all_workers, all_tasks, param, K))
+    #     params = (all_workers, all_tasks, param, K)
+    #     evalDynamic_Baseline_K(params)
+    # for K in K_list:
+    #    params.append((all_workers, all_tasks, param, K))
     # pool.map(evalDynamic_Baseline_K, params)
     # pool.join()
 

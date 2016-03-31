@@ -31,6 +31,7 @@ from GeocastLog import geocast_log
 from GeocastInfo import GeocastInfo
 
 from GeocastKNN import geocast_knn
+from WST import selection_WST
 from Utils import is_rect_cover, performed_tasks, performed_tasks_m
 import os.path
 
@@ -358,7 +359,7 @@ def evalGeocast_KWorkers(data, all_tasks, p):
     """
     Varying the number of workers K in multiple workers assignment strategy (redundant assignment)
     """
-    logging.info("evalGeocast_MAR")
+    logging.info("evalGeocast_KWorkers")
     exp_name = "evalGeocast_KWorkers"
     # temp_MAR = Params.MAR
     Worker_list = [2, 3, 4, 5]
@@ -688,6 +689,159 @@ def evalGeocast_GRA_PAR(data, all_tasks):
     np.savetxt(Params.resdir + exp_name + '_hop2_' + `Params.TASK_NO`, res_summary_hop2, fmt='%.4f\t')
     res_summary_cov = np.average(res_cube_cov, axis=1)
     np.savetxt(Params.resdir + exp_name + '_cov_' + `Params.TASK_NO`, res_summary_cov, fmt='%.4f\t')
+
+def evalSelection_WST(data, all_tasks, p):
+    """
+    Evaluate geocast algorithm in privacy mode and in WST mode (without privacy)
+    """
+    logging.info("evalSelection_WST")
+    exp_name = "Selection_WST"
+    methodList = ["Geocast", "WST"]
+
+    res_cube_anw = np.zeros((len(eps_list), len(seed_list), len(methodList)))
+    res_cube_aaw = np.zeros((len(eps_list), len(seed_list), len(methodList)))
+    res_cube_atd = np.zeros((len(eps_list), len(seed_list), len(methodList)))
+    res_cube_atd_fcfs = np.zeros((len(eps_list), len(seed_list), len(methodList)))
+    res_cube_appt = np.zeros((len(eps_list), len(seed_list), len(methodList)))
+    res_cube_cell = np.zeros((len(eps_list), len(seed_list), len(methodList)))
+    res_cube_cmp = np.zeros((len(eps_list), len(seed_list), len(methodList)))
+    res_cube_hop = np.zeros((len(eps_list), len(seed_list), len(methodList)))
+    res_cube_hop2 = np.zeros((len(eps_list), len(seed_list), len(methodList)))
+    res_cube_cov = np.zeros((len(eps_list), len(seed_list), len(methodList)))
+
+    for j in range(len(seed_list)):
+        for i in range(len(eps_list)):
+            # Geocast tree
+            Params.CUSTOMIZED_GRANULARITY = True
+            Params.PARTIAL_CELL_SELECTION = True
+            Params.COST_FUNCTION = "hybrid"
+            p.Seed = seed_list[j]
+            p.Eps = eps_list[i]
+            tree = Grid_adaptiveM(data, p.Eps, p)
+            tree.buildIndex()
+            if Params.CONSTRAINT_INFERENCE:
+                tree.adjustConsistency()
+
+            totalANW_Geocast = 0
+            totalATD_Geocast, totalAAW_Geocast, totalATD_FCFS_Geocast = 0, 0, 0
+            totalCell_Geocast = 0
+            totalCompactness_Geocast = 0
+            totalPerformedTasks_Geocast = 0
+            totalHop_Geocast = 0
+            totalHop2_Geocast = 0
+            totalCov_Geocast = 0
+
+            tasks = all_tasks[j]
+            for l in range(len(tasks)):
+                if (l + 1) % Params.LOGGING_STEPS == 0:
+                    print ">> " + str(l + 1) + " tasks completed"
+                t = tasks[l]
+
+                # Geocast
+                q, q_log = geocast(tree, t, p.Eps)
+                no_workers, workers, Cells, no_hops, coverage, no_hops2 = post_geocast(t, q, q_log)
+                performed, worker, dist, count = performed_tasks(workers, Params.MTD, t, False)
+                if performed:
+                    totalPerformedTasks_Geocast += 1
+                    totalANW_Geocast += no_workers
+                    totalAAW_Geocast += count
+                    totalATD_Geocast += dist
+                    totalCell_Geocast += len(Cells)
+                    totalCompactness_Geocast += q_log[-1][3]
+                    totalHop_Geocast += no_hops
+                    totalHop2_Geocast += no_hops2
+                    totalCov_Geocast += coverage
+                performed, worker, dist_fcfs = performed_tasks(workers, Params.MTD, t, True)
+                if performed:
+                    totalATD_FCFS_Geocast += dist_fcfs
+
+            # Geocast
+            ANW_Geocast = (totalANW_Geocast + 0.0) / totalPerformedTasks_Geocast
+            AAW_Geocast = (totalAAW_Geocast + 0.0) / totalPerformedTasks_Geocast
+            ATD_Geocast = totalATD_Geocast / totalPerformedTasks_Geocast
+            ATD_FCFS_Geocast = totalATD_FCFS_Geocast / totalPerformedTasks_Geocast
+            ASC_Geocast = (totalCell_Geocast + 0.0) / totalPerformedTasks_Geocast
+            CMP_Geocast = totalCompactness_Geocast / totalPerformedTasks_Geocast
+            APPT_Geocast = 100 * float(totalPerformedTasks_Geocast) / Params.TASK_NO
+            HOP_Geocast = float(totalHop_Geocast) / Params.TASK_NO
+            HOP2_Geocast = float(totalHop2_Geocast) / Params.TASK_NO
+            COV_Geocast = 100 * float(totalCov_Geocast) / Params.TASK_NO
+
+            res_cube_anw[i, j, 0] = ANW_Geocast
+            res_cube_aaw[i, j, 0] = AAW_Geocast
+            res_cube_atd[i, j, 0] = ATD_Geocast
+            res_cube_atd_fcfs[i, j, 0] = ATD_FCFS_Geocast
+            res_cube_appt[i, j, 0] = APPT_Geocast
+            res_cube_cell[i, j, 0] = ASC_Geocast
+            res_cube_cmp[i, j, 0] = CMP_Geocast
+            res_cube_hop[i, j, 0] = HOP_Geocast
+            res_cube_hop2[i, j, 0] = HOP2_Geocast
+            res_cube_cov[i, j, 0] = COV_Geocast
+
+    # do not need to varying eps for non-privacy technique!
+    for j in range(len(seed_list)):
+        totalANW_Knn = 0
+        totalATD_Knn, totalATD_Knn_FCFS = 0, 0
+        totalPerformedTasks_Knn = 0
+        totalHop_Knn = 0
+        totalHop2_Knn = 0
+        totalCov_Knn = 0
+
+        tasks = all_tasks[j]
+        for l in range(len(tasks)):
+            t = tasks[l]
+
+            # Baseline (no privacy)
+            no_workers_knn, performed, dist_knn, dist_knn_FCFS, no_hops, coverage, no_hops2 = selection_WST(data, t)
+            if performed:
+                totalPerformedTasks_Knn += 1
+                totalANW_Knn += no_workers_knn
+                totalATD_Knn += dist_knn
+                totalATD_Knn_FCFS += dist_knn_FCFS
+                totalHop_Knn += no_hops
+                totalHop2_Knn += no_hops2
+                totalCov_Knn += coverage
+
+        # Baseline
+        ANW_Knn = (totalANW_Knn + 0.0) / totalPerformedTasks_Knn
+        ATD_Knn = totalATD_Knn / totalPerformedTasks_Knn
+        ATD_FCFS_Knn = totalATD_Knn_FCFS / totalPerformedTasks_Knn
+        APPT_Knn = 100 * float(totalPerformedTasks_Knn) / Params.TASK_NO
+        # HOP_Knn = float(totalHop_Knn) / Params.TASK_NO
+        # HOP2_Knn = float(totalHop2_Knn) / Params.TASK_NO
+        # COV_Knn = 100 * float(totalCov_Knn) / Params.TASK_NO
+
+        res_cube_anw[:, j, 1] = ANW_Knn
+        res_cube_atd[:, j, 1] = ATD_Knn
+        res_cube_atd_fcfs[:, j, 1] = ATD_FCFS_Knn
+        res_cube_appt[:, j, 1] = APPT_Knn
+        res_cube_cell[:, j, 1] = 0
+        res_cube_cmp[:, j, 1] = 0
+        # res_cube_hop[:, j, 1] = HOP_Knn
+        # res_cube_hop2[:, j, 1] = HOP2_Knn
+        # res_cube_cov[:, j, 1] = COV_Knn
+
+    # average all values of KNN method when varying eps
+    res_summary_anw = np.average(res_cube_anw, axis=1)
+    np.savetxt(p.resdir + exp_name + '_anw_' + `Params.TASK_NO`, res_summary_anw, fmt='%.4f\t')
+    res_summary_aaw = np.average(res_cube_aaw, axis=1)
+    np.savetxt(p.resdir + exp_name + '_aaw_' + `Params.TASK_NO`, res_summary_aaw, fmt='%.4f\t')
+    res_summary_atd = np.average(res_cube_atd, axis=1)
+    np.savetxt(p.resdir + exp_name + '_atd_' + `Params.TASK_NO`, res_summary_atd, fmt='%.4f\t')
+    res_summary_atd = np.average(res_cube_atd_fcfs, axis=1)
+    np.savetxt(p.resdir + exp_name + '_atd_fcfs_' + `Params.TASK_NO`, res_summary_atd, fmt='%.4f\t')
+    res_summary_appt = np.average(res_cube_appt, axis=1)
+    np.savetxt(p.resdir + exp_name + '_appt_' + `Params.TASK_NO`, res_summary_appt, fmt='%.4f\t')
+    res_summary_cell = np.average(res_cube_cell, axis=1)
+    np.savetxt(p.resdir + exp_name + '_cell_' + `Params.TASK_NO`, res_summary_cell, fmt='%.4f\t')
+    res_summary_cmp = np.average(res_cube_cmp, axis=1)
+    np.savetxt(p.resdir + exp_name + '_cmp_' + `Params.TASK_NO`, res_summary_cmp, fmt='%.4f\t')
+    res_summary_hop = np.average(res_cube_hop, axis=1)
+    np.savetxt(p.resdir + exp_name + '_hop_' + `Params.TASK_NO`, res_summary_hop, fmt='%.4f\t')
+    res_summary_hop2 = np.average(res_cube_hop2, axis=1)
+    np.savetxt(p.resdir + exp_name + '_hop2_' + `Params.TASK_NO`, res_summary_hop2, fmt='%.4f\t')
+    res_summary_cov = np.average(res_cube_cov, axis=1)
+    np.savetxt(p.resdir + exp_name + '_cov_' + `Params.TASK_NO`, res_summary_cov, fmt='%.4f\t')
 
 
 def evalGeocast_Baseline(data, all_tasks, p):
@@ -1207,7 +1361,8 @@ if __name__ == '__main__':
     # evalGeocast_Compactness(worker_data, all_tasks)
     # evalGeocast_Baseline(all_workers, all_tasks, param)
     # evalGeocast_MAR(all_workers, all_tasks, param)
-    evalGeocast_KWorkers(all_workers, all_tasks, param)
+    # evalGeocast_KWorkers(all_workers, all_tasks, param)
+    evalSelection_WST(all_workers, all_tasks, param)
     # evalGeocast_Utility(worker_data, all_tasks)
     # evalGeocast_Granularity_Check(worker_data, all_tasks)
 

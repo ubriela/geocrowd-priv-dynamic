@@ -8,6 +8,7 @@ class MultipleDAG(object):
         self.instances = len(data)
         self.data = data
         self.param = param
+
         # sequence of adaptive grids
         self.AGs = []
         self.static = static

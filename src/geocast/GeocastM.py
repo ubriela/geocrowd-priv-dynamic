@@ -544,7 +544,7 @@ def geocast_m(tree, t, eps):
             points = list(corner_points | rect_vertex_set(Q[i][1][1].n_box))
             x = make_circle(points)
             if x is None:
-                print "x is None " + x
+                print "x is None "
                 return None, None
             cx, cy, r = x
             compactness = min(1.0, (A + rect_area(Q[i][1][1].n_box)) / (math.pi * (
