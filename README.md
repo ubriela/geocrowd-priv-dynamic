@@ -6,11 +6,15 @@
 
 Related studies:
 
-https://bitbucket.org/hto/geocast/
+https://github.com/ubriela/geocrowd-priv
 
-https://bitbucket.org/hto/geocrowd
+https://github.com/ubriela/geocrowd-priv-demo
 
-https://bitbucket.org/hto/maximumcomplextask/
+https://github.com/infolab-usc/geocrowd
+
+https://github.com/infolab-usc/scawg
+
+https://github.com/ubriela/geocrowd-complex
 
 ----------- VERSION ---------------------------------
 
