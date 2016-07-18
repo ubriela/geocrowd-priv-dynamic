@@ -63,8 +63,8 @@ if __name__ == '__main__':
     # eps_list = [0.001, 0.004, 0.007, 0.01]
     # dataset_list = ['yelp', 'foursquare', 'gowallasf', 'gowallala']
 
-    eps_list = [0.05, 0.005]
-    dataset_list = ['yelp']
+    eps_list = [0.05, 0.45]
+    dataset_list = ['gowallasf']
 
     for dataset in dataset_list:
         for eps in eps_list:
@@ -94,6 +94,10 @@ if __name__ == '__main__':
                 weight = min(1, (data[1] + 0.0) / 500)
                 patch = mpatches.PathPatch(path, facecolor='white', alpha=weight)
                 ax.add_patch(patch)
+
+                ax.xaxis.set_visible(False)
+                ax.yaxis.set_visible(False)
+                ax.axis('off')
 
                 # plot control points and connecting lines
                 x, y = zip(*path.vertices)

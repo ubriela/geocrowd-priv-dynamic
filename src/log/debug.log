@@ -2180,3 +2180,158 @@ INFO:root:Sun, 28 Feb 2016 13:17:24  START
 INFO:root:evalDynamic_Baseline_K
 INFO:root:Sun, 28 Feb 2016 13:21:09  START
 INFO:root:Sun, 28 Feb 2016 16:03:20  START
+INFO:root:Thu, 16 Jun 2016 16:53:50  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 17:00:03  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 18:30:28  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 18:31:13  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:05:23  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:06:23  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:08:28  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:10:16  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:15:28  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:16:28  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:20:36  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 14
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:22:27  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:29:11  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:31:58  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 14
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:35:12  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 14
+INFO:root:Thu, 16 Jun 2016 21:38:58  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+INFO:root:Thu, 16 Jun 2016 21:39:07  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 15
+INFO:root:Thu, 16 Jun 2016 21:41:02  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 14
+INFO:root:Thu, 16 Jun 2016 21:43:38  START
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 10
+DEBUG:root:(2, 70745)
+DEBUG:root:[  32.87684802 -112.84284   ]
+DEBUG:root:[  34.048668 -111.335701]
+DEBUG:root:Grid_adaptiveM: Level 1 size: 14
